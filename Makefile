@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/02/10 10:30:49 by lorobert         ###   ########.fr        #
+#    Updated: 2023/02/10 13:40:26 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ SRCS			:= builtins/ft_echo.c
 SRCS			:= $(SRCS:%=$(SRC_DIR)/%)
 
 BUILD_DIR		:= .build
-OBJS			:= $(SRCS:$(SRCS/%.c=$(BUILD_DIR)/%.o))
+OBJS			:= $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 DEPS			:= $(OBJS:.o=.d)
 
 CC				:= gcc
@@ -64,5 +64,5 @@ re:
 	$(MAKE) fclean
 	$(MAKE) all
 
-.PHONY: clean fclean re
+.PHONY: all clean fclean re
 .SILENT:

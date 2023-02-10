@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:40:38 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/10 10:26:23 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/02/10 13:41:35 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static bool	is_n(char *arg)
 {
 	int	i;
 
+	i = 0;
 	if (arg[i] != '-')
 		return (false);
 	i++;
@@ -53,5 +54,6 @@ int	ft_echo(char **args, int fd)
 
 int	main(int argc, char **argv)
 {
-	return (ft_echo(argv[1], 1));
+	(void)argc;
+	return (ft_echo(++argv, 1));
 }
