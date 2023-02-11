@@ -6,35 +6,36 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/02/10 13:40:26 by lorobert         ###   ########.fr        #
+#    Updated: 2023/02/11 09:41:41 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME			:= minishell
+NAME			:=	minishell
 
-LIBS			:= ft
-LIBS_TARGET		:= libs/libft/libft.a
+LIBS			:=	ft
+LIBS_TARGET		:=	libs/libft/libft.a
 
-INCS			:= includes \
-	libs/libft
+INCS			:=	includes \
+					libs/libft
 
-SRC_DIR			:= sources
-SRCS			:= builtins/ft_echo.c
-SRCS			:= $(SRCS:%=$(SRC_DIR)/%)
+SRC_DIR			:=	sources
+SRCS			:=	builtins/ft_echo.c \
+					builtins/ft_pwd.c
+SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 
-BUILD_DIR		:= .build
-OBJS			:= $(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
-DEPS			:= $(OBJS:.o=.d)
+BUILD_DIR		:=	.build
+OBJS			:=	$(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
+DEPS			:=	$(OBJS:.o=.d)
 
-CC				:= gcc
-CFLAGS			:= -Wall -Wextra -Werror
-CPPFLAGS		:= $(addprefix -I,$(INCS)) -MMD -MP
-LDFLAGS			:= $(addprefix -L,$(dir $(LIBS_TARGET)))
-LDLIBS			:= $(addprefix -l,$(LIBS))
+CC				:=	gcc
+CFLAGS			:=	-Wall -Wextra -Werror
+CPPFLAGS		:=	$(addprefix -I,$(INCS)) -MMD -MP
+LDFLAGS			:=	$(addprefix -L,$(dir $(LIBS_TARGET)))
+LDLIBS			:=	$(addprefix -l,$(LIBS))
 
-RM				:= rm -f
-MAKEFLAGS		+= --no-print-directory
-DIR_DUP			= mkdir -p $(@D)
+RM				:=	rm -f
+MAKEFLAGS		+=	--no-print-directory
+DIR_DUP			=	mkdir -p $(@D)
 
 all: $(NAME)
 

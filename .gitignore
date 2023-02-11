@@ -1,4 +1,5 @@
 minishell
+.build/
 .vscode/
 
 # Prerequisites
