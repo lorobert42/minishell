@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:40:38 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/10 13:41:35 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/02/11 09:33:13 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,4 @@ int	ft_echo(char **args, int fd)
 	if (!n)
 		ft_putchar_fd('\n', fd);
 	return (0);
-}
-
-int	main(int argc, char **argv)
-{
-	(void)argc;
-	return (ft_echo(++argv, 1));
 }
