@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/02/11 09:47:15 by lorobert         ###   ########.fr        #
+#    Updated: 2023/02/15 14:21:04 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ INCS			:=	includes \
 SRC_DIR			:=	sources
 SRCS			:=	builtins/ft_echo.c \
 					builtins/ft_pwd.c \
-					builtins/ft_env.c
+					builtins/ft_env.c \
+					env/parse_env.c
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 
 BUILD_DIR		:=	.build
