@@ -6,14 +6,13 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:12:59 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/15 14:53:48 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/02/15 16:55:07 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "minishell.h"
 
-static t_env	*extract_entry(char *env_entry)
+t_env	*extract_entry(char *env_entry)
 {
 	t_env	*new;
 	int		i;

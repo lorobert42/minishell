@@ -6,13 +6,13 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:40:38 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/11 09:33:13 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/02/15 16:55:25 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "stdbool.h"
 #include "stdio.h"
-#include "libft.h"
+#include "minishell.h"
 
 static bool	is_n(char *arg)
 {

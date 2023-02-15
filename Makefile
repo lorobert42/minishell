@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/02/15 14:21:04 by lorobert         ###   ########.fr        #
+#    Updated: 2023/02/15 16:18:13 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRC_DIR			:=	sources
 SRCS			:=	builtins/ft_echo.c \
 					builtins/ft_pwd.c \
 					builtins/ft_env.c \
+					builtins/ft_export.c \
 					env/parse_env.c
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 

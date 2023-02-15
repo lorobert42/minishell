@@ -6,15 +6,13 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 09:33:27 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/11 18:25:48 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/02/15 16:55:03 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <limits.h>
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_pwd(char **env, int fd)
+int	ft_pwd(t_env *env, int fd)
 {
 	char	cwd[PATH_MAX];
 
