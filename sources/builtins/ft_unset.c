@@ -1,29 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/11 09:33:27 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/16 13:39:24 by lorobert         ###   ########.fr       */
+/*   Created: 2023/02/16 09:57:45 by lorobert          #+#    #+#             */
+/*   Updated: 2023/02/16 13:39:50 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-Print current working directory.
+Remove environment variable, if key does not exists, do nothing.
 */
-int	ft_pwd(t_env *env, int fd)
+int	ft_unset(t_env **env, char *s)
 {
-	char	cwd[PATH_MAX];
+	t_env	*prev;
+	t_env	*to_del;
 
-	(void)env;
-	if (getcwd(cwd, PATH_MAX))
+	to_del = *env;
+	if (ft_strncmp(to_del->key, s, ft_strlen(s) + 1) == 0)
 	{
-		ft_putstr_fd(cwd, fd);
+		*env = (*env)->next;
 		return (0);
 	}
-	return (1);
+	prev = to_del;
+	to_del = to_del->next;
+	while (to_del)
+	{
+		if (ft_strncmp(to_del->key, s, ft_strlen(s) + 1) == 0)
+		{
+			prev->next = to_del->next;
+			return (0);
+		}
+		prev = to_del;
+		to_del = to_del->next;
+	}
+	return (0);
 }
