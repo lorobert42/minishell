@@ -1,51 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/10 09:40:38 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/16 09:57:25 by lorobert         ###   ########.fr       */
+/*   Created: 2023/02/16 09:57:45 by lorobert          #+#    #+#             */
+/*   Updated: 2023/02/16 10:07:08 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	is_n(char *arg)
+int	ft_unset(t_env **env, char *s)
 {
-	int	i;
+	t_env	*prev;
+	t_env	*to_del;
 
-	i = 0;
-	if (arg[i] != '-')
-		return (false);
-	i++;
-	while (arg[i] == 'n')
-		i++;
-	if (arg[i] != '\0')
-		return (false);
-	return (true);
-}
-
-int	ft_echo(char **args, int fd)
-{
-	int		i;
-	bool	n;
-
-	i = 0;
-	while (args[i] && is_n(args[i]))
+	to_del = *env;
+	if (ft_strncmp(to_del->key, s, ft_strlen(s) + 1) == 0)
 	{
-		n = true;
-		i++;
+		*env = (*env)->next;
+		return (0);
 	}
-	while (args[i])
+	prev = to_del;
+	to_del = to_del->next;
+	while (to_del)
 	{
-		ft_putstr_fd(args[i], fd);
-		if (args[i + 1] && args[i + 1][0] != '\0')
-			ft_putchar_fd(' ', fd);
-		i++;
+		if (ft_strncmp(to_del->key, s, ft_strlen(s) + 1) == 0)
+		{
+			prev->next = to_del->next;
+			return (0);
+		}
+		prev = to_del;
+		to_del = to_del->next;
 	}
-	if (!n)
-		ft_putchar_fd('\n', fd);
 	return (0);
 }
