@@ -6,12 +6,17 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 16:11:25 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/15 16:54:59 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/02/16 13:38:34 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+Set a new environment variable, if key already exists, replace it by the new
+one.
+*/
+// TODO: Norm
 int	ft_export(t_env **env, char *s)
 {
 	t_env	*new;
@@ -38,7 +43,6 @@ int	ft_export(t_env **env, char *s)
 		prev = next;
 		next = next->next;
 	}
-	ft_printf("Last entry: %s=%s\n", next->key, next->value);
 	prev->next = new;
 	return (0);
 }

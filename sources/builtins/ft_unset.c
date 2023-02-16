@@ -6,12 +6,15 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 09:57:45 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/16 10:07:08 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/02/16 13:39:50 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+Remove environment variable, if key does not exists, do nothing.
+*/
 int	ft_unset(t_env **env, char *s)
 {
 	t_env	*prev;

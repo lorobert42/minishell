@@ -6,12 +6,15 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:12:59 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/15 16:55:07 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/02/16 13:41:24 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+Transform char * containing environment variable, to env struct.
+*/
 t_env	*extract_entry(char *env_entry)
 {
 	t_env	*new;
@@ -27,6 +30,9 @@ t_env	*extract_entry(char *env_entry)
 	return (new);
 }
 
+/*
+Transforms char ** containing environment variables, to chained env structs.
+*/
 t_env	*parse_env(char **env_strs)
 {
 	t_env	*env;
