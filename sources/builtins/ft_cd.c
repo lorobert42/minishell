@@ -1,30 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/11 09:33:27 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/24 09:25:12 by lorobert         ###   ########.fr       */
+/*   Created: 2023/02/24 09:11:34 by lorobert          #+#    #+#             */
+/*   Updated: 2023/02/24 11:40:14 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-Print current working directory.
+Change the current working directory to path.
+Change OLDPWD to the previous PWD.
 */
-int	ft_pwd(t_env *env, int fd)
+int	ft_cd(char *path, t_env **env)
 {
+	char	old_cwd[PATH_MAX];
 	char	cwd[PATH_MAX];
+	t_env	*tmp_path;
 
-	(void)env;
-	if (getcwd(cwd, PATH_MAX))
-	{
-		ft_putstr_fd(cwd, fd);
-		ft_putchar_fd('\n', fd);
-		return (0);
-	}
-	return (1);
+	getcwd(old_cwd, PATH_MAX);
+	if (chdir(path) != 0)
+		return (1);
+	getcwd(cwd, PATH_MAX);
+	tmp_path = create_entry("PWD", cwd);
+	ft_export(env, tmp_path);
+	tmp_path = create_entry("OLDPWD", old_cwd);
+	ft_export(env, tmp_path);
+	return (0);
 }
