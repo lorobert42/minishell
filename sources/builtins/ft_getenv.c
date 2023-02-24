@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   ft_getenv.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/11 09:33:27 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/24 09:25:12 by lorobert         ###   ########.fr       */
+/*   Created: 2023/02/24 11:17:47 by lorobert          #+#    #+#             */
+/*   Updated: 2023/02/24 11:33:47 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-Print current working directory.
+Returns the value of env variable key, or NULL if not existant
 */
-int	ft_pwd(t_env *env, int fd)
+char	*ft_getenv(t_env *env, char *key)
 {
-	char	cwd[PATH_MAX];
-
-	(void)env;
-	if (getcwd(cwd, PATH_MAX))
+	while (env)
 	{
-		ft_putstr_fd(cwd, fd);
-		ft_putchar_fd('\n', fd);
-		return (0);
+		if (ft_strncmp(env->key, key, ft_strlen(key) + 1) == 0)
+		{
+			return (env->value);
+		}
+		env = env->next;
 	}
-	return (1);
+	return (NULL);
 }

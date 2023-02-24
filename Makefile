@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/02/16 09:58:17 by lorobert         ###   ########.fr        #
+#    Updated: 2023/02/24 11:22:24 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,9 @@ INCS			:=	includes \
 SRC_DIR			:=	sources
 SRCS			:=	builtins/ft_echo.c \
 					builtins/ft_pwd.c \
+					builtins/ft_cd.c \
 					builtins/ft_env.c \
+					builtins/ft_getenv.c \
 					builtins/ft_export.c \
 					builtins/ft_unset.c \
 					env/parse_env.c

@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/16 10:08:03 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/02/24 11:21:14 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,14 @@ typedef struct s_command
 
 // BULTINS
 int		ft_env(t_env *env, int fd);
-int		ft_export(t_env **env, char *s);
+char	*ft_getenv(t_env *env, char *key);
+int		ft_export(t_env **env, t_env *new);
 int		ft_unset(t_env **env, char *s);
 int		ft_echo(char **args, int fd);
 int		ft_pwd(t_env *env, int fd);
 
 t_env	*parse_env(char **env_strs);
 t_env	*extract_entry(char *env_entry);
+t_env	*create_entry(char *key, char *value);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 16:11:25 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/16 13:38:34 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/02/24 10:13:08 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,11 @@
 Set a new environment variable, if key already exists, replace it by the new
 one.
 */
-// TODO: Norm
-int	ft_export(t_env **env, char *s)
+int	ft_export(t_env **env, t_env *new)
 {
-	t_env	*new;
 	t_env	*prev;
 	t_env	*next;
 
-	new = extract_entry(s);
 	prev = *env;
 	if (ft_strncmp(prev->key, new->key, ft_strlen(prev->key) + 1) == 0)
 	{
