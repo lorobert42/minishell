@@ -26,7 +26,10 @@ SRCS			:=	builtins/ft_echo.c \
 					builtins/ft_getenv.c \
 					builtins/ft_export.c \
 					builtins/ft_unset.c \
-					env/parse_env.c
+					env/parse_env.c \
+					main.c \
+					workingon/ft_cmdparsing.c \
+					workingon/ft_executecmd.c
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 
 BUILD_DIR		:=	.build
@@ -38,6 +41,7 @@ CFLAGS			:=	-Wall -Wextra -Werror
 CPPFLAGS		:=	$(addprefix -I,$(INCS)) -MMD -MP
 LDFLAGS			:=	$(addprefix -L,$(dir $(LIBS_TARGET)))
 LDLIBS			:=	$(addprefix -l,$(LIBS))
+LIBRL			:=	-lreadline
 
 RM				:=	rm -f
 MAKEFLAGS		+=	--no-print-directory
@@ -46,7 +50,7 @@ DIR_DUP			=	mkdir -p $(@D)
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBS_TARGET)
-	$(CC) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(NAME)
+	$(CC) $(LDFLAGS) $(OBJS) $(LDLIBS) $(LIBRL) -o $(NAME)
 	$(info CREATED $(NAME))
 
 $(LIBS_TARGET):
