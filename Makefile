@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/02/24 11:22:24 by lorobert         ###   ########.fr        #
+#    Updated: 2023/03/01 11:11:34 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,8 @@ NAME			:=	minishell
 LIBS			:=	ft
 LIBS_TARGET		:=	libs/libft/libft.a
 
-INCS			:=	includes \
-					libs/libft
+INCS			:=	include \
+					libs/libft/include
 
 SRC_DIR			:=	sources
 SRCS			:=	builtins/ft_echo.c \
@@ -26,7 +26,8 @@ SRCS			:=	builtins/ft_echo.c \
 					builtins/ft_getenv.c \
 					builtins/ft_export.c \
 					builtins/ft_unset.c \
-					env/parse_env.c
+					env/parse_env.c \
+					lexer/lexer.c
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 
 BUILD_DIR		:=	.build
@@ -34,7 +35,7 @@ OBJS			:=	$(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 DEPS			:=	$(OBJS:.o=.d)
 
 CC				:=	gcc
-CFLAGS			:=	-Wall -Wextra -Werror
+CFLAGS			:=	-Wall -Wextra -Werror -g
 CPPFLAGS		:=	$(addprefix -I,$(INCS)) -MMD -MP
 LDFLAGS			:=	$(addprefix -L,$(dir $(LIBS_TARGET)))
 LDLIBS			:=	$(addprefix -l,$(LIBS))

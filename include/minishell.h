@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/24 11:21:14 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/01 13:31:00 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include "libft.h"
-# include "ft_printf.h"
 
 typedef struct s_env
 {
@@ -37,6 +36,9 @@ typedef struct s_command
 	char	*err;
 	int		ret;
 }	t_command;
+
+// LEXER
+t_list	*lexer(char *command);
 
 // BULTINS
 int		ft_env(t_env *env, int fd);
