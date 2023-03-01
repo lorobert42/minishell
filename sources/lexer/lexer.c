@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 09:34:19 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/01 13:29:31 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/01 16:23:13 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,43 @@
 
 int	is_special(char c)
 {
-	return (c == '<' || c == '>' || c == '|' || c == ' ');
+	return (c == '<' || c == '>' || c == '|');
 }
 
 static int	ft_isspace(int c)
 {
 	return (c == ' ' || (c >= 9 && c <= 13));
+}
+
+char	*extract_token(char *command, int *start, int i)
+{
+	char	*token;
+
+	if (*start == i)
+	{
+		token = ft_substr(command, *start, i - *start + 1);
+		*start = i + 1;
+	}
+	else
+	{
+		token = ft_substr(command, *start, i - *start);
+		*start = i;
+	}
+	return (token);
+}
+
+void	add_token(t_list **tokens, t_list **next, char *token)
+{
+	if (!*tokens && token)
+	{
+		*tokens = ft_lstnew(token);
+		*next = *tokens;
+	}
+	else if (*tokens && token)
+	{
+		(*next)->next = ft_lstnew(token);
+		*next = (*next)->next;
+	}
 }
 
 t_list	*lexer(char *command)
@@ -46,16 +77,7 @@ t_list	*lexer(char *command)
 				is_quote = 0;
 			else
 			{
-				if (start == i)
-				{
-					token = ft_substr(command, start, i - start + 1);
-					start = i + 1;
-				}
-				else
-				{
-					token = ft_substr(command, start, i - start);
-					start = i;
-				}
+				token = extract_token(command, &start, i);
 				is_quote = 1;
 			}
 		}
@@ -65,16 +87,7 @@ t_list	*lexer(char *command)
 				is_dquote = 0;
 			else
 			{
-				if (start == i)
-				{
-					token = ft_substr(command, start, i - start + 1);
-					start = i + 1;
-				}
-				else
-				{
-					token = ft_substr(command, start, i - start);
-					start = i;
-				}
+				token = extract_token(command, &start, i);
 				is_dquote = 1;
 			}
 		}
@@ -85,27 +98,9 @@ t_list	*lexer(char *command)
 		}
 		else if (is_special(command[i]) && !is_quote && !is_dquote)
 		{
-			if (start == i)
-			{
-				token = ft_substr(command, start, i - start + 1);
-				start = i + 1;
-			}
-			else
-			{
-				token = ft_substr(command, start, i - start);
-				start = i;
-			}
+			token = extract_token(command, &start, i);
 		}
-		if (!tokens && token)
-		{
-			tokens = ft_lstnew(token);
-			next = tokens;
-		}
-		else if (tokens && token)
-		{
-			next->next = ft_lstnew(token);
-			next = next->next;
-		}
+		add_token(&tokens, &next, token);
 		token = NULL;
 		i++;
 	}
