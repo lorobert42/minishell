@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 09:34:19 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/01 16:23:13 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/02 09:23:26 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,17 +107,4 @@ t_list	*lexer(char *command)
 	token = ft_substr(command, start, i - start);
 	next->next = ft_lstnew(token);
 	return (tokens);
-}
-
-int	main(int argc, char **argv)
-{
-	t_list	*tokens;
-
-	(void)argc;
-	tokens = lexer(argv[1]);
-	while (tokens)
-	{
-		printf("%s\n", (char *)tokens->content);
-		tokens = tokens->next;
-	}
 }

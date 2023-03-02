@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/01 13:31:00 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/02 09:22:56 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,21 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef struct s_command
+typedef struct s_simple_command
 {
-	char	*name;
-	char	**args;
-	char	*in;
-	char	*out;
-	char	*err;
+	char	**command;
 	int		ret;
-}	t_command;
+}	t_simple_command;
+
+typedef struct s_command_table
+{
+	t_simple_command	**commands;
+	int					commands_num;
+	char				*in;
+	char				*out;
+	char				*err;
+}	t_command_table;
+
 
 // LEXER
 t_list	*lexer(char *command);
