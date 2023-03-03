@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 08:59:33 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/02 13:07:25 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/03 15:02:28 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,27 +136,4 @@ t_command_table	*parser(t_list *tokens)
 	}
 	table->commands[table->commands_num] = NULL;
 	return (table);
-}
-
-int	main(int argc, char **argv)
-{
-	t_list			*tokens;
-	t_command_table	*table;
-
-	(void)argc;
-	tokens = lexer(argv[1]);
-	table = parser(tokens);
-	printf("Number of simple commands: %d\n", table->commands_num);
-	printf("IN: %s\n", table->in);
-	for (int i = 0; i < table->commands_num; i++)
-	{
-		printf("Command %d\n", i);
-		int j = 0;
-		while (table->commands[i]->command[j])
-		{
-			printf("%s", table->commands[i]->command[j]);
-			j++;
-		}
-		printf("\n");
-	}
 }

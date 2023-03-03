@@ -6,105 +6,66 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 09:34:19 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/02 09:23:26 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/03 15:05:56 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	is_special(char c)
-{
-	return (c == '<' || c == '>' || c == '|');
-}
 
 static int	ft_isspace(int c)
 {
 	return (c == ' ' || (c >= 9 && c <= 13));
 }
 
-char	*extract_token(char *command, int *start, int i)
+t_token_type	get_token_type(char c)
 {
-	char	*token;
-
-	if (*start == i)
-	{
-		token = ft_substr(command, *start, i - *start + 1);
-		*start = i + 1;
-	}
+	if (c == '<')
+		return (REDIR_LEFT);
+	else if (c == '>')
+		return (REDIR_RIGHT);
+	else if (c == '|')
+		return (PIPE);
+	else if (c == '\'')
+		return (QUOTE);
+	else if (c == '"')
+		return (DBL_QUOTE);
+	else if (ft_isspace(c))
+		return (SPACE);
 	else
-	{
-		token = ft_substr(command, *start, i - *start);
-		*start = i;
-	}
-	return (token);
+		return (LITERAL);
 }
 
-void	add_token(t_list **tokens, t_list **next, char *token)
+t_token	*lexer(char *command)
 {
-	if (!*tokens && token)
-	{
-		*tokens = ft_lstnew(token);
-		*next = *tokens;
-	}
-	else if (*tokens && token)
-	{
-		(*next)->next = ft_lstnew(token);
-		*next = (*next)->next;
-	}
-}
-
-t_list	*lexer(char *command)
-{
-	t_list	*tokens;
-	t_list	*next;
+	t_token	*tokens;
 	int		i;
-	int		start;
-	char	*token;
-	int		is_quote;
-	int		is_dquote;
 
+	tokens = malloc(sizeof(t_token) * (ft_strlen(command) + 1));
+	if (!tokens)
+		return (NULL);
 	i = 0;
-	start = 0;
-	is_quote = 0;
-	is_dquote = 0;
-	tokens = NULL;
-	token = NULL;
 	while (command[i])
 	{
-		if (command[i] == '\'' && !is_dquote)
-		{
-			if (is_quote)
-				is_quote = 0;
-			else
-			{
-				token = extract_token(command, &start, i);
-				is_quote = 1;
-			}
-		}
-		else if (command[i] == '"' && !is_quote)
-		{
-			if (is_dquote)
-				is_dquote = 0;
-			else
-			{
-				token = extract_token(command, &start, i);
-				is_dquote = 1;
-			}
-		}
-		else if (ft_isspace(command[i]) && !is_quote && !is_dquote)
-		{
-			token = ft_substr(command, start, i - start);
-			start = i + 1;
-		}
-		else if (is_special(command[i]) && !is_quote && !is_dquote)
-		{
-			token = extract_token(command, &start, i);
-		}
-		add_token(&tokens, &next, token);
-		token = NULL;
+		tokens[i].type = get_token_type(command[i]);
+		tokens[i].value = command[i];
 		i++;
 	}
-	token = ft_substr(command, start, i - start);
-	next->next = ft_lstnew(token);
+	tokens[i].type = END;
 	return (tokens);
 }
+
+/* int	main(int argc, char **argv)
+{
+	t_token	*tokens;
+	int		i;
+
+	if (argc <= 1)
+		return (0);
+	tokens = lexer(argv[1]);
+	i = 0;
+	while (tokens[i].type != END)
+	{
+		printf("Token type: %d, value: %c\n", tokens[i].type, tokens[i].value);
+		i++;
+	}
+} */

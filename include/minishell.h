@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/02 09:22:56 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/03 15:04:46 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,27 @@
 # include <stdbool.h>
 # include <stdio.h>
 # include "libft.h"
+
+typedef enum e_token_type
+{
+	REDIR_LEFT,
+	REDIR_RIGHT,
+	DBL_REDIR_LEFT,
+	DBL_REDIR_RIGHT,
+	PIPE,
+	QUOTE,
+	DBL_QUOTE,
+	LITERAL,
+	VARIABLE,
+	SPACE,
+	END
+}	t_token_type;
+
+typedef struct s_token
+{
+	char			value;
+	t_token_type	type;
+}	t_token;
 
 typedef struct s_env
 {
@@ -44,7 +65,7 @@ typedef struct s_command_table
 
 
 // LEXER
-t_list	*lexer(char *command);
+t_token	*lexer(char *command);
 
 // BULTINS
 int		ft_env(t_env *env, int fd);
