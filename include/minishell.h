@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/03 15:04:46 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/03 15:52:36 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,10 @@ typedef enum e_token_type
 {
 	REDIR_LEFT,
 	REDIR_RIGHT,
-	DBL_REDIR_LEFT,
-	DBL_REDIR_RIGHT,
 	PIPE,
 	QUOTE,
 	DBL_QUOTE,
 	LITERAL,
-	VARIABLE,
 	SPACE,
 	END
 }	t_token_type;
@@ -56,8 +53,8 @@ typedef struct s_simple_command
 
 typedef struct s_command_table
 {
-	t_simple_command	**commands;
-	int					commands_num;
+	t_simple_command	*commands;
+	int					n_commands;
 	char				*in;
 	char				*out;
 	char				*err;

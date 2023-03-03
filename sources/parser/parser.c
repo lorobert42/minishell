@@ -6,134 +6,66 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 08:59:33 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/03 15:02:28 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/03 15:53:14 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_io_in(char *token)
+int	count_simple_commands(t_token *tokens)
 {
-	return (!ft_strncmp(token, "<", 2));
-}
-
-int	is_io_out(char *token)
-{
-	return (!ft_strncmp(token, ">", 2));
-}
-
-int	is_io(char *token)
-{
-	return (is_io_in(token) || is_io_out(token));
-}
-
-int	is_pipe(char *token)
-{
-	return (!ft_strncmp(token, "|", 2));
-}
-
-int	count_simple_commands(t_list *tokens)
-{
-	int	commands;
+	int	num_commands;
+	int	i;
 	int	is_command;
 
-	commands = 0;
+	num_commands = 0;
 	is_command = 0;
-	while (tokens)
+	i = 0;
+	while (tokens[i].type != END)
 	{
-		if (!is_command && !is_io(tokens->content))
+		if (is_command == 0 && (tokens[i].type == LITERAL || \
+			tokens[i].type == QUOTE || tokens[i].type == DBL_QUOTE))
 		{
 			is_command = 1;
-			commands++;
+			num_commands++;
 		}
-		else if (is_io(tokens->content))
-		{
+		else if (is_command == 1 && tokens[i].type == PIPE)
 			is_command = 0;
-			tokens = tokens->next;
-			if (is_io(tokens->content))
-				tokens = tokens->next;
-		}
-		else if (is_pipe(tokens->content))
-			is_command = 0;
-		tokens = tokens->next;
+		i++;
 	}
-	return (commands);
+	return (num_commands);
 }
 
-int	command_size(t_list *tokens)
-{
-	int	size;
-
-	size = 0;
-	while (tokens)
-	{
-		if (is_io(tokens->content))
-			return (size);
-		else if (is_pipe(tokens->content))
-			return (size);
-		size++;
-		tokens = tokens->next;
-	}
-	return (size);
-}
-
-t_simple_command	*init_simple_command(int num)
-{
-	t_simple_command	*command;
-
-	command = malloc(sizeof(t_simple_command));
-	if (!command)
-		return (NULL);
-	command->command = malloc(sizeof(char *) * (num + 1));
-	if (!command->command)
-		return (NULL);
-	command->command[num] = NULL;
-	return (command);
-}
-
-t_command_table	*parser(t_list *tokens)
+t_command_table	*parser(t_token *tokens)
 {
 	t_command_table	*table;
-	int				i;
-	int				j;
-	int				c_size;
 
 	table = malloc(sizeof(t_command_table));
-	table->commands_num = count_simple_commands(tokens);
-	table->commands = malloc(sizeof(t_simple_command) * (table->commands_num + 1));
-	i = 0;
-	while (tokens)
-	{
-		if (is_io_in(tokens->content))
-		{
-			if (is_io_in(tokens->next->content))
-				tokens = tokens->next;
-			tokens = tokens->next;
-			table->in = tokens->content;
-		}
-		else if (is_io_out(tokens->content))
-		{
-			if (is_io_out(tokens->next->content))
-				tokens = tokens->next;
-			tokens = tokens->next;
-			table->out = tokens->content;
-		}
-		else if (!is_pipe(tokens->content))
-		{
-			c_size = command_size(tokens);
-			j = 0;
-			table->commands[i] = init_simple_command(c_size);
-			while (j < c_size)
-			{
-				table->commands[i]->command[j] = tokens->content;
-				if (j + 1 < c_size)
-					tokens = tokens->next;
-				j++;
-			}
-			i++;
-		}
-		tokens = tokens->next;
-	}
-	table->commands[table->commands_num] = NULL;
+	if (!table)
+		return (NULL);
+	table->n_commands = count_simple_commands(tokens);
+	table->commands = malloc(sizeof(t_simple_command) * \
+		(table->n_commands + 1));
+	if (!table->commands)
+		return (NULL);
 	return (table);
+}
+
+int	main(int argc, char **argv)
+{
+	t_token			*tokens;
+	t_command_table	*table;
+	int				i;
+
+	if (argc <= 1)
+		return (0);
+	tokens = lexer(argv[1]);
+	i = 0;
+	while (tokens[i].type != END)
+	{
+		printf("Token type: %d, value: %c\n", tokens[i].type, tokens[i].value);
+		i++;
+	}
+	table = parser(tokens);
+	printf("Number of commands: %d\n", table->n_commands);
 }
