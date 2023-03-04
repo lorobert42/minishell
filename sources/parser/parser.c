@@ -6,11 +6,19 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 08:59:33 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/03 15:53:14 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/04 11:41:02 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	is_separator(t_token token)
+{
+	return (token.type == REDIR_LEFT || \
+		token.type == REDIR_RIGHT || \
+		token.type == PIPE || \
+		token.type == SPACE);
+}
 
 int	count_simple_commands(t_token *tokens)
 {
@@ -34,6 +42,30 @@ int	count_simple_commands(t_token *tokens)
 		i++;
 	}
 	return (num_commands);
+}
+
+char	*extract_arg(t_token *tokens, int start)
+{
+	char	*arg;
+	int		i;
+	int		size;
+
+	size = 0;
+	i = start;
+	while (!is_separator(tokens[i]))
+	{
+		size++;
+		i++;
+	}
+	arg = malloc(sizeof(char) * (size + 1));
+	i = start;
+	while (!is_separator(tokens[i]))
+	{
+		arg[i] = tokens[i].value;
+		i++;
+	}
+	arg[i] = '\0';
+	return (arg);
 }
 
 t_command_table	*parser(t_token *tokens)
