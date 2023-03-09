@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 08:59:33 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/04 11:41:02 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/09 10:37:59 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,24 @@ int	count_simple_commands(t_token *tokens)
 		i++;
 	}
 	return (num_commands);
+}
+
+char	*join_tokens(t_token *tokens, int size)
+{
+	int		i;
+	char	*res;
+
+	res = malloc(sizeof(char) * (size + 1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	while (i < size)
+	{
+		res[i] = tokens[i].value;
+		i++;
+	}
+	res[size] = '\0';
+	return (res);
 }
 
 char	*extract_arg(t_token *tokens, int start)
