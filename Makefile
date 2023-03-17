@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/03/02 08:59:58 by lorobert         ###   ########.fr        #
+#    Updated: 2023/03/17 14:20:14 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,9 @@ SRCS			:=	builtins/ft_echo.c \
 					builtins/ft_unset.c \
 					env/parse_env.c \
 					lexer/lexer.c \
-					parser/parser.c
+					lexer/token.c \
+					lexer/issep.c \
+					utils/ft_isspace.c
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 
 BUILD_DIR		:=	.build

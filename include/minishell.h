@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/03 15:52:36 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/17 14:19:28 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,20 @@
 typedef enum e_token_type
 {
 	REDIR_LEFT,
+	HERE_DOC,
 	REDIR_RIGHT,
+	REDIR_APPEND,
 	PIPE,
-	QUOTE,
-	DBL_QUOTE,
-	LITERAL,
-	SPACE,
-	END
+	QUOTE_STR,
+	DBL_QUOTE_STR,
+	LITERAL
 }	t_token_type;
 
 typedef struct s_token
 {
-	char			value;
+	char			*value;
 	t_token_type	type;
+	struct s_token	*next;
 }	t_token;
 
 typedef struct s_env
@@ -63,6 +64,9 @@ typedef struct s_command_table
 
 // LEXER
 t_token	*lexer(char *command);
+t_token	*create_token(char *value, t_token_type type);
+void	add_token(t_token **tokens, t_token *new);
+int		issep(int c);
 
 // BULTINS
 int		ft_env(t_env *env, int fd);
@@ -75,5 +79,8 @@ int		ft_pwd(t_env *env, int fd);
 t_env	*parse_env(char **env_strs);
 t_env	*extract_entry(char *env_entry);
 t_env	*create_entry(char *key, char *value);
+
+// UTILS
+int		ft_isspace(int c);
 
 #endif
