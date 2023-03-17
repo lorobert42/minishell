@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 09:34:19 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/17 14:19:09 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/17 14:25:15 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	extract_quote_string(t_token **tokens, char *command)
 		t = DBL_QUOTE_STR;
 	else
 		t = QUOTE_STR;
-	add_token(tokens, create_token(ft_substr(command, 0, i), t));
-	return (i);
+	add_token(tokens, create_token(ft_substr(command, 0, i + 1), t));
+	return (i + 1);
 }
 
 int	extract_redir(t_token **tokens, char *command)
