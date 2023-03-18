@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/17 14:19:28 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/18 13:37:13 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,18 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef struct s_simple_command
+typedef struct s_command
 {
 	char	**command;
+	char	*infile;
+	char	*outfile;
 	int		ret;
-}	t_simple_command;
+}	t_command;
 
 typedef struct s_command_table
 {
-	t_simple_command	*commands;
+	t_command	*commands;
 	int					n_commands;
-	char				*in;
-	char				*out;
-	char				*err;
 }	t_command_table;
 
 

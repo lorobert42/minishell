@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/03/17 14:20:14 by lorobert         ###   ########.fr        #
+#    Updated: 2023/03/18 13:27:42 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRCS			:=	builtins/ft_echo.c \
 					lexer/lexer.c \
 					lexer/token.c \
 					lexer/issep.c \
+					parser/parser.c \
 					utils/ft_isspace.c
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 

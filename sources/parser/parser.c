@@ -5,117 +5,52 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/02 08:59:33 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/09 10:37:59 by lorobert         ###   ########.fr       */
+/*   Created: 2023/03/18 13:25:52 by lorobert          #+#    #+#             */
+/*   Updated: 2023/03/18 13:42:06 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	is_separator(t_token token)
+int	count_commands(t_token *tokens)
 {
-	return (token.type == REDIR_LEFT || \
-		token.type == REDIR_RIGHT || \
-		token.type == PIPE || \
-		token.type == SPACE);
-}
-
-int	count_simple_commands(t_token *tokens)
-{
-	int	num_commands;
 	int	i;
-	int	is_command;
 
-	num_commands = 0;
-	is_command = 0;
-	i = 0;
-	while (tokens[i].type != END)
+	i = 1;
+	while (tokens)
 	{
-		if (is_command == 0 && (tokens[i].type == LITERAL || \
-			tokens[i].type == QUOTE || tokens[i].type == DBL_QUOTE))
-		{
-			is_command = 1;
-			num_commands++;
-		}
-		else if (is_command == 1 && tokens[i].type == PIPE)
-			is_command = 0;
-		i++;
+		if (tokens->type == PIPE)
+			i++;
+		tokens = tokens->next;
 	}
-	return (num_commands);
-}
-
-char	*join_tokens(t_token *tokens, int size)
-{
-	int		i;
-	char	*res;
-
-	res = malloc(sizeof(char) * (size + 1));
-	if (!res)
-		return (NULL);
-	i = 0;
-	while (i < size)
-	{
-		res[i] = tokens[i].value;
-		i++;
-	}
-	res[size] = '\0';
-	return (res);
-}
-
-char	*extract_arg(t_token *tokens, int start)
-{
-	char	*arg;
-	int		i;
-	int		size;
-
-	size = 0;
-	i = start;
-	while (!is_separator(tokens[i]))
-	{
-		size++;
-		i++;
-	}
-	arg = malloc(sizeof(char) * (size + 1));
-	i = start;
-	while (!is_separator(tokens[i]))
-	{
-		arg[i] = tokens[i].value;
-		i++;
-	}
-	arg[i] = '\0';
-	return (arg);
+	return (i);
 }
 
 t_command_table	*parser(t_token *tokens)
 {
 	t_command_table	*table;
+	int				i;
 
 	table = malloc(sizeof(t_command_table));
 	if (!table)
 		return (NULL);
-	table->n_commands = count_simple_commands(tokens);
-	table->commands = malloc(sizeof(t_simple_command) * \
-		(table->n_commands + 1));
+	table->n_commands = count_commands(tokens);
+	table->commands = malloc(sizeof(t_command) * (table->n_commands + 1));
 	if (!table->commands)
-		return (NULL);
-	return (table);
-}
-
-int	main(int argc, char **argv)
-{
-	t_token			*tokens;
-	t_command_table	*table;
-	int				i;
-
-	if (argc <= 1)
-		return (0);
-	tokens = lexer(argv[1]);
-	i = 0;
-	while (tokens[i].type != END)
 	{
-		printf("Token type: %d, value: %c\n", tokens[i].type, tokens[i].value);
+		free(table);
+		return (NULL);
+	}
+	i = 0;
+	while (i < table->n_commands)
+	{
+		while (tokens && tokens->type != PIPE)
+		{
+			// parse simple command
+			tokens = tokens->next;
+		}
+		if (tokens)
+			tokens = tokens->next;
 		i++;
 	}
-	table = parser(tokens);
-	printf("Number of commands: %d\n", table->n_commands);
 }
