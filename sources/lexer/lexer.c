@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 09:34:19 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/17 14:25:15 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/20 10:49:06 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ int	extract_quote_string(t_token **tokens, char *command)
 	i = 1;
 	while (command[i] && command[i] != command[0])
 		i++;
+	while (command[i] && !issep(command[i]))
+		i++;
 	if (command[0] == '"')
 		t = DBL_QUOTE_STR;
 	else
 		t = QUOTE_STR;
-	add_token(tokens, create_token(ft_substr(command, 0, i + 1), t));
+	add_token(tokens, create_token(ft_substr(command, 0, i), t));
 	return (i + 1);
 }
 
@@ -54,12 +56,20 @@ int	extract_redir(t_token **tokens, char *command)
 
 int	extract_literal(t_token **tokens, char *command)
 {
-	int	i;
+	int				i;
+	t_token_type	t;
 
+	t = LITERAL;
 	i = 0;
 	while (command[i] && !issep(command[i]))
+	{
+		if (t == LITERAL && command[i] == '\'')
+			t = QUOTE_STR;
+		else if (t == LITERAL && command[i] == '"')
+			t = DBL_QUOTE_STR;
 		i++;
-	add_token(tokens, create_token(ft_substr(command, 0, i), LITERAL));
+	}
+	add_token(tokens, create_token(ft_substr(command, 0, i), t));
 	return (i);
 }
 
