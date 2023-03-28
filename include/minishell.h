@@ -97,6 +97,12 @@ t_env	*create_entry(char *key, char *value);
 // UTILS
 int		ft_isspace(int c);
 
+// LIST_UTILS
+void	clear_lst(t_data *data);
+
+// TAB_UTILS
+void	clear_split(char **split);
+
 // PARSER
 t_command_table	*parser(t_token *tokens);
 

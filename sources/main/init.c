@@ -18,8 +18,4 @@ void	init(t_data *data, char **env)
 	(void)env;
 	data->run = 1;
 	data->env = parse_env(env);
-/*	data->cmd_lst = NULL;
-	data->pwd = ft_strdup(getenv("PWD"));
-	data->home = ft_strdup(getenv("HOME"));
-	data->old_pwd = ft_strdup(data->pwd);*/
 }
