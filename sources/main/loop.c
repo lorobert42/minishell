@@ -13,16 +13,18 @@
 
 #include "../../include/minishell.h"
 
-void test_built(t_data *data, char *str)
+void check_builtins(t_data *data, char *str)
 {
 	char **cmd;
 
 	cmd = ft_split(str, ' ');
-	if (ft_strncmp(cmd[0], "cd\0", 3) == 0)
+	if (ft_strncmp(cmd[0], "exit\0", 5) == 0)
+		exit(0);
+	else if (ft_strncmp(cmd[0], "cd\0", 3) == 0)
 	{
 		ft_cd("sources", &data->env);
 	}
-	if (ft_strncmp(cmd[0], "env\0", 4) == 0)
+	else if (ft_strncmp(cmd[0], "env\0", 4) == 0)
 	{
 		ft_printf("pwd --> %s\n", ft_getenv(data->env, "PWD"));
 	}
@@ -30,13 +32,30 @@ void test_built(t_data *data, char *str)
 
 void	loop(t_data *data)
 {
+	int i;
+	int j;
 	char	*buffer;
 
+	i = 0;
 	while (data->run)
 	{
 		buffer = readline("🦔 \e[34m Hérishell 🦔 => \e[39m");
 		add_history(buffer);
-		test_built(data, buffer);
-		//parse(data, buffer);
+		data->token = lexer(buffer);
+		data->table = *parser(data->token);
+		check_builtins(data, buffer);
+		while (i < data->table.n_commands)
+		{
+			printf("IN: %s\nOUT: %s\n", data->table.commands[i].infile, data->table.commands[i].outfile);
+			j = 0;
+			while (data->table.commands[i].command[j] != NULL)
+			{
+				printf("%s ", data->table.commands[i].command[j]);
+				j++;
+			}
+			printf("\n");
+			i++;
+		}
+		free(buffer);
 	}
 }

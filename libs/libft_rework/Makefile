@@ -16,7 +16,7 @@ LIBFT		= libft
 GNL			= gnl
 PRINTF		= printf
 
-NAME		= lib.a
+NAME		= libft.a
 INCLUDE		= include
 SRC_DIR		= src/
 OBJ_DIR		= obj/
