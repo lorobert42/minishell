@@ -26,7 +26,7 @@ void	check_builtins(t_data *data, char *str)
 	}
 	else if (ft_strncmp(cmd[0], "env\0", 4) == 0)
 	{
-		ft_printf("pwd --> %s\n", ft_getenv(data->env, "PWD"));
+		ft_env(data->env, 0);
 	}
 }
 

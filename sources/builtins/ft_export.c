@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 16:11:25 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/28 13:24:04 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/28 14:23:31 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	ft_export(t_env **env, t_env *new)
 		if (ft_strncmp(next->key, new->key, ft_strlen(new->key) + 1) == 0)
 		{
 			new->next = next->next;
+			del_env(next);
 			prev->next = new;
 			return (0);
 		}

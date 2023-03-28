@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 09:11:34 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/28 13:17:13 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/28 14:16:40 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	go_back(t_env *env)
 		i++;
 	}
 	old = ft_strdup(res);
-	ft_export(&env, create_entry("OLD_PWD", ft_getenv(env, "PWD")));
+	ft_export(&env, create_entry("OLDPWD", ft_getenv(env, "PWD")));
 	free(res);
 	res = ft_strjoin("/", old);
 	free(old);
@@ -88,7 +88,7 @@ void	set_pwd(char *path, char *npath, t_env *env)
 		ft_printf("Hérishell: cd: No such file or directory\n");
 	else
 	{
-		ft_export(&env, create_entry("OLD_PWD", ft_getenv(env, "PWD")));
+		ft_export(&env, create_entry("OLDPWD", ft_getenv(env, "PWD")));
 		ft_export(&env, create_entry("PWD", npath));
 	}
 	free(npath);
@@ -102,14 +102,14 @@ int	ft_cd(char *path, t_env **env)
 	npath = NULL;
 	if (!path || ft_strncmp(path, "~", 1) == 0)
 	{
-		ft_export(env, create_entry("OLD_PWD", ft_getenv(*env, "PWD")));
+		ft_export(env, create_entry("OLDPWD", ft_getenv(*env, "PWD")));
 		ft_export(env, create_entry("PWD", ft_getenv(*env, "HOME")));
 	}
 	else if (ft_strncmp(path, "-", 1) == 0)
 	{
 		temp = ft_getenv(*env, "PWD");
-		ft_export(env, create_entry("PWD", ft_getenv(*env, "OLD_PWD")));
-		ft_export(env, create_entry("OLD_PWD", temp));
+		ft_export(env, create_entry("PWD", ft_getenv(*env, "OLDPWD")));
+		ft_export(env, create_entry("OLDPWD", temp));
 		free(temp);
 	}
 	else if (ft_strncmp(path, "..", 2) == 0)
