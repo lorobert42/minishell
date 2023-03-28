@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   clear_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/28 10:18:54 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/28 12:01:22 by lorobert         ###   ########.fr       */
+/*   Created: 2023/02/15 11:42:06 by afavre            #+#    #+#             */
+/*   Updated: 2023/03/28 11:30:27 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	clear_split(char **split)
 {
-	t_data	data;
+	int	i;
 
-	(void)ac;
-	(void)av;
-	init(&data, env);
-	loop(&data);
+	i = 0;
+	if (split != NULL)
+	{
+		while (split[i] != NULL)
+		{
+			free(split[i]);
+			i++;
+		}
+		free(split);
+	}
 }

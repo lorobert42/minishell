@@ -15,7 +15,6 @@
 
 void	init(t_data *data, char **env)
 {
-	(void)env;
 	data->run = 1;
 	data->env = parse_env(env);
 /*	data->cmd_lst = NULL;
