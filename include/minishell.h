@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/28 13:25:56 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/28 13:41:05 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ t_env			*parse_env(char **env_strs);
 t_env			*extract_entry(char *env_entry);
 t_env			*create_entry(char *key, char *value);
 void			del_env(t_env *env);
+void			del_all_env(t_env **env);
 
 // UTILS
 int				ft_isspace(int c);

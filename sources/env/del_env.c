@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 13:19:59 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/28 13:33:43 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/28 13:41:13 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,4 +28,15 @@ void	del_env(t_env *env)
 	}
 	env->next = NULL;
 	free(env);
+}
+
+void	del_all_env(t_env **env)
+{
+	t_env	*next;
+
+	while (*env)
+	{
+		next = (*env)->next;
+		del_env(*env);
+	}
 }
