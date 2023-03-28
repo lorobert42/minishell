@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 09:11:34 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/28 12:00:45 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/28 13:17:13 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	go_back(t_env *env)
 	res = ft_strjoin("/", old);
 	free(old);
 	ft_export(&env, create_entry("PWD", res));
+	free(res);
 	clear_split(dir);
 }
 
@@ -109,6 +110,7 @@ int	ft_cd(char *path, t_env **env)
 		temp = ft_getenv(*env, "PWD");
 		ft_export(env, create_entry("PWD", ft_getenv(*env, "OLD_PWD")));
 		ft_export(env, create_entry("OLD_PWD", temp));
+		free(temp);
 	}
 	else if (ft_strncmp(path, "..", 2) == 0)
 		go_back(*env);

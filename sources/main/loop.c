@@ -13,16 +13,16 @@
 
 #include "../../include/minishell.h"
 
-void check_builtins(t_data *data, char *str)
+void	check_builtins(t_data *data, char *str)
 {
-	char **cmd;
+	char	**cmd;
 
 	cmd = ft_split(str, ' ');
 	if (ft_strncmp(cmd[0], "exit\0", 5) == 0)
 		exit(0);
 	else if (ft_strncmp(cmd[0], "cd\0", 3) == 0)
 	{
-		ft_cd("sources", &data->env);
+		ft_cd(cmd[1], &data->env);
 	}
 	else if (ft_strncmp(cmd[0], "env\0", 4) == 0)
 	{

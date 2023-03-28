@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   del_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/28 10:18:54 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/28 13:14:36 by lorobert         ###   ########.fr       */
+/*   Created: 2023/03/28 13:19:59 by lorobert          #+#    #+#             */
+/*   Updated: 2023/03/28 13:23:06 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	del_env(t_env *env)
 {
-	t_data	data;
-
-	(void)ac;
-	(void)av;
-	init(&data, env);
-	loop(&data);
+	if (!env)
+		return ;
+	if (env->key)
+	{
+		free(env->key);
+		env->key = NULL;
+	}
+	if (env->value)
+	{
+		free(env->value);
+		env->value = NULL;
+	}
+	env->next = NULL;
 }
