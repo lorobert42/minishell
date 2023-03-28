@@ -18,7 +18,12 @@
 # include <limits.h>
 # include <stdbool.h>
 # include <stdio.h>
-# include "libft.h"
+# include <readline/readline.h>
+# include <readline/history.h>
+
+# include "../libs/libft_rework/libft/include/libft.h"
+# include "../libs/libft_rework/gnl/include/get_next_line.h"
+# include "../libs/libft_rework/printf/include/ft_printf.h"
 
 typedef enum e_token_type
 {
@@ -61,6 +66,12 @@ typedef struct s_command_table
 	int			n_commands;
 }	t_command_table;
 
+typedef struct s_data
+{
+	int run;
+	t_env *env;
+}	t_data;
+
 
 // LEXER
 t_token	*lexer(char *command);
@@ -75,6 +86,7 @@ int		ft_export(t_env **env, t_env *new);
 int		ft_unset(t_env **env, char *s);
 int		ft_echo(char **args, int fd);
 int		ft_pwd(t_env *env, int fd);
+int	ft_cd(char *path, t_env **env);
 
 t_env	*parse_env(char **env_strs);
 t_env	*extract_entry(char *env_entry);
@@ -82,5 +94,9 @@ t_env	*create_entry(char *key, char *value);
 
 // UTILS
 int		ft_isspace(int c);
+
+// MAIN
+void	loop(t_data *data);
+void	init(t_data *data, char **env);
 
 #endif

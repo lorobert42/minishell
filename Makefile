@@ -12,11 +12,13 @@
 
 NAME			:=	minishell
 
-LIBS			:=	ft
-LIBS_TARGET		:=	libs/libft/libft.a
+LIBS			:=	ft readline
+LIBS_TARGET		:=	libs/libft_rework/libft.a
 
 INCS			:=	include \
-					libs/libft/include
+					libs/libft_rework/gnl/include \
+					libs/libft_rework/libft/include \
+					libs/libft_rework/printf/include \
 
 SRC_DIR			:=	sources
 SRCS			:=	builtins/ft_echo.c \
@@ -31,7 +33,11 @@ SRCS			:=	builtins/ft_echo.c \
 					lexer/token.c \
 					lexer/issep.c \
 					parser/parser.c \
-					utils/ft_isspace.c
+					utils/ft_isspace.c \
+					main/main.c \
+					main/init.c \
+					main/loop.c
+
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 
 BUILD_DIR		:=	.build

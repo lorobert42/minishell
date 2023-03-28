@@ -120,7 +120,7 @@ t_command_table	*parser(t_token *tokens)
 	return (table);
 }
 
-int	main(int argc, char **argv)
+/*int	main(int argc, char **argv)
 {
 	t_token			*tokens;
 	t_command_table	*table;
@@ -144,4 +144,4 @@ int	main(int argc, char **argv)
 		printf("\n");
 		i++;
 	}
-}
+}*/
