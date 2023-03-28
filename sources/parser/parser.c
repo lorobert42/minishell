@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:25:52 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/23 09:18:53 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/28 09:57:58 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,16 +61,15 @@ t_token	*parse_command(t_token *tokens, t_command *command)
 		{
 			if (!is_string(tokens->next->type))
 				return (NULL);
-			if (tokens->type <= REDIR_RIGHT)
-			{
+			if (tokens->type == REDIR_LEFT)
 				command->infile = tokens->next->value;
-				command->append = 0;
-			}
+			else if (tokens->type == REDIR_RIGHT)
+				command->outfile = tokens->next->value;
+			else if (tokens->type == HERE_DOC)
+				command->infile = tokens->next->value;
 			else
-			{
-				command->infile = tokens->next->value;
-				command->append = 1;
-			}
+				command->outfile = tokens->next->value;
+			command->append = tokens->type >= HERE_DOC;
 			tokens = tokens->next->next;
 		}
 		else if (is_string(tokens->type))
@@ -139,7 +138,7 @@ int	main(int argc, char **argv)
 		j = 0;
 		while (table->commands[i].command[j] != NULL)
 		{
-			printf("%s", table->commands[i].command[j]);
+			printf("%s ", table->commands[i].command[j]);
 			j++;
 		}
 		printf("\n");
