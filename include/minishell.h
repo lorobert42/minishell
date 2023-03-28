@@ -68,8 +68,10 @@ typedef struct s_command_table
 
 typedef struct s_data
 {
-	int run;
-	t_env *env;
+	int				run;
+	t_env			*env;
+	t_token 		*token;
+	t_command_table	table;
 }	t_data;
 
 
@@ -94,6 +96,9 @@ t_env	*create_entry(char *key, char *value);
 
 // UTILS
 int		ft_isspace(int c);
+
+// PARSER
+t_command_table	*parser(t_token *tokens);
 
 // MAIN
 void	loop(t_data *data);
