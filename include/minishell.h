@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/28 13:41:05 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/29 09:40:32 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,9 @@ typedef struct s_data
 {
 	int				run;
 	t_env			*env;
-	t_token 		*token;
+	t_token			*token;
 	t_command_table	table;
 }	t_data;
-
 
 // LEXER
 t_token			*lexer(char *command);
@@ -103,6 +102,10 @@ void			clear_split(char **split);
 
 // PARSER
 t_command_table	*parser(t_token *tokens);
+int				count_commands(t_token *tokens);
+int				command_size(t_token *tokens);
+int				is_redir(t_token_type t);
+int				is_string(t_token_type t);
 
 // MAIN
 void			loop(t_data *data);
