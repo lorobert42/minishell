@@ -1,20 +1,29 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   clear_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afavre <afavre@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/15 13:35:00 by afavre            #+#    #+#             */
-/*   Updated: 2023/02/24 11:34:11 by afavre           ###   ########.fr       */
+/*   Created: 2023/02/15 11:42:06 by afavre            #+#    #+#             */
+/*   Updated: 2023/03/28 11:30:27 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
-void	init(t_data *data, char **env)
+void	clear_split(char **split)
 {
-	data->run = 1;
-	data->env = parse_env(env);
+	int	i;
+
+	i = 0;
+	if (split != NULL)
+	{
+		while (split[i] != NULL)
+		{
+			free(split[i]);
+			i++;
+		}
+		free(split);
+	}
 }

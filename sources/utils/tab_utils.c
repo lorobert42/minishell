@@ -1,29 +1,64 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   tab_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afavre <afavre@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/15 11:42:06 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/02 12:03:09 by afavre           ###   ########.fr       */
+/*   Created: 2023/03/22 15:07:11 by afavre            #+#    #+#             */
+/*   Updated: 2023/03/28 11:28:52 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
-void	clear_split(char **split)
+int	get_tab_size(char **tab)
 {
 	int	i;
 
 	i = 0;
-	if (split != NULL)
+	while (tab[i])
+		i++;
+	return (i);
+}
+
+char	**tab_add_back(char **tab, char *content)
+{
+	int		size;
+	int		i;
+	char	**new;
+
+	i = 0;
+	if (tab != NULL)
 	{
-		while (split[i] != NULL)
+		size = get_tab_size(tab);
+		new = malloc(sizeof(char *) * (size + 2));
+		while (i < size)
 		{
-			free(split[i]);
+			new[i] = ft_strdup(tab[i]);
 			i++;
 		}
-		free(split);
+		new[i] = ft_strdup(content);
+		new[i + 1] = NULL;
+	}
+	else
+	{
+		new = malloc(sizeof(char *) * 2);
+		new[0] = ft_strdup(content);
+		new[1] = NULL;
+	}
+	clear_split(tab);
+	return (new);
+}
+
+void	print_str_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		ft_printf(".%s.\n", tab[i]);
+		i++;
 	}
 }
