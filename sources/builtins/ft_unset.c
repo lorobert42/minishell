@@ -21,7 +21,6 @@ int	ft_unset(t_env **env, char *s)
 	t_env	*to_del;
 
 	to_del = *env;
-	if (ft_strncmp(to_del->key, s, ft_strlen(s) + 1) == 0)
 	{
 		*env = (*env)->next;
 		return (0);

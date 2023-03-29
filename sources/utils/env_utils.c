@@ -17,7 +17,7 @@ char	*get_full_env(t_env *env, char *key)
 	char	*res;
 	char	*temp;
 
-	temp =  ft_strjoin(key, "=");
+	temp = ft_strjoin(key, "=");
 	res = ft_strjoin(temp, ft_getenv(env, key));
 	free(temp);
 	ft_printf("test -> res");

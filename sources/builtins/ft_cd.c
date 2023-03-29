@@ -48,7 +48,7 @@ void	go_back(t_env *env)
 		i++;
 	}
 	old = ft_strdup(res);
-	ft_export(&env,"OLDPWD", ft_getenv(env, "PWD"));
+	ft_export(&env, "OLDPWD", ft_getenv(env, "PWD"));
 	free(res);
 	res = ft_strjoin("/", old);
 	free(old);
@@ -88,7 +88,7 @@ void	set_pwd(char *path, char *npath, t_env *env)
 		ft_printf("Hérishell: cd: No such file or directory\n");
 	else
 	{
-		ft_export(&env,"OLDPWD", ft_getenv(env, "PWD"));
+		ft_export(&env, "OLDPWD", ft_getenv(env, "PWD"));
 		ft_export(&env, "PWD", npath);
 	}
 	free(npath);
@@ -102,24 +102,22 @@ int	ft_cd(char *path, t_env **env)
 	npath = NULL;
 	if (!path || ft_strncmp(path, "~", 1) == 0)
 	{
-		ft_export(env,"OLDPWD", ft_getenv(*env, "PWD"));
-		ft_export(env,"PWD", ft_getenv(*env, "HOME"));
+		ft_export(env, "OLDPWD", ft_getenv(*env, "PWD"));
+		ft_export(env, "PWD", ft_getenv(*env, "HOME"));
 	}
 	else if (ft_strncmp(path, "-", 1) == 0)
 	{
 		temp = ft_strdup(ft_getenv(*env, "PWD"));
-		ft_printf("temp -> %s\n", temp);
-		ft_export(env,"PWD", ft_getenv(*env, "OLDPWD"));
-		ft_printf("test -> %s\n", ft_getenv(*env, "OLDPWD"));
+		ft_export(env, "PWD", ft_getenv(*env, "OLDPWD"));
 		ft_export(env, "OLDPWD", temp);
 		free(temp);
 	}
-	else if (ft_strncmp(path, "..", 2) == 0)
+	else if (ft_strncmp(path, "..\0", 3) == 0)
 		go_back(*env);
 	else
 	{
 		set_pwd(path, npath, *env);
 		free(npath);
 	}
-	return (1);
+	return (0);
 }

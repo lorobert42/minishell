@@ -80,6 +80,9 @@ t_token			*create_token(char *value, t_token_type type);
 void			add_token(t_token **tokens, t_token *new);
 int				issep(int c);
 
+// EXECUTOR
+void test();
+
 // BULTINS
 int				ft_env(t_env *env, int fd);
 char			*ft_getenv(t_env *env, char *key);
