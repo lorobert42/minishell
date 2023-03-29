@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:48:13 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/29 13:50:11 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/29 14:46:13 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,12 @@ void	expand_token(t_token *token, int pos, t_env *env)
 	int		j;
 
 	end = pos;
-	while (!issep(token->value[end]) && !is_quote(token->value[end]))
+	// TODO: find end of variable name ($1TEST for example)
+	while (token->value[end] && !issep(token->value[end]) && !is_quote(token->value[end]))
 		end++;
 	var = ft_getenv(env, ft_substr(token->value, pos, end - pos));
+	if (!var)
+		var = ft_strdup("");
 	new = malloc(sizeof(char) * (ft_strlen(token->value) - (end - pos) + ft_strlen(var)));
 	if (!new)
 		return ;
@@ -101,8 +104,14 @@ void	expand_token(t_token *token, int pos, t_env *env)
 	{
 		if (i >= pos && i <= end)
 		{
-			new[j] = var[i - pos];
-			j++;
+			i = 0;
+			while (var[i])
+			{
+				new[j] = var[i];
+				j++;
+				i++;
+			}
+			i = end;
 		}
 		else if (i != pos - 1)
 		{

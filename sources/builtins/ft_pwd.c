@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 09:33:27 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/24 09:25:12 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/29 14:45:17 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ Print current working directory.
 */
 int	ft_pwd(t_env *env)
 {
-	ft_printf("%s\n", ft_getenv(env, "PWD"));
+	char	*var;
+
+	var = ft_getenv(env, "PWD");
+	ft_printf("%s\n", var);
+	if (var)
+		free(var);
 	return (0);
 }

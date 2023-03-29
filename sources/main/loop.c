@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:43:34 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/29 12:14:20 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/29 14:05:33 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	loop(t_data *data)
 		data->token = lexer(buffer);
 		expander(data->token, data->env);
 		data->table = *parser(data->token);
+		print_command_table(&data->table);
 		if (check_builtins(data, buffer))
 		{
 			ft_printf("Execution\n");
