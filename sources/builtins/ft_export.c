@@ -10,18 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../include/minishell.h"
 
 /*
 Set a new environment variable, if key already exists, replace it by the new
 one.
 */
-int	ft_export(t_env **env, t_env *new)
+int	ft_export(t_env **env, char *key, char *value)
 {
 	t_env	*prev;
 	t_env	*next;
+	t_env	*new;
 
 	prev = *env;
+	new = create_entry(key, value);
 	if (ft_strncmp(prev->key, new->key, ft_strlen(prev->key) + 1) == 0)
 	{
 		new->next = prev->next;

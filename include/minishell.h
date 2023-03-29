@@ -83,7 +83,7 @@ int				issep(int c);
 // BULTINS
 int				ft_env(t_env *env, int fd);
 char			*ft_getenv(t_env *env, char *key);
-int				ft_export(t_env **env, t_env *new);
+int				ft_export(t_env **env, char *key, char *value);
 int				ft_unset(t_env **env, char *s);
 int				ft_echo(char **args, int fd);
 int				ft_pwd(t_env *env, int fd);
@@ -99,6 +99,15 @@ void			del_all_env(t_env **env);
 int				ft_isspace(int c);
 int				get_tab_size(char **tab);
 void			clear_split(char **split);
+
+// LIST_UTILS
+void	clear_lst(t_data *data);
+
+// TAB_UTILS
+void	clear_split(char **split);
+
+// ENV_UTILS
+char	*get_full_env(t_env *env, char *key);
 
 // PARSER
 t_command_table	*parser(t_token *tokens);

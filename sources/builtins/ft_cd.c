@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../include/minishell.h"
 
 char	*construct(char **dir, int size, char *res, int i)
 {
@@ -48,11 +48,11 @@ void	go_back(t_env *env)
 		i++;
 	}
 	old = ft_strdup(res);
-	ft_export(&env, create_entry("OLDPWD", ft_getenv(env, "PWD")));
+	ft_export(&env,"OLDPWD", ft_getenv(env, "PWD"));
 	free(res);
 	res = ft_strjoin("/", old);
 	free(old);
-	ft_export(&env, create_entry("PWD", res));
+	ft_export(&env, "PWD", res);
 	free(res);
 	clear_split(dir);
 }
@@ -88,8 +88,8 @@ void	set_pwd(char *path, char *npath, t_env *env)
 		ft_printf("Hérishell: cd: No such file or directory\n");
 	else
 	{
-		ft_export(&env, create_entry("OLDPWD", ft_getenv(env, "PWD")));
-		ft_export(&env, create_entry("PWD", npath));
+		ft_export(&env,"OLDPWD", ft_getenv(env, "PWD"));
+		ft_export(&env, "PWD", npath);
 	}
 	free(npath);
 }
@@ -102,14 +102,16 @@ int	ft_cd(char *path, t_env **env)
 	npath = NULL;
 	if (!path || ft_strncmp(path, "~", 1) == 0)
 	{
-		ft_export(env, create_entry("OLDPWD", ft_getenv(*env, "PWD")));
-		ft_export(env, create_entry("PWD", ft_getenv(*env, "HOME")));
+		ft_export(env,"OLDPWD", ft_getenv(*env, "PWD"));
+		ft_export(env,"PWD", ft_getenv(*env, "HOME"));
 	}
 	else if (ft_strncmp(path, "-", 1) == 0)
 	{
-		temp = ft_getenv(*env, "PWD");
-		ft_export(env, create_entry("PWD", ft_getenv(*env, "OLDPWD")));
-		ft_export(env, create_entry("OLDPWD", temp));
+		temp = ft_strdup(ft_getenv(*env, "PWD"));
+		ft_printf("temp -> %s\n", temp);
+		ft_export(env,"PWD", ft_getenv(*env, "OLDPWD"));
+		ft_printf("test -> %s\n", ft_getenv(*env, "OLDPWD"));
+		ft_export(env, "OLDPWD", temp);
 		free(temp);
 	}
 	else if (ft_strncmp(path, "..", 2) == 0)

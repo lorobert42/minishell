@@ -27,5 +27,6 @@ int	ft_env(t_env *env, int fd)
 			ft_putchar_fd('\n', fd);
 		env = env->next;
 	}
+	ft_putchar('\n');
 	return (0);
 }
