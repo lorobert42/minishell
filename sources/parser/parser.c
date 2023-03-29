@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:25:52 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/29 09:46:49 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/29 13:52:13 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,28 +94,17 @@ t_command_table	*parser(t_token *tokens)
 	return (table);
 }
 
-/* int	main(int argc, char **argv)
+/* int	main(int argc, char **argv, char **envp)
 {
 	t_token			*tokens;
 	t_command_table	*table;
-	int				i;
-	int				j;
+	t_env			*env;
 
 	if (argc <= 1)
 		return (0);
+	env = parse_env(envp);
 	tokens = lexer(argv[1]);
+	expander(tokens, env);
 	table = parser(tokens);
-	i = 0;
-	while (i < table->n_commands)
-	{
-		printf("IN: %s\nOUT: %s\n", table->commands[i].infile, table->commands[i].outfile);
-		j = 0;
-		while (table->commands[i].command[j] != NULL)
-		{
-			printf("%s ", table->commands[i].command[j]);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
+	print_command_table(table);
 } */

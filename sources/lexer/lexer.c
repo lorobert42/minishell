@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 09:34:19 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/28 13:13:55 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/29 09:32:24 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ t_token	*lexer(char *command)
 	while (tokens)
 	{
 		printf("Token type: %d, value: %s\n", tokens->type, tokens->value);
+		free(tokens);
 		tokens = tokens->next;
 	}
 } */

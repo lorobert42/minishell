@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afavre <afavre@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:43:34 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/02 10:53:38 by afavre           ###   ########.fr       */
+/*   Updated: 2023/03/29 12:14:20 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	loop(t_data *data)
 		buffer = readline("🦔 \e[34m Hérishell 🦔 => \e[39m");
 		add_history(buffer);
 		data->token = lexer(buffer);
+		expander(data->token, data->env);
 		data->table = *parser(data->token);
 		if (check_builtins(data, buffer))
 		{

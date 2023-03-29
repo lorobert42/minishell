@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/29 09:40:32 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/29 12:07:26 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,13 +104,13 @@ int				get_tab_size(char **tab);
 void			clear_split(char **split);
 
 // LIST_UTILS
-void	clear_lst(t_data *data);
+void			clear_lst(t_data *data);
 
 // TAB_UTILS
-void	clear_split(char **split);
+void			clear_split(char **split);
 
 // ENV_UTILS
-char	*get_full_env(t_env *env, char *key);
+char			*get_full_env(t_env *env, char *key);
 
 // PARSER
 t_command_table	*parser(t_token *tokens);
@@ -118,6 +118,10 @@ int				count_commands(t_token *tokens);
 int				command_size(t_token *tokens);
 int				is_redir(t_token_type t);
 int				is_string(t_token_type t);
+void			print_command_table(t_command_table *table);
+
+// EXPANDER
+int				expander(t_token *tokens, t_env *env);
 
 // MAIN
 void			loop(t_data *data);
