@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:25:52 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/29 15:04:16 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/29 15:22:10 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_command_table	*parser(t_token *tokens)
 	if (!table)
 		return (NULL);
 	table->n_commands = count_commands(tokens);
-	table->commands = malloc(sizeof(t_command) * (table->n_commands + 1));
+	table->commands = malloc(sizeof(t_command) * table->n_commands);
 	if (!table->commands)
 	{
 		free(table);
