@@ -15,9 +15,8 @@
 /*
 Print current working directory.
 */
-int	ft_pwd(t_env *env, int fd)
+int	ft_pwd(t_env *env)
 {
-	(void)fd;
 	ft_printf("%s\n", ft_getenv(env, "PWD"));
 	return (0);
 }

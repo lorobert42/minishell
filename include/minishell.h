@@ -87,7 +87,7 @@ char			*ft_getenv(t_env *env, char *key);
 int				ft_export(t_env **env, char *key, char *value);
 int				ft_unset(t_env **env, char *s);
 int				ft_echo(char **args, int fd);
-int				ft_pwd(t_env *env, int fd);
+int				ft_pwd(t_env *env);
 int				ft_cd(char *path, t_env **env);
 
 t_env			*parse_env(char **env_strs);

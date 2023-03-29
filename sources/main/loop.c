@@ -26,8 +26,7 @@ void	check_builtins(t_data *data, char *str)
 	else if (ft_strncmp(cmd[0], "env\0", 4) == 0)
 		ft_env(data->env, 0);
 	else if (ft_strncmp(cmd[0], "pwd\0", 4) == 0)
-		//TODO change fd
-		ft_pwd(data->env, 0);
+		ft_pwd(data->env);
 	else if (ft_strncmp(cmd[0], "export\0", 7) == 0)
 	{
 		split = ft_split(cmd[1], '=');
