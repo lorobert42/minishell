@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   clear_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/11 09:45:05 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/24 09:26:52 by lorobert         ###   ########.fr       */
+/*   Created: 2023/02/15 11:42:06 by afavre            #+#    #+#             */
+/*   Updated: 2023/03/28 11:30:27 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
-/*
-Print the environment variables on file descriptor fd in the form
-key=value, followed by '\n'.
-*/
-int	ft_env(t_env *env, int fd)
+void	clear_split(char **split)
 {
-	while (env)
+	int	i;
+
+	i = 0;
+	if (split != NULL)
 	{
-		ft_putstr_fd(env->key, fd);
-		ft_putchar_fd('=', fd);
-		ft_putstr_fd(env->value, fd);
-		if (env->next)
-			ft_putchar_fd('\n', fd);
-		env = env->next;
+		while (split[i] != NULL)
+		{
+			free(split[i]);
+			i++;
+		}
+		free(split);
 	}
-	ft_putchar('\n');
-	return (0);
 }

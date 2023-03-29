@@ -1,32 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   commands.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/11 09:45:05 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/24 09:26:52 by lorobert         ###   ########.fr       */
+/*   Created: 2023/03/29 09:39:37 by lorobert          #+#    #+#             */
+/*   Updated: 2023/03/29 09:39:57 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-/*
-Print the environment variables on file descriptor fd in the form
-key=value, followed by '\n'.
-*/
-int	ft_env(t_env *env, int fd)
+int	count_commands(t_token *tokens)
 {
-	while (env)
+	int	i;
+
+	i = 1;
+	while (tokens)
 	{
-		ft_putstr_fd(env->key, fd);
-		ft_putchar_fd('=', fd);
-		ft_putstr_fd(env->value, fd);
-		if (env->next)
-			ft_putchar_fd('\n', fd);
-		env = env->next;
+		if (tokens->type == PIPE)
+			i++;
+		tokens = tokens->next;
 	}
-	ft_putchar('\n');
-	return (0);
+	return (i);
+}
+
+int	command_size(t_token *tokens)
+{
+	int	i;
+
+	i = 0;
+	while (tokens && is_string(tokens->type))
+	{
+		tokens = tokens->next;
+		i++;
+	}
+	return (i);
 }

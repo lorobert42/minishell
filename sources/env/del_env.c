@@ -1,32 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   del_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/11 09:45:05 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/24 09:26:52 by lorobert         ###   ########.fr       */
+/*   Created: 2023/03/28 13:19:59 by lorobert          #+#    #+#             */
+/*   Updated: 2023/03/28 13:41:13 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "minishell.h"
 
-/*
-Print the environment variables on file descriptor fd in the form
-key=value, followed by '\n'.
-*/
-int	ft_env(t_env *env, int fd)
+void	del_env(t_env *env)
 {
-	while (env)
+	if (!env)
+		return ;
+	if (env->key)
 	{
-		ft_putstr_fd(env->key, fd);
-		ft_putchar_fd('=', fd);
-		ft_putstr_fd(env->value, fd);
-		if (env->next)
-			ft_putchar_fd('\n', fd);
-		env = env->next;
+		free(env->key);
+		env->key = NULL;
 	}
-	ft_putchar('\n');
-	return (0);
+	if (env->value)
+	{
+		free(env->value);
+		env->value = NULL;
+	}
+	env->next = NULL;
+	free(env);
+}
+
+void	del_all_env(t_env **env)
+{
+	t_env	*next;
+
+	while (*env)
+	{
+		next = (*env)->next;
+		del_env(*env);
+	}
 }

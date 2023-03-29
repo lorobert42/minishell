@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: afavre <afavre@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/11 09:33:27 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/24 09:25:12 by lorobert         ###   ########.fr       */
+/*   Created: 2023/03/28 16:57:23 by afavre            #+#    #+#             */
+/*   Updated: 2023/03/28 16:57:25 by afavre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-/*
-Print current working directory.
-*/
-int	ft_pwd(t_env *env)
+char	*get_full_env(t_env *env, char *key)
 {
-	ft_printf("%s\n", ft_getenv(env, "PWD"));
-	return (0);
+	char	*res;
+	char	*temp;
+
+	temp = ft_strjoin(key, "=");
+	res = ft_strjoin(temp, ft_getenv(env, key));
+	free(temp);
+	ft_printf("test -> res");
+	return (NULL);
 }

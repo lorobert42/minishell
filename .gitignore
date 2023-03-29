@@ -1,6 +1,7 @@
 minishell
 .build/
 .vscode/
+.idea/
 
 # Prerequisites
 *.d

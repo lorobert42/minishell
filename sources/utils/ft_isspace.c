@@ -1,32 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/11 09:45:05 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/24 09:26:52 by lorobert         ###   ########.fr       */
+/*   Created: 2023/03/17 14:17:50 by lorobert          #+#    #+#             */
+/*   Updated: 2023/03/17 14:18:04 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
-
-/*
-Print the environment variables on file descriptor fd in the form
-key=value, followed by '\n'.
-*/
-int	ft_env(t_env *env, int fd)
+int	ft_isspace(int c)
 {
-	while (env)
-	{
-		ft_putstr_fd(env->key, fd);
-		ft_putchar_fd('=', fd);
-		ft_putstr_fd(env->value, fd);
-		if (env->next)
-			ft_putchar_fd('\n', fd);
-		env = env->next;
-	}
-	ft_putchar('\n');
-	return (0);
+	return (c == ' ' || (c >= 9 && c <= 13));
 }

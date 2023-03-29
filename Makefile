@@ -6,17 +6,19 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/02/24 11:22:24 by lorobert         ###   ########.fr        #
+#    Updated: 2023/03/29 12:16:41 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME			:=	minishell
 
-LIBS			:=	ft
-LIBS_TARGET		:=	libs/libft/libft.a
+LIBS			:=	ft readline
+LIBS_TARGET		:=	libs/libft_rework/libft.a
 
-INCS			:=	includes \
-					libs/libft
+INCS			:=	include \
+					libs/libft_rework/gnl/include \
+					libs/libft_rework/libft/include \
+					libs/libft_rework/printf/include \
 
 SRC_DIR			:=	sources
 SRCS			:=	builtins/ft_echo.c \
@@ -26,7 +28,23 @@ SRCS			:=	builtins/ft_echo.c \
 					builtins/ft_getenv.c \
 					builtins/ft_export.c \
 					builtins/ft_unset.c \
-					env/parse_env.c
+					env/parse_env.c \
+					env/del_env.c \
+					lexer/lexer.c \
+					lexer/token.c \
+					lexer/issep.c \
+					expander/expander.c \
+					parser/parser.c \
+					parser/commands.c \
+					parser/token_type.c \
+					parser/debug_print_command_table.c \
+					utils/ft_isspace.c \
+					utils/tab_utils.c \
+					utils/clear_split.c \
+					main/main.c \
+					main/init.c \
+					main/loop.c \
+
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 
 BUILD_DIR		:=	.build
@@ -34,7 +52,7 @@ OBJS			:=	$(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 DEPS			:=	$(OBJS:.o=.d)
 
 CC				:=	gcc
-CFLAGS			:=	-Wall -Wextra -Werror
+CFLAGS			:=	-Wall -Wextra -Werror -g
 CPPFLAGS		:=	$(addprefix -I,$(INCS)) -MMD -MP
 LDFLAGS			:=	$(addprefix -L,$(dir $(LIBS_TARGET)))
 LDLIBS			:=	$(addprefix -l,$(LIBS))

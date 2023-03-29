@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   debug_print_command_table.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/11 09:45:05 by lorobert          #+#    #+#             */
-/*   Updated: 2023/02/24 09:26:52 by lorobert         ###   ########.fr       */
+/*   Created: 2023/03/29 10:25:08 by lorobert          #+#    #+#             */
+/*   Updated: 2023/03/29 13:51:31 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-/*
-Print the environment variables on file descriptor fd in the form
-key=value, followed by '\n'.
-*/
-int	ft_env(t_env *env, int fd)
+void	print_command_table(t_command_table *table)
 {
-	while (env)
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < table->n_commands)
 	{
-		ft_putstr_fd(env->key, fd);
-		ft_putchar_fd('=', fd);
-		ft_putstr_fd(env->value, fd);
-		if (env->next)
-			ft_putchar_fd('\n', fd);
-		env = env->next;
+		ft_printf("IN: %s\n", table->commands[i].infile);
+		ft_printf("OUT: %s\n", table->commands[i].outfile);
+		j = 0;
+		while (table->commands[i].command[j] != NULL)
+		{
+			ft_printf("%s ", table->commands[i].command[j]);
+			j++;
+		}
+		ft_printf("\n");
+		i++;
 	}
-	ft_putchar('\n');
-	return (0);
 }
