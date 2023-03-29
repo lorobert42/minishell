@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/03/28 13:21:43 by lorobert         ###   ########.fr        #
+#    Updated: 2023/03/29 09:40:43 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,8 @@ SRCS			:=	builtins/ft_echo.c \
 					lexer/token.c \
 					lexer/issep.c \
 					parser/parser.c \
+					parser/commands.c \
+					parser/token_type.c \
 					utils/ft_isspace.c \
 					utils/tab_utils.c \
 					utils/clear_split.c \

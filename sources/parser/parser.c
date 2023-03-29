@@ -6,86 +6,60 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:25:52 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/28 09:57:58 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/29 09:46:49 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	count_commands(t_token *tokens)
+t_token	*extract_redirection(t_token *tokens, t_command *command)
 {
-	int	i;
-
-	i = 1;
-	while (tokens)
-	{
-		if (tokens->type == PIPE)
-			i++;
-		tokens = tokens->next;
-	}
-	return (i);
+	if (!is_string(tokens->next->type))
+		return (NULL);
+	if (tokens->type == REDIR_LEFT)
+		command->infile = tokens->next->value;
+	else if (tokens->type == REDIR_RIGHT)
+		command->outfile = tokens->next->value;
+	else if (tokens->type == HERE_DOC)
+		command->infile = tokens->next->value;
+	else
+		command->outfile = tokens->next->value;
+	command->append = tokens->type >= HERE_DOC;
+	tokens = tokens->next->next;
+	return (tokens);
 }
 
-int	is_redir(t_token_type t)
-{
-	return (t == REDIR_LEFT || t == REDIR_RIGHT \
-		|| t == REDIR_APPEND || t == HERE_DOC);
-}
-
-int	is_string(t_token_type t)
-{
-	return (t == LITERAL || t == QUOTE_STR || t == DBL_QUOTE_STR);
-}
-
-int	command_size(t_token *tokens)
-{
-	int	i;
-
-	i = 0;
-	while (tokens && is_string(tokens->type))
-	{
-		tokens = tokens->next;
-		i++;
-	}
-	return (i);
-}
-
-t_token	*parse_command(t_token *tokens, t_command *command)
+t_token	*extract_string(t_token *tokens, t_command *command)
 {
 	int	i;
 	int	size;
 
+	size = command_size(tokens);
+	command->command = malloc(sizeof(char *) * (size + 1));
+	if (!command->command)
+		return (NULL);
+	i = 0;
+	while (i < size)
+	{
+		command->command[i] = tokens->value;
+		tokens = tokens->next;
+		i++;
+	}
+	command->command[i] = NULL;
+	return (tokens);
+}
+
+t_token	*parse_command(t_token *tokens, t_command *command)
+{
 	while (tokens && tokens->type != PIPE)
 	{
 		if (is_redir(tokens->type))
 		{
-			if (!is_string(tokens->next->type))
-				return (NULL);
-			if (tokens->type == REDIR_LEFT)
-				command->infile = tokens->next->value;
-			else if (tokens->type == REDIR_RIGHT)
-				command->outfile = tokens->next->value;
-			else if (tokens->type == HERE_DOC)
-				command->infile = tokens->next->value;
-			else
-				command->outfile = tokens->next->value;
-			command->append = tokens->type >= HERE_DOC;
-			tokens = tokens->next->next;
+			tokens = extract_redirection(tokens, command);
 		}
 		else if (is_string(tokens->type))
 		{
-			size = command_size(tokens);
-			command->command = malloc(sizeof(char *) * (size + 1));
-			if (!command->command)
-				return (NULL);
-			i = 0;
-			while (i < size)
-			{
-				command->command[i] = tokens->value;
-				tokens = tokens->next;
-				i++;
-			}
-			command->command[i] = NULL;
+			tokens = extract_string(tokens, command);
 		}
 	}
 	return (tokens);
@@ -120,7 +94,7 @@ t_command_table	*parser(t_token *tokens)
 	return (table);
 }
 
-/*int	main(int argc, char **argv)
+/* int	main(int argc, char **argv)
 {
 	t_token			*tokens;
 	t_command_table	*table;
@@ -144,4 +118,4 @@ t_command_table	*parser(t_token *tokens)
 		printf("\n");
 		i++;
 	}
-}*/
+} */
