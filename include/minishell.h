@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/29 12:07:26 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/29 14:58:33 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ typedef struct s_data
 t_token			*lexer(char *command);
 t_token			*create_token(char *value, t_token_type type);
 void			add_token(t_token **tokens, t_token *new);
+void			clean_tokens(t_token *tokens);
 int				issep(int c);
 
 // EXECUTOR
@@ -119,6 +120,7 @@ int				command_size(t_token *tokens);
 int				is_redir(t_token_type t);
 int				is_string(t_token_type t);
 void			print_command_table(t_command_table *table);
+void			clean_command_table(t_command_table *table);
 
 // EXPANDER
 int				expander(t_token *tokens, t_env *env);

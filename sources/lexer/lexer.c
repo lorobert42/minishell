@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 09:34:19 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/29 09:32:24 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/29 14:49:17 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,18 +109,3 @@ t_token	*lexer(char *command)
 	}
 	return (tokens);
 }
-
-/* int	main(int argc, char **argv)
-{
-	t_token	*tokens;
-
-	if (argc <= 1)
-		return (0);
-	tokens = lexer(argv[1]);
-	while (tokens)
-	{
-		printf("Token type: %d, value: %s\n", tokens->type, tokens->value);
-		free(tokens);
-		tokens = tokens->next;
-	}
-} */

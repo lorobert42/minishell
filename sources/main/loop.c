@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:43:34 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/29 14:05:33 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/29 14:58:56 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	loop(t_data *data)
 		{
 			ft_printf("Execution\n");
 		}
+		clean_tokens(data->token);
+		clean_command_table(&data->table);
 		free(buffer);
 	}
 }
