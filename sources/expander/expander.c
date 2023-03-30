@@ -6,101 +6,57 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:48:13 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/29 15:11:19 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 11:18:07 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	is_quote(char c)
+int	get_variable_end(char *s)
 {
-	return (c == '"' || c == '\'');
-}
-
-int	count_quotes(char *s)
-{
-	int	n;
 	int	i;
-	int	in_quote;
 
 	i = 0;
-	n = 0;
-	in_quote = 0;
-	while (s[i])
-	{
-		if (is_quote(s[i]))
-		{
-			if (!in_quote)
-			{
-				in_quote = s[i];
-				n++;
-			}
-			else if (in_quote && s[i] == in_quote)
-			{
-				in_quote = 0;
-				n++;
-			}
-		}
+	while (ft_isdigit(s[i]))
 		i++;
-	}
-	return (n);
+	if (i != 0)
+		return (i);
+	while (ft_isalnum(s[i]))
+		i++;
+	return (i);
 }
 
-void	delete_quotes(t_token *token)
+int	get_variable(char *s, char **var, t_env *env)
 {
-	int		i;
-	int		j;
-	int		in_quote;
-	char	*new;
+	char	*varname;
+	int		end;
 
-	j = count_quotes(token->value);
-	if (j == 0)
-		return ;
-	new = malloc(sizeof(char) * (ft_strlen(token->value) - j + 1));
-	if (!new)
-		return ;
-	i = 0;
-	j = 0;
-	in_quote = 0;
-	while (token->value[i])
-	{
-		if (!is_quote(token->value[i]) || (is_quote(token->value[i]) && in_quote && in_quote != token->value[i]))
-		{
-			if (in_quote == token->value[i])
-				in_quote = 0;
-			new[j] = token->value[i];
-			j++;
-		}
-		else if (in_quote == 0)
-			in_quote = token->value[i];
-		i++;
-	}
-	new[j] = '\0';
-	free(token->value);
-	token->value = new;
+	end = get_variable_end(s);
+	varname = ft_substr(s, 0, end);
+	*var = ft_getenv(env, varname);
+	free(varname);
+	if (!*var)
+		*var = ft_strdup("");
+	return (end);
 }
 
-void	expand_token(t_token *token, int pos, t_env *env)
+int	expand_token(t_token *token, int pos, t_env *env)
 {
 	char	*var;
 	char	*new;
-	char	*varname;
 	int		end;
 	int		i;
 	int		j;
 
-	end = pos;
-	// TODO: find end of variable name ($1TEST for example)
-	while (token->value[end] && !issep(token->value[end]) && !is_quote(token->value[end]))
-		end++;
-	varname = ft_substr(token->value, pos, end - pos);
-	var = ft_getenv(env, varname);
-	free(varname);
+	end = get_variable(&token->value[pos], &var, env);
 	if (!var)
-		var = ft_strdup("");
+		return (1);
 	new = malloc(sizeof(char) * (ft_strlen(token->value) - (end - pos) + ft_strlen(var)));
 	if (!new)
-		return ;
+	{
+		free(var);
+		return (1);
+	}
 	i = 0;
 	j = 0;
 	while (token->value[i])
@@ -127,9 +83,10 @@ void	expand_token(t_token *token, int pos, t_env *env)
 	free(var);
 	free(token->value);
 	token->value = new;
+	return (0);
 }
 
-void	check_expansion(t_token *token, t_env *env)
+int	check_expansion(t_token *token, t_env *env)
 {
 	int	simple;
 	int	i;
@@ -143,9 +100,11 @@ void	check_expansion(t_token *token, t_env *env)
 		else if (token->value[i] == '\'' && simple)
 			simple = 0;
 		else if (token->value[i] == '$' && !simple)
-			expand_token(token, i + 1, env);
+			if (expand_token(token, i + 1, env))
+				return (1);
 		i++;
 	}
+	return (0);
 }
 
 int	expander(t_token *tokens, t_env *env)
@@ -154,8 +113,10 @@ int	expander(t_token *tokens, t_env *env)
 	{
 		if (is_string(tokens->type))
 		{
-			check_expansion(tokens, env);
-			delete_quotes(tokens);
+			if (check_expansion(tokens, env))
+				return (1);
+			if (delete_quotes(tokens) == 1)
+				return (1);
 		}
 		tokens = tokens->next;
 	}

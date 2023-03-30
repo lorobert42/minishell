@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 09:34:19 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/29 14:49:17 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 13:00:39 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,8 @@ t_token	*lexer(char *command)
 	t_token	*tokens;
 	size_t	i;
 
+	if (!command)
+		return (NULL);
 	tokens = NULL;
 	i = 0;
 	while (i < ft_strlen(command))

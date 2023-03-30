@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:25:52 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/29 15:22:10 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 13:03:16 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,24 @@ t_token	*extract_string(t_token *tokens, t_command *command)
 	int	size;
 
 	size = command_size(tokens);
-	command->command = malloc(sizeof(char *) * (size + 1));
-	if (!command->command)
+	command->args = malloc(sizeof(char *) * (size + 1));
+	if (!command->args)
 		return (NULL);
 	i = 0;
 	while (i < size)
 	{
-		command->command[i] = ft_strdup(tokens->value);
+		command->args[i] = ft_strdup(tokens->value);
 		tokens = tokens->next;
 		i++;
 	}
-	command->command[i] = NULL;
+	command->args[i] = NULL;
 	return (tokens);
 }
 
 t_token	*parse_command(t_token *tokens, t_command *command)
 {
+	int	i;
+
 	while (tokens && tokens->type != PIPE)
 	{
 		if (is_redir(tokens->type))
@@ -62,13 +64,18 @@ t_token	*parse_command(t_token *tokens, t_command *command)
 			tokens = extract_string(tokens, command);
 		}
 	}
+	i = 0;
+	while (command->args[0][i])
+	{
+		command->args[0][i] = ft_tolower(command->args[0][i]);
+		i++;
+	}
 	return (tokens);
 }
 
-t_command_table	*parser(t_token *tokens)
+t_command_table	*init_table(t_token *tokens)
 {
 	t_command_table	*table;
-	int				i;
 
 	table = malloc(sizeof(t_command_table));
 	if (!table)
@@ -80,6 +87,17 @@ t_command_table	*parser(t_token *tokens)
 		free(table);
 		return (NULL);
 	}
+	return (table);
+}
+
+t_command_table	*parser(t_token *tokens)
+{
+	t_command_table	*table;
+	int				i;
+
+	table = init_table(tokens);
+	if (!table)
+		return (NULL);
 	i = 0;
 	while (i < table->n_commands)
 	{
