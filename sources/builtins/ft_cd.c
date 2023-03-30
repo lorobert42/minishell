@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 09:11:34 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/28 14:16:40 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 16:15:23 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*get_pwd(char **env, int mode, char *path)
 	pwd = NULL;
 	if (mode == 0)
 	{
-		pwd = ft_getenv(env, "PWD");
+		pwd = getenv_value(env, "PWD");
 		if (ft_strlen(pwd) > 1)
 			old = ft_strjoin(pwd, "/");
 		else
@@ -84,6 +84,7 @@ void	set_pwd(t_data *data, char *path, char *npath)
 		npath = ft_strdup(path);
 	else
 		npath = get_pwd(data->env, 0, path);
+	ft_printf("%s\n", npath);
 	if (chdir(npath) != 0)
 		ft_printf("Hérishell: cd: No such file or directory\n");
 	else

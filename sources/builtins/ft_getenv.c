@@ -6,16 +6,31 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 11:17:47 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/30 14:50:31 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 16:14:11 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char	*getenv_value(char **env, char *key)
+{
+	char	*value;
+	char	**tmp;
+
+	value = ft_getenv(env, key);
+	if (!value)
+		return (ft_strdup(""));
+	tmp = ft_split(value, '=');
+	free(value);
+	value = ft_strdup(tmp[1]);
+	clear_split(tmp);
+	return (value);
+}
+
 /*
 Returns the value of env variable key, or NULL if not existant
 */
-int		get_env_index(char **env, char *key)
+int	get_env_index(char **env, char *key)
 {
 	int	i;
 

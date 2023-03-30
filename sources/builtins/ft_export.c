@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 16:11:25 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/28 14:23:31 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 15:42:55 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ one.
 */
 int	check_export_format(char *args)
 {
-	int res;
-	int i;
+	int	res;
+	int	i;
 
 	res = 1;
 	i = 1;
@@ -36,7 +36,7 @@ int	check_export_format(char *args)
 		}
 		i++;
 	}
-	return(res);
+	return (res);
 }
 
 char	*create_env_value(char *key, char *value)
@@ -53,7 +53,7 @@ char	*create_env_value(char *key, char *value)
 void	ft_export(t_data *data, char *key, char *value)
 {
 	char	*new_value;
-	int index;
+	int		index;
 
 	new_value = create_env_value(key, value);
 	if (check_export_format(key) == 0)

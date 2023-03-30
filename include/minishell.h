@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/30 11:28:29 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 16:12:35 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <limits.h>
 # include <stdbool.h>
 # include <stdio.h>
-#include <fcntl.h>
+# include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -84,8 +84,9 @@ int				issep(int c);
 
 // BULTINS
 int				ft_env(char **env);
+char			*ft_getenv(char **env, char *key);
 void			ft_export(t_data *data, char *key, char *value);
-int				ft_unset(t_env **env, char *s);
+int				ft_unset(t_data *data, char *s);
 int				ft_echo(char **args, int fd);
 int				ft_pwd(char **env);
 int				ft_cd(t_data *data, char *path);
@@ -99,6 +100,7 @@ void			del_all_env(t_env **env);
 // FT_GETENV
 int				get_env_index(char **env, char *key);
 char			*ft_getenv(char **env, char *key);
+char			*getenv_value(char **env, char *key);
 
 // UTILS
 int				ft_isspace(int c);
@@ -129,14 +131,14 @@ void			print_command_table(t_command_table *table);
 void			clean_command_table(t_command_table *table);
 
 // EXPANDER
-int	expander(t_token *tokens, char **env);
+int				expander(t_token *tokens, char **env);
 int				is_quote(char c);
 int				count_quotes(char *s);
 int				check_unclosed_quotes(t_token *token);
 int				delete_quotes(t_token *token);
 
 // EXECUTER
-int 			executer(t_data *data);
+int				executer(t_data *data);
 
 // EXECUTE_UTILS
 char			*get_path(char *path, char *cmd);

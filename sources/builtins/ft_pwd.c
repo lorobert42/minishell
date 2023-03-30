@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 09:33:27 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/29 14:45:17 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 16:13:03 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_pwd(char **env)
 {
 	char	*var;
 
-	var = ft_getenv(env, "PWD");
+	var = getenv_value(env, "PWD");
 	ft_printf("%s\n", var);
 	if (var)
 		free(var);

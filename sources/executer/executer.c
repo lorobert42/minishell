@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executer.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afavre <afavre@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:04:43 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/30 12:04:48 by afavre           ###   ########.fr       */
+/*   Updated: 2023/03/30 15:59:27 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ char	*find_path(t_data *data)
 	i = 0;
 	while (path[i] != NULL)
 	{
-		if (access(get_path(path[i], data->table.commands->command[0]), F_OK | R_OK) == 0)
-			return (get_path(path[i], data->table.commands->command[0]));
+		if (access(get_path(path[i], data->table->commands->args[0]), F_OK | R_OK) == 0)
+			return (get_path(path[i], data->table->commands->args[0]));
 		i++;
 	}
 	clear_split(path);
@@ -31,15 +31,14 @@ char	*find_path(t_data *data)
 
 int	executer(t_data *data)
 {
-	(void)data;
-	int id;
-	int res;
+	int	id;
+	int	res;
 
 	id = fork();
 	if (id == 0)
 	{
 		ft_printf("path -----> %s\n", find_path(data));
-		execve(find_path(data), data->table.commands->command, data->env);
+		execve(find_path(data), data->table->commands->args, data->env);
 		exit(0);
 	}
 

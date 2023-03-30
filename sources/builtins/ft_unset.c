@@ -6,37 +6,57 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 09:57:45 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/28 13:24:52 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 15:57:55 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+char	**remove_string(char **env, int i)
+{
+	int		size;
+	int		j;
+	char	**new;
+
+	size = get_tab_size(env);
+	new = malloc(sizeof(char *) * size);
+	if (!new)
+		return (NULL);
+	j = 0;
+	while (j < i)
+	{
+		new[j] = ft_strdup(env[j]);
+		free(env[j]);
+		j++;
+	}
+	free(env[i]);
+	while (j < size - 1)
+	{
+		new[j] = ft_strdup(env[j + 1]);
+		free(env[j + 1]);
+		j++;
+	}
+	new[j] = NULL;
+	return (new);
+}
+
 /*
 Remove environment variable, if key does not exists, do nothing.
 */
-int	ft_unset(t_env **env, char *s)
+int	ft_unset(t_data *data, char *s)
 {
-	t_env	*prev;
-	t_env	*to_del;
+	int		i;
 
-	to_del = *env;
+	i = 0;
+	while (data->env[i])
 	{
-		*env = (*env)->next;
-		return (0);
-	}
-	prev = to_del;
-	to_del = to_del->next;
-	while (to_del)
-	{
-		if (ft_strncmp(to_del->key, s, ft_strlen(s) + 1) == 0)
+		if (ft_strncmp(data->env[i], s, ft_strchr(data->env[i], '=') \
+			- data->env[i]) == 0)
 		{
-			prev->next = to_del->next;
-			del_env(to_del);
+			data->env = remove_string(data->env, i);
 			return (0);
 		}
-		prev = to_del;
-		to_del = to_del->next;
+		i++;
 	}
 	return (0);
 }

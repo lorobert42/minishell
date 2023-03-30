@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/03/30 10:05:48 by lorobert         ###   ########.fr        #
+#    Updated: 2023/03/30 15:51:35 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,8 +27,8 @@ SRCS			:=	builtins/ft_echo.c \
 					builtins/ft_cd.c \
 					builtins/ft_env.c \
 					builtins/ft_getenv.c \
-					builtins/ft_export.c \
 					builtins/ft_unset.c \
+					builtins/ft_export.c \
 					env/parse_env.c \
 					env/del_env.c \
 					lexer/lexer.c \
