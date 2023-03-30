@@ -55,9 +55,18 @@ char	**parse_env(char **env_strs)
 {
 	char	**env;
 	int 	tab_size;
+	int 	i;
 
 	env = NULL;
+	tab_size = 0;
+	i = 0;
 	tab_size = get_tab_size(env_strs);
-	ft_printf("tab size ----> %d\n");
+	env = malloc(sizeof(char *) * tab_size + 1);
+	while (i < tab_size)
+	{
+		env[i] = ft_strdup(env_strs[i]);
+		i++;
+	}
+	env[i] = NULL;
 	return (env);
 }

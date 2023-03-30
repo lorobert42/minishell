@@ -21,7 +21,13 @@ INCS			:=	include \
 					libs/libft_rework/printf/include \
 
 SRC_DIR			:=	sources
-SRCS			:=	builtins/ft_echo.c \
+
+SRCS			:= main/main.c \
+					env/parse_env.c \
+					utils/tab_utils.c \
+					builtins/ft_export.c
+
+#SRCS			:=	builtins/ft_echo.c \
 					builtins/ft_pwd.c \
 					builtins/ft_cd.c \
 					builtins/ft_env.c \

@@ -17,12 +17,12 @@ int	get_tab_size(char **tab)
 	int	i;
 
 	i = 0;
-	while (tab[i])
+	while (tab[i] != NULL)
 		i++;
 	return (i);
 }
 
-char	**tab_add_back(char **tab, char *content)
+/*char	**tab_add_back(char **tab, char *content)
 {
 	int		size;
 	int		i;
@@ -61,4 +61,4 @@ void	print_str_tab(char **tab)
 		ft_printf(".%s.\n", tab[i]);
 		i++;
 	}
-}
+}*/

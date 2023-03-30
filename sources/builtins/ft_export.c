@@ -16,7 +16,7 @@
 Set a new environment variable, if key already exists, replace it by the new
 one.
 */
-int	check_export_format(char *args)
+/*int	check_export_format(char *args)
 {
 	int res;
 	int i;
@@ -53,29 +53,20 @@ int	update_not_first(t_env *new, t_env *next, t_env *prev)
 	del_env(next);
 	prev->next = new;
 	return (0);
-}
+}*/
 
-int	ft_export(t_env **env, char *key, char *value)
+void	ft_export(char **env, char *key, char *value)
 {
-	t_env	*prev;
-	t_env	*next;
-	t_env	*new;
+	int i;
 
-	if (!check_export_format(key))
+	i = 0;
+	(void)key;
+	(void)value;
+	while (env[i] != NULL)
 	{
-		prev = *env;
-		new = create_entry(key, value);
-		if (ft_strncmp(prev->key, new->key, ft_strlen(prev->key) + 1) == 0)
-			return (update_first(env, new, prev));
-		next = prev->next;
-		while (next)
+		if (ft_strncmp(env[i], key, ft_strlen(key + 1)) == 0)
 		{
-			if (ft_strncmp(next->key, new->key, ft_strlen(new->key) + 1) == 0)
-				return (update_not_first(new, next, prev));
-			prev = next;
-			next = next->next;
 		}
-		prev->next = new;
+		i++;
 	}
-	return (0);
 }

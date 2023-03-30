@@ -94,7 +94,7 @@ void	set_pwd(char *path, char *npath, t_env *env)
 	free(npath);
 }
 
-int	ft_cd(char *path, t_env **env)
+int	ft_cd(char *path, char **env)
 {
 	char	*npath;
 	char	*temp;
@@ -102,8 +102,8 @@ int	ft_cd(char *path, t_env **env)
 	npath = NULL;
 	if (!path || ft_strncmp(path, "~", 1) == 0)
 	{
-		ft_export(env, "OLDPWD", ft_getenv(*env, "PWD"));
-		ft_export(env, "PWD", ft_getenv(*env, "HOME"));
+		ft_export(env, "OLDPWD", ft_getenv(env, "PWD"));
+		ft_export(env, "PWD", ft_getenv(env, "HOME"));
 	}
 	else if (ft_strncmp(path, "-", 1) == 0)
 	{

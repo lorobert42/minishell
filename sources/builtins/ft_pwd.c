@@ -15,7 +15,7 @@
 /*
 Print current working directory.
 */
-int	ft_pwd(t_env *env)
+int	ft_pwd(char **env)
 {
 	char	*var;
 

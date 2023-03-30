@@ -12,7 +12,29 @@
 
 #include "../../include/minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	print(char **tab)
+{
+	int i;
+
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		ft_printf("%d ----> %s\n", i, tab[i]);
+		i++;
+	}
+}
+
+int main(int ac, char **av, char **env)
+{
+	char **myEnv;
+
+	(void)ac;
+	(void)av;
+	myEnv = parse_env(env);
+	ft_export(myEnv, "TERM", "duconm");
+}
+
+/*int	main(int ac, char **av, char **env)
 {
 	t_data	data;
 
@@ -21,4 +43,4 @@ int	main(int ac, char **av, char **env)
 	init(&data, env);
 	//loop(&data);
 //	del_all_env(&data.env);
-}
+}*/
