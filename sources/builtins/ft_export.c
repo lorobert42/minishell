@@ -52,18 +52,20 @@ char	*create_env_value(char *key, char *value)
 
 void	ft_export(t_data *data, char *key, char *value)
 {
-	int i;
+	char	*new_value;
+	int index;
 
-	i = 0;
-	(void)key;
-	(void)value;
+	new_value = create_env_value(key, value);
 	if (check_export_format(key) == 0)
 	{
 		if (ft_getenv(data->env, key) != NULL)
 		{
-			ft_printf("update");
+			index = get_env_index(data->env, key);
+			free(data->env[index]);
+			data->env[index] = ft_strdup(new_value);
 		}
 		else
-			data->env = tab_add_back(data, create_env_value(key, value));
+			data->env = tab_add_back(data, new_value);
 	}
+	free(new_value);
 }

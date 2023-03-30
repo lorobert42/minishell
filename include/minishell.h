@@ -84,7 +84,6 @@ int				issep(int c);
 
 // BULTINS
 int				ft_env(t_env *env, int fd);
-char			*ft_getenv(char **env, char *key);
 void			ft_export(t_data *data, char *key, char *value);
 int				ft_unset(t_env **env, char *s);
 int				ft_echo(char **args, int fd);
@@ -96,6 +95,10 @@ t_env			*extract_entry(char *env_entry);
 t_env			*create_entry(char *key, char *value);
 void			del_env(t_env *env);
 void			del_all_env(t_env **env);
+
+// FT_GETENV
+int				get_env_index(char **env, char *key);
+char			*ft_getenv(char **env, char *key);
 
 // UTILS
 int				ft_isspace(int c);

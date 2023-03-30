@@ -31,7 +31,7 @@ int main(int ac, char **av, char **env)
 	(void)ac;
 	(void)av;
 	data.env = parse_env(env);
-	ft_export(&data, "PATH", "duconm");
+	ft_export(&data, "ducom", "duconm");
 	print_str_tab(data.env);
 }
 
