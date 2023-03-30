@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:43:34 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/30 11:28:47 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 11:52:20 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ int	run_export(t_data *data, char **cmd)
 	return (0);
 }
 
-int	check_builtins(t_data *data, char *str)
+int	check_builtins(t_data *data)
 {
 	char	**cmd;
 
-	cmd = ft_split(str, ' ');
+	cmd = data->table->commands[0].args;
 	if (ft_strncmp(cmd[0], "exit\0", 5) == 0)
 		exit(0);
 	else if (ft_strncmp(cmd[0], "cd\0", 3) == 0)
@@ -42,7 +42,6 @@ int	check_builtins(t_data *data, char *str)
 		return (run_export(data, cmd));
 	else if (ft_strncmp(cmd[0], "unset\0", 6) == 0)
 		return (ft_unset(&data->env, cmd[1]));
-	clear_split(cmd);
 	return (1);
 }
 
@@ -63,7 +62,7 @@ void	loop(t_data *data)
 		}
 		data->table = parser(data->token);
 		print_command_table(data->table);
-		if (check_builtins(data, buffer))
+		if (check_builtins(data))
 		{
 			ft_printf("Execution\n");
 		}

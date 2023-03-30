@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:25:52 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/30 11:20:10 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 11:47:08 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ t_token	*extract_string(t_token *tokens, t_command *command)
 
 t_token	*parse_command(t_token *tokens, t_command *command)
 {
+	int	i;
+
 	while (tokens && tokens->type != PIPE)
 	{
 		if (is_redir(tokens->type))
@@ -61,6 +63,12 @@ t_token	*parse_command(t_token *tokens, t_command *command)
 		{
 			tokens = extract_string(tokens, command);
 		}
+	}
+	i = 0;
+	while (command->args[0][i])
+	{
+		command->args[0][i] = ft_tolower(command->args[0][i]);
+		i++;
 	}
 	return (tokens);
 }
