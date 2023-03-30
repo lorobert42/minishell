@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:43:34 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/29 14:58:56 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 10:18:01 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,12 @@ void	loop(t_data *data)
 		buffer = readline("🦔 \e[34m Hérishell 🦔 => \e[39m");
 		add_history(buffer);
 		data->token = lexer(buffer);
-		expander(data->token, data->env);
+		if (expander(data->token, data->env) == 1)
+		{
+			clean_tokens(data->token);
+			free(buffer);
+			continue ;
+		}
 		data->table = *parser(data->token);
 		print_command_table(&data->table);
 		if (check_builtins(data, buffer))

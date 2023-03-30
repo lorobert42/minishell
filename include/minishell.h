@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/29 14:58:33 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 10:06:43 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,10 @@ void			clean_command_table(t_command_table *table);
 
 // EXPANDER
 int				expander(t_token *tokens, t_env *env);
+int				is_quote(char c);
+int				count_quotes(char *s);
+int				check_unclosed_quotes(t_token *token);
+int				delete_quotes(t_token *token);
 
 // MAIN
 void			loop(t_data *data);
