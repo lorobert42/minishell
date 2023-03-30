@@ -30,7 +30,7 @@ char	*construct(char **dir, int size, char *res, int i)
 	return (res);
 }
 
-void	go_back(t_env *env)
+void	go_back(t_data * data)
 {
 	char	**dir;
 	char	*res;
@@ -38,7 +38,7 @@ void	go_back(t_env *env)
 	int		size;
 	int		i;
 
-	dir = ft_split(ft_getenv(env, "PWD"), '/');
+	dir = ft_split(ft_getenv(data->env, "PWD"), '/');
 	size = get_tab_size(dir) - 1;
 	i = 0;
 	res = malloc(0);
@@ -48,16 +48,16 @@ void	go_back(t_env *env)
 		i++;
 	}
 	old = ft_strdup(res);
-	ft_export(&env, "OLDPWD", ft_getenv(env, "PWD"));
+	ft_export(data, "OLDPWD", ft_getenv(data->env, "PWD"));
 	free(res);
 	res = ft_strjoin("/", old);
 	free(old);
-	ft_export(&env, "PWD", res);
+	ft_export(data, "PWD", res);
 	free(res);
 	clear_split(dir);
 }
 
-char	*get_pwd(t_env *env, int mode, char *path)
+char	*get_pwd(char **env, int mode, char *path)
 {
 	char	*old;
 	char	*res;
@@ -78,23 +78,23 @@ char	*get_pwd(t_env *env, int mode, char *path)
 	return (res);
 }
 
-void	set_pwd(char *path, char *npath, t_env *env)
+void	set_pwd(t_data *data, char *path, char *npath)
 {
 	if (path[0] == '/')
 		npath = ft_strdup(path);
 	else
-		npath = get_pwd(env, 0, path);
+		npath = get_pwd(data->env, 0, path);
 	if (chdir(npath) != 0)
 		ft_printf("Hérishell: cd: No such file or directory\n");
 	else
 	{
-		ft_export(&env, "OLDPWD", ft_getenv(env, "PWD"));
-		ft_export(&env, "PWD", npath);
+		ft_export(data, "OLDPWD", ft_getenv(data->env, "PWD"));
+		ft_export(data, "PWD", npath);
 	}
 	free(npath);
 }
 
-int	ft_cd(char *path, char **env)
+int	ft_cd(t_data *data, char *path)
 {
 	char	*npath;
 	char	*temp;
@@ -102,21 +102,21 @@ int	ft_cd(char *path, char **env)
 	npath = NULL;
 	if (!path || ft_strncmp(path, "~", 1) == 0)
 	{
-		ft_export(env, "OLDPWD", ft_getenv(env, "PWD"));
-		ft_export(env, "PWD", ft_getenv(env, "HOME"));
+		ft_export(data, "OLDPWD", ft_getenv(data->env, "PWD"));
+		ft_export(data, "PWD", ft_getenv(data->env, "HOME"));
 	}
 	else if (ft_strncmp(path, "-", 1) == 0)
 	{
-		temp = ft_strdup(ft_getenv(*env, "PWD"));
-		ft_export(env, "PWD", ft_getenv(*env, "OLDPWD"));
-		ft_export(env, "OLDPWD", temp);
+		temp = ft_strdup(ft_getenv(data->env, "PWD"));
+		ft_export(data, "PWD", ft_getenv(data->env, "OLDPWD"));
+		ft_export(data, "OLDPWD", temp);
 		free(temp);
 	}
 	else if (ft_strncmp(path, "..\0", 3) == 0)
-		go_back(*env);
+		go_back(data);
 	else
 	{
-		set_pwd(path, npath, *env);
+		set_pwd(data, path, npath);
 		free(npath);
 	}
 	return (0);

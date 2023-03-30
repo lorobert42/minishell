@@ -18,13 +18,13 @@ int	run_export(t_data *data, char **cmd)
 
 	if (!cmd[1])
 	{
-		ft_export(&data->env, NULL, NULL);
+		ft_export(data, NULL, NULL);
 		return (0);
 	}
 	split = ft_split(cmd[1], '=');
 	if (split[0] && split[1])
 	{
-		ft_export(&data->env, split[0], split[1]);
+		ft_export(data, split[0], split[1]);
 		clear_split(split);
 	}
 	return (0);
@@ -38,15 +38,15 @@ int	check_builtins(t_data *data)
 	if (ft_strncmp(cmd[0], "exit\0", 5) == 0)
 		exit(0);
 	else if (ft_strncmp(cmd[0], "cd\0", 3) == 0)
-		return (ft_cd(cmd[1], &data->env));
+		return (ft_cd(data, *data->table->commands->args));
 	else if (ft_strncmp(cmd[0], "env\0", 4) == 0)
-		return (ft_env(data->env, 0));
+		return (ft_env(data->env));
 	else if (ft_strncmp(cmd[0], "pwd\0", 4) == 0)
 		return (ft_pwd(data->env));
 	else if (ft_strncmp(cmd[0], "export\0", 7) == 0)
 		return (run_export(data, cmd));
 	else if (ft_strncmp(cmd[0], "unset\0", 6) == 0)
-		return (ft_unset(&data->env, cmd[1]));
+		return (ft_unset(data->env, cmd[1]));
 	return (1);
 }
 

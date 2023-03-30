@@ -16,17 +16,15 @@
 Print the environment variables on file descriptor fd in the form
 key=value, followed by '\n'.
 */
-int	ft_env(t_env *env, int fd)
+int	ft_env(char **env)
 {
-	while (env)
+	int i;
+
+	i = 0;
+	while (env[i] != NULL)
 	{
-		ft_putstr_fd(env->key, fd);
-		ft_putchar_fd('=', fd);
-		ft_putstr_fd(env->value, fd);
-		if (env->next)
-			ft_putchar_fd('\n', fd);
-		env = env->next;
+		ft_printf("%s\n", env[i]);
+		i++;
 	}
-	ft_putchar('\n');
 	return (0);
 }

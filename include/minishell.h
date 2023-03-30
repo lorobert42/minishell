@@ -83,12 +83,12 @@ void			clean_tokens(t_token *tokens);
 int				issep(int c);
 
 // BULTINS
-int				ft_env(t_env *env, int fd);
+int				ft_env(char **env);
 void			ft_export(t_data *data, char *key, char *value);
 int				ft_unset(t_env **env, char *s);
 int				ft_echo(char **args, int fd);
 int				ft_pwd(char **env);
-int				ft_cd(char *path, t_env **env);
+int				ft_cd(t_data *data, char *path);
 
 char			**parse_env(char **env_strs);
 t_env			*extract_entry(char *env_entry);
@@ -129,7 +129,7 @@ void			print_command_table(t_command_table *table);
 void			clean_command_table(t_command_table *table);
 
 // EXPANDER
-int				expander(t_token *tokens, t_env *env);
+int	expander(t_token *tokens, char **env);
 int				is_quote(char c);
 int				count_quotes(char *s);
 int				check_unclosed_quotes(t_token *token);
