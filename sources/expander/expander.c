@@ -6,33 +6,57 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:48:13 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/30 10:05:35 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 11:18:07 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	expand_token(t_token *token, int pos, t_env *env)
+int	get_variable_end(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (ft_isdigit(s[i]))
+		i++;
+	if (i != 0)
+		return (i);
+	while (ft_isalnum(s[i]))
+		i++;
+	return (i);
+}
+
+int	get_variable(char *s, char **var, t_env *env)
+{
+	char	*varname;
+	int		end;
+
+	end = get_variable_end(s);
+	varname = ft_substr(s, 0, end);
+	*var = ft_getenv(env, varname);
+	free(varname);
+	if (!*var)
+		*var = ft_strdup("");
+	return (end);
+}
+
+int	expand_token(t_token *token, int pos, t_env *env)
 {
 	char	*var;
 	char	*new;
-	char	*varname;
 	int		end;
 	int		i;
 	int		j;
 
-	end = pos;
-	// TODO: find end of variable name ($1TEST for example)
-	while (token->value[end] && !issep(token->value[end]) && !is_quote(token->value[end]))
-		end++;
-	varname = ft_substr(token->value, pos, end - pos);
-	var = ft_getenv(env, varname);
-	free(varname);
+	end = get_variable(&token->value[pos], &var, env);
 	if (!var)
-		var = ft_strdup("");
+		return (1);
 	new = malloc(sizeof(char) * (ft_strlen(token->value) - (end - pos) + ft_strlen(var)));
 	if (!new)
-		return ;
+	{
+		free(var);
+		return (1);
+	}
 	i = 0;
 	j = 0;
 	while (token->value[i])
@@ -59,9 +83,10 @@ void	expand_token(t_token *token, int pos, t_env *env)
 	free(var);
 	free(token->value);
 	token->value = new;
+	return (0);
 }
 
-void	check_expansion(t_token *token, t_env *env)
+int	check_expansion(t_token *token, t_env *env)
 {
 	int	simple;
 	int	i;
@@ -75,9 +100,11 @@ void	check_expansion(t_token *token, t_env *env)
 		else if (token->value[i] == '\'' && simple)
 			simple = 0;
 		else if (token->value[i] == '$' && !simple)
-			expand_token(token, i + 1, env);
+			if (expand_token(token, i + 1, env))
+				return (1);
 		i++;
 	}
+	return (0);
 }
 
 int	expander(t_token *tokens, t_env *env)
@@ -86,7 +113,8 @@ int	expander(t_token *tokens, t_env *env)
 	{
 		if (is_string(tokens->type))
 		{
-			check_expansion(tokens, env);
+			if (check_expansion(tokens, env))
+				return (1);
 			if (delete_quotes(tokens) == 1)
 				return (1);
 		}

@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:25:52 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/29 15:22:10 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 11:20:10 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,17 @@ t_token	*extract_string(t_token *tokens, t_command *command)
 	int	size;
 
 	size = command_size(tokens);
-	command->command = malloc(sizeof(char *) * (size + 1));
-	if (!command->command)
+	command->args = malloc(sizeof(char *) * (size + 1));
+	if (!command->args)
 		return (NULL);
 	i = 0;
 	while (i < size)
 	{
-		command->command[i] = ft_strdup(tokens->value);
+		command->args[i] = ft_strdup(tokens->value);
 		tokens = tokens->next;
 		i++;
 	}
-	command->command[i] = NULL;
+	command->args[i] = NULL;
 	return (tokens);
 }
 
