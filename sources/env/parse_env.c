@@ -51,24 +51,13 @@ t_env	*create_entry(char *key, char *value)
 /*
 Transforms char ** containing environment variables, to chained env structs.
 */
-t_env	*parse_env(char **env_strs)
+char	**parse_env(char **env_strs)
 {
-	t_env	*env;
-	t_env	*next;
-	t_env	*new;
-	int		i;
+	char	**env;
+	int 	tab_size;
 
-	if (!env_strs || !env_strs[0])
-		return (NULL);
-	env = extract_entry(env_strs[0]);
-	next = env;
-	i = 1;
-	while (env_strs[i])
-	{
-		new = extract_entry(env_strs[i]);
-		next->next = new;
-		next = next->next;
-		i++;
-	}
+	env = NULL;
+	tab_size = get_tab_size(env_strs);
+	ft_printf("tab size ----> %d\n");
 	return (env);
 }

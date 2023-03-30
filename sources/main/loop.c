@@ -60,7 +60,7 @@ void	loop(t_data *data)
 		print_command_table(&data->table);
 		if (check_builtins(data, buffer))
 		{
-			ft_printf("Execution\n");
+			executer(data);
 		}
 		clean_tokens(data->token);
 		clean_command_table(&data->table);

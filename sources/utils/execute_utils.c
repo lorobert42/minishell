@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: afavre <afavre@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/28 10:18:54 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/28 13:40:58 by lorobert         ###   ########.fr       */
+/*   Created: 2023/03/30 13:27:20 by afavre            #+#    #+#             */
+/*   Updated: 2023/03/30 13:27:24 by afavre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	main(int ac, char **av, char **env)
+char	*get_path(char *path, char *cmd)
 {
-	t_data	data;
+	char	*res;
+	char	*temp;
 
-	(void)ac;
-	(void)av;
-	init(&data, env);
-	//loop(&data);
-//	del_all_env(&data.env);
+	temp = ft_strjoin(path, "/");
+	res = ft_strjoin(temp, cmd);
+	free(temp);
+	return (res);
 }

@@ -18,6 +18,7 @@
 # include <limits.h>
 # include <stdbool.h>
 # include <stdio.h>
+#include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -69,7 +70,7 @@ typedef struct s_command_table
 typedef struct s_data
 {
 	int				run;
-	t_env			*env;
+	char			**env;
 	t_token			*token;
 	t_command_table	table;
 }	t_data;
@@ -81,9 +82,6 @@ void			add_token(t_token **tokens, t_token *new);
 void			clean_tokens(t_token *tokens);
 int				issep(int c);
 
-// EXECUTOR
-void test();
-
 // BULTINS
 int				ft_env(t_env *env, int fd);
 char			*ft_getenv(t_env *env, char *key);
@@ -93,7 +91,7 @@ int				ft_echo(char **args, int fd);
 int				ft_pwd(t_env *env);
 int				ft_cd(char *path, t_env **env);
 
-t_env			*parse_env(char **env_strs);
+char			**parse_env(char **env_strs);
 t_env			*extract_entry(char *env_entry);
 t_env			*create_entry(char *key, char *value);
 void			del_env(t_env *env);
@@ -124,6 +122,13 @@ void			clean_command_table(t_command_table *table);
 
 // EXPANDER
 int				expander(t_token *tokens, t_env *env);
+
+// EXECUTER
+int 			executer(t_data *data);
+
+// EXECUTE_UTILS
+char			*get_path(char *path, char *cmd);
+
 
 // MAIN
 void			loop(t_data *data);
