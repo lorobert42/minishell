@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:48:13 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/30 14:31:54 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:53:10 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,12 @@ int	get_variable(char *s, char **var, char **env)
 	end = get_variable_end(s);
 	varname = ft_substr(s, 0, end);
 	full_var = ft_getenv(env, varname);
-	*var = ft_strdup(ft_strchr(full_var, '=') + 1);
-	free(full_var);
-	free(varname);
+	if (full_var)
+	{
+		*var = ft_strdup(ft_strchr(full_var, '=') + 1);
+		free(full_var);
+		free(varname);
+	}
 	if (!*var)
 		*var = ft_strdup("");
 	return (end);
