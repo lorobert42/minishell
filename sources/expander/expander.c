@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:48:13 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/30 11:18:07 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 14:31:54 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,67 +26,50 @@ int	get_variable_end(char *s)
 	return (i);
 }
 
-int	get_variable(char *s, char **var, t_env *env)
+int	get_variable(char *s, char **var, char **env)
 {
 	char	*varname;
+	char	*full_var;
 	int		end;
 
 	end = get_variable_end(s);
 	varname = ft_substr(s, 0, end);
-	*var = ft_getenv(env, varname);
+	full_var = ft_getenv(env, varname);
+	*var = ft_strdup(ft_strchr(full_var, '=') + 1);
+	free(full_var);
 	free(varname);
 	if (!*var)
 		*var = ft_strdup("");
 	return (end);
 }
 
-int	expand_token(t_token *token, int pos, t_env *env)
+int	expand_token(t_token *token, int pos, char **env)
 {
 	char	*var;
 	char	*new;
 	int		end;
-	int		i;
-	int		j;
+	int		size;
 
-	end = get_variable(&token->value[pos], &var, env);
+	end = get_variable(&token->value[pos], &var, env) + pos;
 	if (!var)
 		return (1);
-	new = malloc(sizeof(char) * (ft_strlen(token->value) - (end - pos) + ft_strlen(var)));
+	size = ft_strlen(token->value) - (end - pos) + ft_strlen(var);
+	new = ft_calloc(sizeof(char), size);
 	if (!new)
 	{
 		free(var);
 		return (1);
 	}
-	i = 0;
-	j = 0;
-	while (token->value[i])
-	{
-		if (i >= pos && i <= end)
-		{
-			i = 0;
-			while (var[i])
-			{
-				new[j] = var[i];
-				j++;
-				i++;
-			}
-			i = end;
-		}
-		else if (i != pos - 1)
-		{
-			new[j] = token->value[i];
-			j++;
-		}
-		i++;
-	}
-	new[j] = '\0';
+	ft_strlcat(new, token->value, pos);
+	ft_strlcat(new, var, ft_strlen(new) + ft_strlen(var) + 1);
+	ft_strlcat(new, &token->value[end + 1], size);
 	free(var);
 	free(token->value);
 	token->value = new;
 	return (0);
 }
 
-int	check_expansion(t_token *token, t_env *env)
+int	check_expansion(t_token *token, char **env)
 {
 	int	simple;
 	int	i;
@@ -107,7 +90,7 @@ int	check_expansion(t_token *token, t_env *env)
 	return (0);
 }
 
-int	expander(t_token *tokens, t_env *env)
+int	expander(t_token *tokens, char **env)
 {
 	while (tokens)
 	{
