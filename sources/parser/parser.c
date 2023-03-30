@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:25:52 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/30 11:47:08 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/30 13:03:16 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,9 @@ t_token	*parse_command(t_token *tokens, t_command *command)
 	return (tokens);
 }
 
-t_command_table	*parser(t_token *tokens)
+t_command_table	*init_table(t_token *tokens)
 {
 	t_command_table	*table;
-	int				i;
 
 	table = malloc(sizeof(t_command_table));
 	if (!table)
@@ -88,6 +87,17 @@ t_command_table	*parser(t_token *tokens)
 		free(table);
 		return (NULL);
 	}
+	return (table);
+}
+
+t_command_table	*parser(t_token *tokens)
+{
+	t_command_table	*table;
+	int				i;
+
+	table = init_table(tokens);
+	if (!table)
+		return (NULL);
 	i = 0;
 	while (i < table->n_commands)
 	{
