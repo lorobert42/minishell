@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../include/minishell.h"
 
 int	get_tab_size(char **tab)
 {
@@ -22,20 +22,32 @@ int	get_tab_size(char **tab)
 	return (i);
 }
 
-/*char	**tab_add_back(char **tab, char *content)
+void	print_str_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		ft_printf("%s\n", tab[i]);
+		i++;
+	}
+}
+
+char	**tab_add_back(t_data *data, char *content)
 {
 	int		size;
 	int		i;
 	char	**new;
 
 	i = 0;
-	if (tab != NULL)
+	if (data->env != NULL)
 	{
-		size = get_tab_size(tab);
+		size = get_tab_size(data->env);
 		new = malloc(sizeof(char *) * (size + 2));
 		while (i < size)
 		{
-			new[i] = ft_strdup(tab[i]);
+			new[i] = ft_strdup(data->env[i]);
 			i++;
 		}
 		new[i] = ft_strdup(content);
@@ -47,18 +59,5 @@ int	get_tab_size(char **tab)
 		new[0] = ft_strdup(content);
 		new[1] = NULL;
 	}
-	clear_split(tab);
 	return (new);
 }
-
-void	print_str_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i] != NULL)
-	{
-		ft_printf(".%s.\n", tab[i]);
-		i++;
-	}
-}*/

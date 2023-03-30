@@ -26,12 +26,13 @@ void	print(char **tab)
 
 int main(int ac, char **av, char **env)
 {
-	char **myEnv;
+	t_data data;
 
 	(void)ac;
 	(void)av;
-	myEnv = parse_env(env);
-	ft_export(myEnv, "TERM", "duconm");
+	data.env = parse_env(env);
+	ft_export(&data, "PATH", "duconm");
+	print_str_tab(data.env);
 }
 
 /*int	main(int ac, char **av, char **env)

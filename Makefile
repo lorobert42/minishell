@@ -25,7 +25,9 @@ SRC_DIR			:=	sources
 SRCS			:= main/main.c \
 					env/parse_env.c \
 					utils/tab_utils.c \
-					builtins/ft_export.c
+					builtins/ft_export.c \
+					builtins/ft_getenv.c \
+					utils/clear_split.c
 
 #SRCS			:=	builtins/ft_echo.c \
 					builtins/ft_pwd.c \

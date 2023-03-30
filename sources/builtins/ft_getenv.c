@@ -15,6 +15,8 @@
 /*
 Returns the value of env variable key, or NULL if not existant
 */
+
+
 char	*ft_getenv(char **env, char *key)
 {
 	int	i;
