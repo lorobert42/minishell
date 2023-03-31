@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 16:11:25 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/31 09:58:58 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/31 14:07:01 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,18 +81,20 @@ void	print_export(char **env)
 	}
 }
 
-void	ft_export(t_data *data, char *key, char *value)
+int	ft_export(t_data *data, char *key, char *value)
 {
 	char	*new_value;
 	int		index;
+	int		res;
 
 	if (!key)
 	{
 		print_export(data->env);
-		return ;
+		return (0);
 	}
 	new_value = create_env_value(key, value);
-	if (check_export_format(key) == 0)
+	res = check_export_format(key);
+	if (res == 0)
 	{
 		if (ft_getenv(data->env, key) != NULL)
 		{
@@ -104,4 +106,5 @@ void	ft_export(t_data *data, char *key, char *value)
 			data->env = tab_add_back(data, new_value);
 	}
 	free(new_value);
+	return (res);
 }

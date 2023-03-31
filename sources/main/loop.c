@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:43:34 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/31 12:31:00 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/31 14:33:40 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int	run_export(t_data *data, char **cmd)
 {
 	char	**split;
+	int		res;
 
 	if (!cmd[1])
 	{
@@ -24,8 +25,14 @@ int	run_export(t_data *data, char **cmd)
 	split = ft_split(cmd[1], '=');
 	if (split[0])
 	{
-		ft_export(data, split[0], split[1]);
+		res = ft_export(data, split[0], split[1]);
 		clear_split(split);
+	}
+	if (!split[0] || res != 0)
+	{
+		g_glob = 1;
+		errno = EINVAL;
+		perror(cmd[1]);
 	}
 	return (0);
 }
@@ -42,7 +49,7 @@ int	check_builtins(t_data *data)
 	else if (ft_strncmp(cmd[0], "env\0", 4) == 0)
 		return (ft_env(data->env));
 	else if (ft_strncmp(cmd[0], "pwd\0", 4) == 0)
-		return (ft_pwd(data->env));
+		return (ft_pwd());
 	else if (ft_strncmp(cmd[0], "export\0", 7) == 0)
 		return (run_export(data, cmd));
 	else if (ft_strncmp(cmd[0], "unset\0", 6) == 0)

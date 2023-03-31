@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:48:13 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/31 13:42:19 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/31 13:49:43 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	get_variable_end(char *s)
 		return (i + 1);
 	else if (ft_isdigit(s[i]))
 		return (0);
-	while (ft_isalnum(s[i]))
+	while (ft_isalnum(s[i]) || s[i] == '_')
 		i++;
 	return (i);
 }

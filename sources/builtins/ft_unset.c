@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 09:57:45 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/30 15:57:55 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/31 14:15:06 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,13 @@ int	ft_unset(t_data *data, char *s)
 {
 	int		i;
 
+	if (!ft_isalpha(s[0]) && s[0] != '_')
+	{
+		g_glob = 1;
+		errno = EINVAL;
+		perror(s);
+		return (0);
+	}
 	i = 0;
 	while (data->env[i])
 	{

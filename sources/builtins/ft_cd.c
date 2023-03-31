@@ -6,118 +6,79 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 09:11:34 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/31 09:14:41 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/31 15:17:52 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	*construct(char **dir, int size, char *res, int i)
+static void	print_cd_error(char *s)
 {
-	char	*old;
+	char	*error;
 
-	old = ft_strdup(res);
-	free(res);
-	res = ft_strjoin(old, dir[i]);
-	free(old);
-	if (i != size - 1)
-	{
-		old = ft_strdup(res);
-		free(res);
-		res = ft_strjoin(old, "/");
-		free(old);
-	}
-	return (res);
+	g_glob = 1;
+	error = ft_strjoin("cd: ", s);
+	perror(error);
+	free(error);
 }
 
-void	go_back(t_data *data)
+void	ft_cd_path(t_data *data, char *path)
 {
-	char	**dir;
-	char	*res;
-	char	*old;
-	int		size;
-	int		i;
+	char	pwd[PATH_MAX];
+	char	*envval;
 
-	dir = ft_split(getenv_value(data->env, "PWD"), '/');
-	size = get_tab_size(dir) - 1;
-	i = 0;
-	res = malloc(0);
-	while (i < size)
-	{
-		res = construct(dir, size, res, i);
-		i++;
-	}
-	old = ft_strdup(res);
-	ft_export(data, "OLDPWD", getenv_value(data->env, "PWD"));
-	free(res);
-	res = ft_strjoin("/", old);
-	free(old);
-	ft_export(data, "PWD", res);
-	free(res);
-	clear_split(dir);
+	if (getcwd(pwd, PATH_MAX) == NULL)
+		return (print_cd_error(path));
+	if (chdir(path) == -1)
+		print_cd_error(path);
+	envval = ft_getenv(data->env, "OLDPWD");
+	if (envval)
+		ft_export(data, "OLDPWD", pwd);
+	if (getcwd(pwd, PATH_MAX) == NULL)
+		print_cd_error(path);
+	envval = ft_getenv(data->env, "PWD");
+	if (envval)
+		ft_export(data, "PWD", pwd);
 }
 
-char	*get_pwd(char **env, int mode, char *path)
+void	ft_cd_home(t_data *data)
 {
-	char	*old;
-	char	*res;
-	char	*pwd;
+	char	pwd[PATH_MAX];
+	char	*home;
+	char	*envval;
 
-	res = NULL;
-	pwd = NULL;
-	if (mode == 0)
-	{
-		pwd = getenv_value(env, "PWD");
-		if (ft_strlen(pwd) > 1)
-			old = ft_strjoin(pwd, "/");
-		else
-			old = ft_strdup("/");
-		res = ft_strjoin(old, path);
-		free(old);
-	}
-	return (res);
-}
-
-void	set_pwd(t_data *data, char *path, char *npath)
-{
-	if (path[0] == '/')
-		npath = ft_strdup(path);
-	else
-		npath = get_pwd(data->env, 0, path);
-	if (chdir(npath) != 0)
-		ft_printf("Hérishell: cd: No such file or directory\n");
-	else
-	{
-		ft_export(data, "OLDPWD", getenv_value(data->env, "PWD"));
-		ft_export(data, "PWD", npath);
-	}
-	free(npath);
+	home = getenv_value(data->env, "HOME");
+	if (!home[0])
+		return (print_cd_error("HOME not set"));
+	if (getcwd(pwd, PATH_MAX) == NULL)
+		return (print_cd_error(home));
+	if (chdir(home) == -1)
+		print_cd_error(home);
+	envval = ft_getenv(data->env, "OLDPWD");
+	if (envval)
+		ft_export(data, "OLDPWD", pwd);
+	if (getcwd(pwd, PATH_MAX) == NULL)
+		print_cd_error(home);
+	envval = ft_getenv(data->env, "PWD");
+	if (envval)
+		ft_export(data, "PWD", pwd);
 }
 
 int	ft_cd(t_data *data, char *path)
 {
-	char	*npath;
-	char	*temp;
-
-	npath = NULL;
-	if (!path || ft_strncmp(path, "~", 1) == 0)
+	if (path == NULL)
 	{
-		ft_export(data, "OLDPWD", getenv_value(data->env, "PWD"));
-		ft_export(data, "PWD", getenv_value(data->env, "HOME"));
+		ft_printf("cd with no argument\n");
 	}
-	else if (ft_strncmp(path, "-", 1) == 0)
+	else if (ft_strncmp(path, "-", 2) == 0)
 	{
-		temp = ft_strdup(getenv_value(data->env, "PWD"));
-		ft_export(data, "PWD", getenv_value(data->env, "OLDPWD"));
-		ft_export(data, "OLDPWD", temp);
-		free(temp);
+		ft_printf("cd -\n");
 	}
-	else if (ft_strncmp(path, "..\0", 3) == 0)
-		go_back(data);
+	else if (ft_strncmp(path, "~", 2) == 0)
+	{
+		ft_cd_home(data);
+	}
 	else
-	{
-		set_pwd(data, path, npath);
-		free(npath);
-	}
+		ft_cd_path(data, path);
 	return (0);
 }
