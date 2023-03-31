@@ -25,6 +25,9 @@
 # include "../libs/libft_rework/libft/include/libft.h"
 # include "../libs/libft_rework/gnl/include/get_next_line.h"
 # include "../libs/libft_rework/printf/include/ft_printf.h"
+# include "error.h"
+
+int	g_glob;
 
 typedef enum e_token_type
 {
@@ -143,9 +146,11 @@ int				executer(t_data *data);
 // EXECUTE_UTILS
 char			*get_path(char *path, char *cmd);
 
-
 // MAIN
 void			loop(t_data *data);
 void			init(t_data *data, char **env);
+
+// ERROR
+int				print_error(char *type);
 
 #endif

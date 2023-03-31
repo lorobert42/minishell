@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afavre <afavre@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/15 13:35:00 by afavre            #+#    #+#             */
-/*   Updated: 2023/02/24 11:34:11 by afavre           ###   ########.fr       */
+/*   Created: 2023/03/31 11:22:27 by afavre            #+#    #+#             */
+/*   Updated: 2023/03/31 11:22:29 by afavre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	init(t_data *data, char **env)
+int	print_error(char *type)
 {
-	g_glob = 50;
-	data->run = 1;
-	data->env = parse_env(env);
+	printf("%s\n", type);
+	return (-1);
 }

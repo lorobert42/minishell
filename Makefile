@@ -47,7 +47,8 @@ SRCS			:=	builtins/ft_echo.c \
 					main/init.c \
 					main/loop.c \
 					executer/executer.c \
-					utils/execute_utils.c
+					utils/execute_utils.c \
+					utils/error.c
 
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 

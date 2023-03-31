@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   error.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afavre <afavre@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/15 13:35:00 by afavre            #+#    #+#             */
-/*   Updated: 2023/02/24 11:34:11 by afavre           ###   ########.fr       */
+/*   Created: 2023/03/31 11:14:21 by afavre            #+#    #+#             */
+/*   Updated: 2023/03/31 11:14:23 by afavre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#ifndef ERROR_H
+# define ERROR_H
 
-void	init(t_data *data, char **env)
-{
-	g_glob = 50;
-	data->run = 1;
-	data->env = parse_env(env);
-}
+# define DUCON "Bonjour"
+
+#endif
+
+

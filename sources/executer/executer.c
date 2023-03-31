@@ -26,25 +26,35 @@ char	*find_path(t_data *data)
 		i++;
 	}
 	clear_split(path);
-	return ("NULL");
+	return (NULL);
 }
 
 int	executer(t_data *data)
 {
-	int	id;
-	int	res;
+	int		id;
+	char	*path;
+	int		i;
 
-	id = fork();
-	if (id == 0)
+	i =0;
+	while (i < data->table->n_commands)
 	{
-		ft_printf("path -----> %s\n", find_path(data));
-		execve(find_path(data), data->table->commands->args, data->env);
-		exit(0);
-	}
-
-	else
-	{
-		waitpid(id, &res, 0);
+		id = fork();
+		if (id == 0)
+		{
+			path = find_path(data);
+			if (path != NULL)
+				execve(path, data->table->commands->args, data->env);
+			else
+			{
+				ft_printf("🤷 Hérishell: %s: a pas trouver ... 🤷\n", data->table->commands->args[0]);
+				exit(0);
+			}
+		}
+		else
+		{
+			waitpid(id, &g_glob, 0);
+		}
+		i++;
 	}
 	return (0);
 }

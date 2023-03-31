@@ -79,7 +79,7 @@ void	loop(t_data *data)
 			free(buffer);
 			continue ;
 		}
-		print_command_table(data->table);
+		//print_command_table(data->table);
 		if (check_builtins(data))
 		{
 			executer(data);
