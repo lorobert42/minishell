@@ -73,6 +73,7 @@ typedef struct s_command_table
 typedef struct s_data
 {
 	int				run;
+	int 			fd[2];
 	char			**env;
 	t_token			*token;
 	t_command_table	*table;

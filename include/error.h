@@ -13,7 +13,7 @@
 #ifndef ERROR_H
 # define ERROR_H
 
-# define DUCON "Bonjour"
+# define DUCON "Bonjour %s test"
 
 #endif
 
