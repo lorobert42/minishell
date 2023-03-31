@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/30 16:12:35 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/31 10:19:49 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int				ft_env(char **env);
 char			*ft_getenv(char **env, char *key);
 void			ft_export(t_data *data, char *key, char *value);
 int				ft_unset(t_data *data, char *s);
-int				ft_echo(char **args, int fd);
+int				ft_echo(char **args);
 int				ft_pwd(char **env);
 int				ft_cd(t_data *data, char *path);
 

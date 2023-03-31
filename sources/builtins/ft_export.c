@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 16:11:25 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/30 15:42:55 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/31 09:58:58 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	check_export_format(char *args)
 		res = 0;
 	while (args[i])
 	{
-		if (args[i] == ' ' || args[i] == '!' || args[i] == '*' || args[i] == '%')
+		if (args[i] == ' ' || args[i] == '!' || args[i] == '*' || \
+			args[i] == '%')
 			res = 1;
 		if (ft_isalnum(args[i]) == 0)
 		{
@@ -45,9 +46,39 @@ char	*create_env_value(char *key, char *value)
 	char	*res;
 
 	temp = ft_strjoin(key, "=");
-	res = ft_strjoin(temp, value);
+	if (!value)
+		res = ft_strdup(temp);
+	else
+		res = ft_strjoin(temp, value);
 	free(temp);
 	return (res);
+}
+
+void	print_export(char **env)
+{
+	int		i;
+	int		j;
+	char	*sub;
+
+	i = 0;
+	while (env[i])
+	{
+		sub = ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i] + 1);
+		ft_printf("declare -x %s\"", sub);
+		j = ft_strlen(sub);
+		free(sub);
+		while (env[i][j])
+		{
+			if (env[i][j] == '"' && env[i][j - 1] != '\\')
+				ft_printf("\\");
+			else if (env[i][j] == '\\')
+				ft_printf("\\\\");
+			ft_printf("%c", env[i][j]);
+			j++;
+		}
+		ft_printf("\"\n");
+		i++;
+	}
 }
 
 void	ft_export(t_data *data, char *key, char *value)
@@ -55,6 +86,11 @@ void	ft_export(t_data *data, char *key, char *value)
 	char	*new_value;
 	int		index;
 
+	if (!key)
+	{
+		print_export(data->env);
+		return ;
+	}
 	new_value = create_env_value(key, value);
 	if (check_export_format(key) == 0)
 	{
