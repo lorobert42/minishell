@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:43:34 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/31 10:20:04 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:31:00 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	loop(t_data *data)
 			free(buffer);
 			continue ;
 		}
-		//print_command_table(data->table);
+		print_command_table(data->table);
 		if (check_builtins(data))
 		{
 			executer(data);
