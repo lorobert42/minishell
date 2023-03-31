@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:43:34 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/30 16:20:00 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/31 09:44:57 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	run_export(t_data *data, char **cmd)
 		return (0);
 	}
 	split = ft_split(cmd[1], '=');
-	if (split[0] && split[1])
+	if (split[0])
 	{
 		ft_export(data, split[0], split[1]);
 		clear_split(split);
