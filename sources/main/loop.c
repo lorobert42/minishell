@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:43:34 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/31 09:44:57 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/03/31 10:20:04 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	check_builtins(t_data *data)
 	else if (ft_strncmp(cmd[0], "unset\0", 6) == 0)
 		return (ft_unset(data, cmd[1]));
 	else if (ft_strncmp(cmd[0], "echo\0", 5) == 0)
-		return (ft_echo(cmd + 1, 1));
+		return (ft_echo(cmd + 1));
 	return (1);
 }
 
