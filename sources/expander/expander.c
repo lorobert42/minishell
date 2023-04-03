@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:48:13 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/31 13:49:43 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/03 18:08:27 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,36 +45,36 @@ int	get_variable(char *s, char **var, char **env)
 	return (end);
 }
 
-int	expand_token(t_token *token, int pos, char **env)
+int	expand_token(char **str, int pos, char **env)
 {
 	char	*var;
 	char	*new;
 	int		end;
 	int		size;
 
-	end = get_variable(&token->value[pos], &var, env) + pos;
+	end = get_variable(&(*str)[pos], &var, env) + pos;
 	if (end == 1)
 		return (1);
 	if (!var)
 		return (-1);
-	size = ft_strlen(token->value) - (end - pos) + ft_strlen(var);
-	new = ft_calloc(sizeof(char), size);
+	size = ft_strlen(*str) - (end - pos) + ft_strlen(var);
+	new = ft_calloc(sizeof(char), size + 1);
 	if (!new)
 	{
 		free(var);
 		return (-1);
 	}
-	ft_strlcat(new, token->value, pos);
+	ft_strlcat(new, *str, pos);
 	ft_strlcat(new, var, ft_strlen(new) + ft_strlen(var) + 1);
-	ft_strlcat(new, &token->value[end], size);
+	ft_strlcat(new, &(*str)[end], size);
 	end = ft_strlen(var);
 	free(var);
-	free(token->value);
-	token->value = new;
+	free(*str);
+	*str = new;
 	return (end);
 }
 
-int	check_expansion(t_token *token, char **env)
+int	check_expansion(char **str, char **env)
 {
 	int	simple;
 	int	i;
@@ -82,15 +82,15 @@ int	check_expansion(t_token *token, char **env)
 
 	simple = 0;
 	i = 0;
-	while (token->value[i])
+	while ((*str)[i])
 	{
-		if (token->value[i] == '\'' && !simple)
+		if ((*str)[i] == '\'' && !simple)
 			simple = 1;
-		else if (token->value[i] == '\'' && simple)
+		else if ((*str)[i] == '\'' && simple)
 			simple = 0;
-		else if (token->value[i] == '$' && !simple)
+		else if ((*str)[i] == '$' && !simple)
 		{
-			res = expand_token(token, i + 1, env);
+			res = expand_token(str, i + 1, env);
 			if (res == -1)
 				return (1);
 			i += res;
@@ -102,15 +102,23 @@ int	check_expansion(t_token *token, char **env)
 
 int	expander(t_token *tokens, char **env)
 {
+	int	heredoc;
+
+	heredoc = 0;
 	while (tokens)
 	{
-		if (is_string(tokens->type))
+		if (tokens->type == HERE_DOC)
+			heredoc = 1;
+		if (is_string(tokens->type) && !heredoc)
 		{
-			if (check_expansion(tokens, env) == 1)
+			if (check_expansion(&tokens->value, env) == 1)
 				return (1);
-			if (delete_quotes(tokens) == 1)
+			tokens->value = delete_quotes(tokens->value);
+			if (tokens->value == NULL)
 				return (1);
 		}
+		else if (heredoc && tokens->type != HERE_DOC)
+			heredoc = 0;
 		tokens = tokens->next;
 	}
 	return (0);

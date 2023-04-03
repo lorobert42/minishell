@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:43:34 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/31 14:33:40 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/03 18:16:43 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,14 @@ int	run_export(t_data *data, char **cmd)
 	}
 	split = ft_split(cmd[1], '=');
 	if (split[0])
-	{
 		res = ft_export(data, split[0], split[1]);
-		clear_split(split);
-	}
-	if (!split[0] || res != 0)
+	if (res != 0 || !split[0])
 	{
 		g_glob = 1;
 		errno = EINVAL;
 		perror(cmd[1]);
 	}
+	clear_split(split);
 	return (0);
 }
 
@@ -62,6 +60,7 @@ int	check_builtins(t_data *data)
 void	loop(t_data *data)
 {
 	char	*buffer;
+	int		i;
 
 	while (data->run)
 	{
@@ -87,6 +86,13 @@ void	loop(t_data *data)
 			continue ;
 		}
 		print_command_table(data->table);
+		i = 0;
+		while (i < data->table->n_commands)
+		{
+			if (data->table->commands[i].infile && data->table->commands[i].append)
+				heredoc(&data->table->commands[i].infile, STDOUT_FILENO, data);
+			i++;
+		}
 		if (check_builtins(data))
 		{
 			executer(data);

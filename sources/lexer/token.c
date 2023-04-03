@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 09:26:21 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/29 14:52:26 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/03 18:20:44 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,13 @@ void	add_token(t_token **tokens, t_token *new)
 
 void	clean_tokens(t_token *tokens)
 {
+	t_token	*next;
+
 	while (tokens)
 	{
 		free(tokens->value);
-		tokens = tokens->next;
+		next = tokens->next;
+		free(tokens);
+		tokens = next;
 	}
 }

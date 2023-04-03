@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/03/30 15:51:35 by lorobert         ###   ########.fr        #
+#    Updated: 2023/04/03 18:24:08 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ SRCS			:=	builtins/ft_echo.c \
 					main/init.c \
 					main/loop.c \
 					executer/executer.c \
+					executer/heredoc.c \
 					utils/execute_utils.c \
 					utils/error.c
 

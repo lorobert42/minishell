@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:25:52 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/30 13:03:16 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/03 18:21:10 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ t_command_table	*parser(t_token *tokens)
 	{
 		table->commands[i].infile = NULL;
 		table->commands[i].outfile = NULL;
+		table->commands[i].append = 0;
 		while (tokens && tokens->type != PIPE)
 		{
 			tokens = parse_command(tokens, &(table->commands[i]));

@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 11:17:47 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/30 16:14:11 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/03 13:57:35 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,19 @@ int	get_env_index(char **env, char *key)
 
 char	*ft_getenv(char **env, char *key)
 {
-	int	i;
+	int		i;
+	char	*envkey;
 
 	i = 0;
 	while (env[i])
 	{
-		if (ft_strncmp(env[i], key, ft_strchr(env[i], '=') - env[i]) == 0)
+		envkey = ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i]);
+		if (ft_strncmp(envkey, key, ft_strlen(key) + 1) == 0)
+		{
+			free(envkey);
 			return (ft_strdup(env[i]));
+		}
+		free(envkey);
 		i++;
 	}
 	return (NULL);

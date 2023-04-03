@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/31 14:33:08 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/03 18:24:45 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <errno.h>
+# include <sys/wait.h>
 
 # include "../libs/libft_rework/libft/include/libft.h"
 # include "../libs/libft_rework/gnl/include/get_next_line.h"
@@ -74,7 +75,7 @@ typedef struct s_command_table
 typedef struct s_data
 {
 	int				run;
-	int 			fd[2];
+	int				fd[2];
 	char			**env;
 	t_token			*token;
 	t_command_table	*table;
@@ -139,11 +140,13 @@ void			clean_command_table(t_command_table *table);
 int				expander(t_token *tokens, char **env);
 int				is_quote(char c);
 int				count_quotes(char *s);
-int				check_unclosed_quotes(t_token *token);
-int				delete_quotes(t_token *token);
+int				check_unclosed_quotes(char *str);
+char			*delete_quotes(char *str);
+int				check_expansion(char **str, char **env);
 
 // EXECUTER
 int				executer(t_data *data);
+int				heredoc(char **delim, int fd, t_data *data);
 
 // EXECUTE_UTILS
 char			*get_path(char *path, char *cmd);
