@@ -6,26 +6,28 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 09:11:34 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/03 10:41:39 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/03 10:51:19 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static void	print_cd_error(char *s)
+static void	print_cd_error(char *msg, char *command)
 {
-	char	*error;
+	char	*base;
 
 	g_glob = 1;
-	error = ft_strjoin("Hérishell: cd: ", s);
+	base = ft_strjoin("Hérishell: ", command);
 	if (errno)
-		perror(error);
+		perror(base);
 	else
 	{
-		ft_putstr_fd(error, 2);
+		ft_putstr_fd(base, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(msg, 2);
 		ft_putchar_fd('\n', 2);
 	}
-	free(error);
+	free(base);
 }
 
 void	update_env_ifexist(t_data *data, char *key, char *newval)
@@ -42,12 +44,12 @@ void	ft_cd_path(t_data *data, char *path)
 	char	pwd[PATH_MAX];
 
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		return (print_cd_error(path));
+		return (print_cd_error(path, "cd"));
 	if (chdir(path) == -1)
-		print_cd_error(path);
+		print_cd_error(path, "cd");
 	update_env_ifexist(data, "OLDPWD", pwd);
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		print_cd_error(path);
+		print_cd_error(path, "cd");
 	update_env_ifexist(data, "PWD", pwd);
 }
 
@@ -60,16 +62,16 @@ void	ft_cd_home(t_data *data, char *path)
 
 	home = getenv_value(data->env, "HOME");
 	if (!home[0] && !path)
-		return (print_cd_error("HOME not set"));
+		return (print_cd_error("HOME not set", "cd"));
 	if (!home[0] && path)
 		home = ft_strjoin("/home/", getenv_value(data->env, "USER"));
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		return (print_cd_error(home));
+		return (print_cd_error(home, "cd"));
 	if (chdir(home) == -1)
-		print_cd_error(home);
+		print_cd_error(home, "cd");
 	update_env_ifexist(data, "OLDPWD", pwd);
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		print_cd_error(home);
+		print_cd_error(home, "cd");
 	update_env_ifexist(data, "PWD", pwd);
 }
 
@@ -80,14 +82,14 @@ void	ft_cd_minus(t_data *data)
 
 	tmp = getenv_value(data->env, "OLDPWD");
 	if (!tmp[0])
-		return (print_cd_error("OLDPWD not set"));
+		return (print_cd_error("OLDPWD not set", "cd"));
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		return (print_cd_error(tmp));
+		return (print_cd_error(tmp, "cd"));
 	if (chdir(tmp) == -1)
-		print_cd_error(tmp);
+		print_cd_error(tmp, "cd");
 	update_env_ifexist(data, "OLDPWD", pwd);
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		print_cd_error(tmp);
+		print_cd_error(tmp, "cd");
 	update_env_ifexist(data, "PWD", pwd);
 }
 
