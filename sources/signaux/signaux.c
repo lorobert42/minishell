@@ -1,18 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.h                                            :+:      :+:    :+:   */
+/*   signaux.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afavre <afavre@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/31 11:14:21 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/31 11:14:23 by afavre           ###   ########.fr       */
+/*   Created: 2023/04/04 12:54:07 by afavre            #+#    #+#             */
+/*   Updated: 2023/04/04 12:54:09 by afavre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ERROR_H
-# define ERROR_H
+#include "../../include/minishell.h"
 
-# define DUCON "Bonjour %s test"
+void sigint_handler(int signum) {
+	printf("Signal SIGINT capturé! --> %d\n", signum);
+}
 
-#endif
+int	sig()
+{
+	struct sigaction sa;
+	sa.sa_handler = sigint_handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+
+	while (1) {
+		printf("En attente de signal...\n");
+		sleep(1);
+	}
+
+	return 0;
+}

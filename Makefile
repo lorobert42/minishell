@@ -10,6 +10,13 @@
 #                                                                              #
 # **************************************************************************** #
 
+# Color Name
+GREEN			=		\033[1;32m
+YELLOW			= 		\033[33m
+BG_GREEN		=		\033[42m
+BG_CYAN			=		\033[46m
+ENDCOLOR		=		\033[0m
+
 NAME			:=	minishell
 
 LIBS			:=	ft readline
@@ -49,7 +56,8 @@ SRCS			:=	builtins/ft_echo.c \
 					executer/executer.c \
 					executer/heredoc.c \
 					utils/execute_utils.c \
-					utils/error.c
+					utils/error.c \
+					signaux/signaux.c
 
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 
@@ -67,11 +75,16 @@ RM				:=	rm -f
 MAKEFLAGS		+=	--no-print-directory
 DIR_DUP			=	mkdir -p $(@D)
 
-all: $(NAME)
+all: ascii $(NAME)
+	@echo "\n$(GREEN)Your minishell is ready to go !"
 
-$(NAME): $(OBJS) $(LIBS_TARGET)
+ascii:
+		@tput setaf 6; cat ascii_art/minishell; tput setaf 7
+		@echo "\n$(ENDCOLOR)"
+		@echo "$(GREEN)Compilation de la libft !"
+
+$(NAME): $(LIBS_TARGET) $(OBJS)
 	$(CC) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(NAME)
-	$(info CREATED $(NAME))
 
 $(LIBS_TARGET):
 	$(MAKE) -C $(@D)
@@ -79,21 +92,23 @@ $(LIBS_TARGET):
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(DIR_DUP)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
-	$(info CREATED $@)
+	@echo "$(BG_CYAN)   $(ENDCOLOR)\c"
 
 -include $(DEPS)
 
 clean:
+	@tput setaf 2; cat ascii_art/trash; tput setaf 7
+	@echo "\n\n$(YELLOW) Merci pour ce merveilleux repas ! \n\t signé Le dévoreur de code. $(ENDCOLOR)"
 	for f in $(dir $(LIBS_TARGET)); do $(MAKE) -C $$f clean; done
 	$(RM) $(OBJS) $(DEPS)
 
 fclean: clean
 	for f in $(dir $(LIBS_TARGET)); do $(MAKE) -C $$f fclean; done
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re:
-	$(MAKE) fclean
-	$(MAKE) all
+	@$(MAKE) fclean
+	@$(MAKE) all
 
 .PHONY: all clean fclean re
 .SILENT:

@@ -68,16 +68,13 @@ clean:
 			@MAKE clean -C $(LIBFT)
 			@MAKE clean -C $(GNL)
 			@MAKE clean -C $(PRINTF)
-			@echo "$(BLUE)$(NAME) object files cleaned!$(DEF_COLOR)"
 
 fclean:		clean
 			@$(RM) -f $(NAME)
 			@MAKE fclean -C $(LIBFT)
 			@MAKE fclean -C $(GNL)
 			@MAKE fclean -C $(PRINTF)
-			@echo "$(CYAN)$(NAME) executable files cleaned!$(DEF_COLOR)"
 
 re:			fclean all
-			@echo "$(GREEN)Cleaned and rebuilt everything for $(NAME)!$(DEF_COLOR)"
 
 .PHONY:		all clean fclean re
