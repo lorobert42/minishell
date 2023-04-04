@@ -17,6 +17,7 @@ int	run_export(t_data *data, char **cmd)
 	char	**split;
 	int		res;
 
+	res = 0;
 	if (!cmd[1])
 	{
 		ft_export(data, NULL, NULL);
@@ -85,7 +86,7 @@ void	loop(t_data *data)
 			free(buffer);
 			continue ;
 		}
-		print_command_table(data->table);
+		//print_command_table(data->table);
 		i = 0;
 		while (i < data->table->n_commands)
 		{
@@ -95,7 +96,7 @@ void	loop(t_data *data)
 		}
 		if (check_builtins(data))
 		{
-			executer(data);
+			execute(data);
 		}
 		clean_tokens(data->token);
 		clean_command_table(data->table);

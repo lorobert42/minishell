@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-char	*find_path(t_data *data)
+char	*find_path(t_data *data, int num)
 {
 	char	**path;
 	int		i;
@@ -21,47 +21,35 @@ char	*find_path(t_data *data)
 	i = 0;
 	while (path[i] != NULL)
 	{
-		if (access(get_path(path[i], data->table->commands->args[0]), F_OK | R_OK) == 0)
-			return (get_path(path[i], data->table->commands->args[0]));
+		if (access(get_path(path[i], data->table->commands[num].args[0]), F_OK | R_OK) == 0)
+			return (get_path(path[i], data->table->commands[num].args[0]));
 		i++;
 	}
 	clear_split(path);
 	return (NULL);
 }
 
-/*int	executer(t_data *data)
+int	execute(t_data *data)
 {
-	int i;
+	int		prev_read = 0;
+	char	*path;
+	int		i;
 
 	i = 0;
 	while (i < data->table->n_commands)
 	{
-		ft_printf("%s\n", data->table->commands->args[0]);
-		i++;
-	}
-	return (0);
-}*/
-
-int	executer(t_data *data)
-{
-	int		id;
-	char	*path;
-	int		i;
-
-	i =0;
-	while (i < data->table->n_commands)
-	{
 		pipe(data->fd);
-		id = fork();
+		pid_t id = fork();
 		if (id == 0)
 		{
-			path = find_path(data);
+			close(data->fd[0]);
+			dup2(prev_read, STDIN_FILENO);
+			if (i < data->table->n_commands - 1)
+				dup2(data->fd[1], STDOUT_FILENO);
+			path = find_path(data, i);
 			if (path != NULL)
 			{
-				close(data->fd[0]);
-				dup2(data->fd[1], STDOUT_FILENO);
-				close(data->fd[1]);
-				execve(path, data->table->commands->args, data->env);
+				execve(path, data->table->commands[i].args, data->env);
 			}
 			else
 			{
@@ -73,16 +61,11 @@ int	executer(t_data *data)
 		{
 			waitpid(id, &g_glob, 0);
 			close(data->fd[1]);
-			char buffer[1024];
-			int count;
-			while ((count = read(data->fd[0], buffer, sizeof(buffer))) > 0)
-			{
-				write(STDOUT_FILENO, buffer, count);
-			}
-			close(data->fd[0]);
+			prev_read = data->fd[0];
 		}
 		i++;
 	}
 	return (0);
 }
+
 

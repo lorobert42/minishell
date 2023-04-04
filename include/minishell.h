@@ -145,7 +145,7 @@ char			*delete_quotes(char *str);
 int				check_expansion(char **str, char **env);
 
 // EXECUTER
-int				executer(t_data *data);
+int				execute(t_data *data);
 int				heredoc(char **delim, int fd, t_data *data);
 
 // EXECUTE_UTILS
