@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:48:13 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/03 18:08:27 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/05 09:52:02 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	check_expansion(char **str, char **env)
 			res = expand_token(str, i + 1, env);
 			if (res == -1)
 				return (1);
-			i += res;
+			i += res - 1;
 		}
 		i++;
 	}
