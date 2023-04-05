@@ -23,7 +23,8 @@
 # include <readline/history.h>
 # include <errno.h>
 # include <sys/wait.h>
-#include <signal.h>
+# include <signal.h>
+# include <termios.h>
 
 # include "../libs/libft_rework/libft/include/libft.h"
 # include "../libs/libft_rework/gnl/include/get_next_line.h"
@@ -153,6 +154,7 @@ int				heredoc(char **delim, int fd, t_data *data);
 char			*get_path(char *path, char *cmd);
 
 // SIGNAUX
+void			sigint_handler(int signum);
 int				sig();
 
 

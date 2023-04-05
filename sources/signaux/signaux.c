@@ -12,22 +12,22 @@
 
 #include "../../include/minishell.h"
 
-void sigint_handler(int signum) {
-	printf("Signal SIGINT capturé! --> %d\n", signum);
+void	sigint_handler(int signum) {
+	if (signum == SIGINT) {
+		printf("SIGINT");
+	}
 }
 
-int	sig()
-{
+int sig() {
+	struct termios tp;
 	struct sigaction sa;
+
+	tcgetattr(STDIN_FILENO, &tp);
+	tp.c_lflag &= ISIG;
+	tcsetattr(STDIN_FILENO, TCSANOW, &tp);
 	sa.sa_handler = sigint_handler;
 	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
-
-	while (1) {
-		printf("En attente de signal...\n");
-		sleep(1);
-	}
-
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGQUIT, &sa, NULL);
 	return 0;
 }

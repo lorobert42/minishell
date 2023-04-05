@@ -92,7 +92,7 @@ $(LIBS_TARGET):
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	$(DIR_DUP)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c -o $@ $<
-	@echo "$(BG_CYAN)   $(ENDCOLOR)\c"
+	@echo "$(BG_CYAN)     $(ENDCOLOR)\c"
 
 -include $(DEPS)
 

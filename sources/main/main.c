@@ -20,7 +20,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	(void)env;
 	(void)data;
-	//sig();
+
 	init(&data, env);
 	loop(&data);
 }

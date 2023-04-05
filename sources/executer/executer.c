@@ -64,9 +64,7 @@ void	execution_loop(t_data *data)
 		pipe(data->fd);
 		id = fork();
 		if (id == 0)
-		{
 			children(data, &prev_read, i);
-		}
 		else
 		{
 			waitpid(id, &g_glob, 0);
@@ -76,7 +74,6 @@ void	execution_loop(t_data *data)
 		i++;
 	}
 }
-
 int	execute(t_data *data)
 {
 	execution_loop(data);
