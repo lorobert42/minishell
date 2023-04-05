@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:48:13 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/03 18:08:27 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/05 10:03:52 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,12 @@ int	expand_token(char **str, int pos, char **env)
 	int		end;
 	int		size;
 
-	end = get_variable(&(*str)[pos], &var, env) + pos;
-	if (end == 1)
+	end = get_variable(&(*str)[pos], &var, env);
+	if (end == 0)
 		return (1);
 	if (!var)
 		return (-1);
+	end += pos;
 	size = ft_strlen(*str) - (end - pos) + ft_strlen(var);
 	new = ft_calloc(sizeof(char), size + 1);
 	if (!new)
@@ -93,7 +94,7 @@ int	check_expansion(char **str, char **env)
 			res = expand_token(str, i + 1, env);
 			if (res == -1)
 				return (1);
-			i += res;
+			i += res - 1;
 		}
 		i++;
 	}
