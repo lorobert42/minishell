@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/04/03 18:24:08 by lorobert         ###   ########.fr        #
+#    Updated: 2023/04/05 14:48:02 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,12 +76,12 @@ MAKEFLAGS		+=	--no-print-directory
 DIR_DUP			=	mkdir -p $(@D)
 
 all: ascii $(NAME)
-	@echo "\n$(GREEN)Your minishell is ready to go !"
+	@echo "\n$(GREEN)Your minishell is ready to go !$(ENDCOLOR)"
 
 ascii:
 		@tput setaf 6; cat ascii_art/minishell; tput setaf 7
 		@echo "\n$(ENDCOLOR)"
-		@echo "$(GREEN)Compilation de la libft !"
+		@echo "$(GREEN)Compilation de la libft !$(ENDCOLOR)"
 
 $(NAME): $(LIBS_TARGET) $(OBJS)
 	$(CC) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(NAME)
