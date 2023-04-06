@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 11:01:43 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/03 18:21:43 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/05 14:47:29 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	heredoc(char **delim, int fd, t_data *data)
 	line = "";
 	while (line)
 	{
-		line = get_next_line(STDIN_FILENO);
+		line = readline("> ");
 		if (!line)
-			return (-1);
-		if (ft_strncmp(line, *delim, ft_strlen(*delim)) == 0 && line[ft_strlen(*delim)] == '\n')
+			return (0);
+		if (ft_strncmp(line, *delim, ft_strlen(*delim) + 1) == 0)
 		{
 			free(line);
 			break ;
