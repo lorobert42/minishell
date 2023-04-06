@@ -171,6 +171,6 @@ int				check_builtins_out(t_data *data, int i);
 void			init(t_data *data, char **env);
 
 // ERROR
-int				print_error(char *type);
+void			print_error(char *msg, char *command);
 
 #endif

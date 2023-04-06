@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../include/minishell.h"
 
 /*
 Check if parameter `-n` is used.
@@ -57,5 +57,6 @@ int	ft_echo(char **args)
 	}
 	if (!n)
 		ft_printf("\n");
+	g_glob = 0;
 	return (0);
 }

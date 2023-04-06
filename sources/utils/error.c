@@ -12,8 +12,24 @@
 
 #include "../../include/minishell.h"
 
-int	print_error(char *type)
+void	print_error(char *msg, char *command)
 {
-	printf("%s\n", type);
-	return (-1);
+	char	*base;
+
+	base = ft_strjoin("Hérishell: ", command);
+	if (errno)
+	{
+		g_glob = errno;
+		perror(base);
+	}
+	else
+	{
+
+		g_glob = 1;
+		ft_putstr_fd(base, 2);
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(msg, 2);
+		ft_putchar_fd('\n', 2);
+	}
+	free(base);
 }
