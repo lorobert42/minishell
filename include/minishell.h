@@ -157,12 +157,13 @@ int				heredoc(char **delim, int fd, t_data *data);
 char			*get_path(char *path, char *cmd);
 
 // SIGNAUX
-void			sig_handler(void);
+void			sig_handler();
 void			termios_remove_ctrl(void);
 void			termios_restore_ctrl(void);
 
 // MAIN
 void			loop(t_data *data);
+int				check_builtins(t_data *data, int i);
 void			init(t_data *data, char **env);
 
 // ERROR

@@ -36,14 +36,12 @@ int	run_export(t_data *data, char **cmd)
 	return (0);
 }
 
-int	check_builtins(t_data *data)
+int	check_builtins(t_data *data, int i)
 {
 	char	**cmd;
 
-	cmd = data->table->commands[0].args;
-	if (ft_strncmp(cmd[0], "exit\0", 5) == 0)
-		exit(0);
-	else if (ft_strncmp(cmd[0], "cd\0", 3) == 0)
+	cmd = data->table->commands[i].args;
+	if (ft_strncmp(cmd[0], "cd\0", 3) == 0)
 		return (ft_cd(data, data->table->commands->args[1]));
 	else if (ft_strncmp(cmd[0], "env\0", 4) == 0)
 		return (ft_env(data->env));
@@ -63,20 +61,19 @@ void	loop(t_data *data)
 	char				*buffer;
 	int					i;
 
-//	(void)sa;
 	while (data->run)
 	{
-//
-
 		buffer = readline("🦔 \e[34m Hérishell 🦔 => \e[39m");
+		if (!buffer)
+			exit(0);
 		add_history(buffer);
 		data->token = lexer(buffer);
 		if (!data->token)
 		{
 			free(buffer);
-			exit(0);
+			continue;
 		}
-		if (expander(data->token, data->env) == 1)
+		else if (expander(data->token, data->env) == 1)
 		{
 			clean_tokens(data->token);
 			free(buffer);
@@ -89,7 +86,6 @@ void	loop(t_data *data)
 			free(buffer);
 			continue ;
 		}
-		//print_command_table(data->table);
 		i = 0;
 		while (i < data->table->n_commands)
 		{
@@ -97,10 +93,7 @@ void	loop(t_data *data)
 				heredoc(&data->table->commands[i].infile, STDOUT_FILENO, data);
 			i++;
 		}
-		if (check_builtins(data))
-		{
-			execute(data);
-		}
+		execute(data);
 		clean_tokens(data->token);
 		clean_command_table(data->table);
 		free(buffer);

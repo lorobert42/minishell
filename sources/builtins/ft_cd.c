@@ -15,8 +15,9 @@
 static void	print_cd_error(char *msg, char *command)
 {
 	char	*base;
-
+	ft_printf("ytest --> %d\n", g_glob);
 	g_glob = 1;
+	ft_printf("DUCON\n");
 	base = ft_strjoin("Hérishell: ", command);
 	if (errno)
 		perror(base);

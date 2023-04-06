@@ -38,17 +38,20 @@ void	children(t_data *data, int *prev_read, int i)
 	dup2(*prev_read, STDIN_FILENO);
 	if (i < data->table->n_commands - 1)
 		dup2(data->fd[1], STDOUT_FILENO);
-	path = find_path(data, i);
-	if (path != NULL)
+	if (check_builtins(data, i) == 1)
 	{
-		execve(path, data->table->commands[i].args, data->env);
+		path = find_path(data, i);
+		if (path != NULL)
+		{
+			execve(path, data->table->commands[i].args, data->env);
+		}
+		else
+		{
+			ft_printf("🤷 Hérishell: %s: a pas trouver ... 🤷\n", \
+				data->table->commands->args[0]);
+		}
 	}
-	else
-	{
-		ft_printf("🤷 Hérishell: %s: a pas trouver ... 🤷\n", \
-					data->table->commands->args[0]);
-		exit(0);
-	}
+	exit(0);
 }
 
 void	execution_loop(t_data *data)
@@ -62,6 +65,8 @@ void	execution_loop(t_data *data)
 	while (i < data->table->n_commands)
 	{
 		pipe(data->fd);
+		if (ft_strncmp(data->table->commands[i].args[0], "exit\0", 5) == 0)
+			exit(0);
 		id = fork();
 		if (id == 0)
 			children(data, &prev_read, i);
