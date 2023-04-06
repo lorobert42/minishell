@@ -106,5 +106,6 @@ int	ft_cd(t_data *data, char *path)
 	}
 	else
 		ft_cd_path(data, path);
+	g_glob = 0;
 	return (0);
 }

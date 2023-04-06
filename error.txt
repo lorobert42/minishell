@@ -1,0 +1,7 @@
+---> ECHO
+
+// gestion erreur ok
+
+echo - : pas la meme sortie
+
+---> CD
