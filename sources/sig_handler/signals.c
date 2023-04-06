@@ -12,7 +12,23 @@
 
 #include "../../include/minishell.h"
 
-int sig_handler()
+void handler(int sig)
 {
+	if (sig == SIGQUIT)
+		ft_printf("sig quit");
+	else if (sig == SIGINT)
+		ft_printf("sig int");
+}
 
+void	sig_handler()
+{
+	struct sigaction	sa;
+
+
+	sa.sa_handler = handler;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 }
