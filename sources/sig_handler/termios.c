@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   termios.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/28 10:18:54 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/06 10:09:11 by lorobert         ###   ########.fr       */
+/*   Created: 2023/04/06 10:03:43 by lorobert          #+#    #+#             */
+/*   Updated: 2023/04/06 10:08:18 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	termios_remove_ctrl(void)
 {
-	t_data	data;
+	struct termios	term;
 
-	(void)ac;
-	(void)av;
-	termios_remove_ctrl();
-	init(&data, env);
-	loop(&data);
-	termios_restore_ctrl();
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
+void	termios_restore_ctrl(void)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag |= ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }

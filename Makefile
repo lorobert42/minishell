@@ -57,7 +57,7 @@ SRCS			:=	builtins/ft_echo.c \
 					executer/heredoc.c \
 					utils/execute_utils.c \
 					utils/error.c \
-					sig_handler/signals.c
+					signaux/signaux.c
 
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 

@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/03 18:24:45 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/06 10:08:39 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,8 +157,9 @@ int				heredoc(char **delim, int fd, t_data *data);
 char			*get_path(char *path, char *cmd);
 
 // SIGNAUX
-void			sig_handler();
-
+void			sig_handler(void);
+void			termios_remove_ctrl(void);
+void			termios_restore_ctrl(void);
 
 // MAIN
 void			loop(t_data *data);
