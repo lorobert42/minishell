@@ -97,6 +97,7 @@ int				issep(int c);
 int				ft_env(char **env);
 char			*ft_getenv(char **env, char *key);
 int				ft_export(t_data *data, char *key, char *value);
+int				print_export(char **env);
 int				ft_unset(t_data *data, char *s);
 int				ft_echo(char **args);
 int				ft_pwd(void);
@@ -163,7 +164,8 @@ void			termios_restore_ctrl(void);
 
 // MAIN
 void			loop(t_data *data);
-int				check_builtins(t_data *data, int i);
+int				check_builtins_forks(t_data *data, int i);
+int				check_builtins_out(t_data *data, int i);
 void			init(t_data *data, char **env);
 
 // ERROR

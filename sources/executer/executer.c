@@ -38,7 +38,7 @@ void	children(t_data *data, int *prev_read, int i)
 	dup2(*prev_read, STDIN_FILENO);
 	if (i < data->table->n_commands - 1)
 		dup2(data->fd[1], STDOUT_FILENO);
-	if (check_builtins(data, i) == 1)
+	if (check_builtins_forks(data, i) == 1)
 	{
 		path = find_path(data, i);
 		if (path != NULL)
@@ -65,8 +65,7 @@ void	execution_loop(t_data *data)
 	while (i < data->table->n_commands)
 	{
 		pipe(data->fd);
-		if (ft_strncmp(data->table->commands[i].args[0], "exit\0", 5) == 0)
-			exit(0);
+		check_builtins_out(data, i);
 		id = fork();
 		if (id == 0)
 			children(data, &prev_read, i);

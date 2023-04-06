@@ -54,7 +54,7 @@ char	*create_env_value(char *key, char *value)
 	return (res);
 }
 
-void	print_export(char **env)
+int		print_export(char **env)
 {
 	int		i;
 	int		j;
@@ -79,6 +79,7 @@ void	print_export(char **env)
 		ft_printf("\"\n");
 		i++;
 	}
+	return (1);
 }
 
 int	ft_export(t_data *data, char *key, char *value)
