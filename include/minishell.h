@@ -81,6 +81,9 @@ typedef struct s_data
 	char			**env;
 	t_token			*token;
 	t_command_table	*table;
+	struct sigaction		sa;
+	struct termios			tp;
+
 }	t_data;
 
 // LEXER
@@ -155,7 +158,7 @@ char			*get_path(char *path, char *cmd);
 
 // SIGNAUX
 void			sigint_handler(int signum);
-int				sig();
+int				sig(t_data *data);
 
 
 // MAIN
