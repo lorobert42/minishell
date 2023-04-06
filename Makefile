@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/04/05 14:48:02 by lorobert         ###   ########.fr        #
+#    Updated: 2023/04/06 09:52:26 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,16 @@ CFLAGS			:=	-Wall -Wextra -Werror -g
 CPPFLAGS		:=	$(addprefix -I,$(INCS)) -MMD -MP
 LDFLAGS			:=	$(addprefix -L,$(dir $(LIBS_TARGET)))
 LDLIBS			:=	$(addprefix -l,$(LIBS))
+
+# If READLINE env variable is set, use it as an extra include and
+# library path.
+# This is useful if we cannot install readline in the compilers include
+# directory.
+# export READLINE=/Users/[username]/.brew/Cellar/readline/8.2.1
+ifdef READLINE
+	LDFLAGS 	+= -L$(READLINE)/lib
+	CPPFLAGS	+= -I$(READLINE)/include
+endif
 
 RM				:=	rm -f
 MAKEFLAGS		+=	--no-print-directory

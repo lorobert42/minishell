@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 10:18:54 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/31 11:09:54 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/06 09:53:54 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,18 @@
 
 int	main(int ac, char **av, char **env)
 {
-	t_data	data;
+	t_data			data;
+	struct termios	term;
 
 	(void)ac;
 	(void)av;
 	(void)env;
 	(void)data;
-
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 	init(&data, env);
 	loop(&data);
+	term.c_lflag |= ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
