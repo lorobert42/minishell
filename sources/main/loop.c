@@ -62,16 +62,12 @@ void	loop(t_data *data)
 {
 	char				*buffer;
 	int					i;
-	struct sigaction	sa;
 
 //	(void)sa;
 	while (data->run)
 	{
 //
-//		sa.sa_handler = sigint_handler;./m
-//		sigemptyset(&sa.sa_mask);
-//		sa.sa_flags = SA_RESTART;
-//		sigaction(SIGQUIT, &sa, NULL);
+
 		buffer = readline("🦔 \e[34m Hérishell 🦔 => \e[39m");
 		add_history(buffer);
 		data->token = lexer(buffer);

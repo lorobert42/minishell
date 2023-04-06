@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signaux.c                                          :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*   By: afavre <afavre@student.42lausanne.ch>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/04 12:54:07 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/06 09:52:58 by lorobert         ###   ########.fr       */
+/*   Created: 2023/04/06 09:57:14 by afavre            #+#    #+#             */
+/*   Updated: 2023/04/06 09:57:17 by afavre           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	sigint_handler(int signum) {
-	if (signum == SIGINT) {
-		printf("SIGINT");
-	}
-}
+int sig_handler()
+{
 
-int sig() {
-	struct sigaction sa;
-
-	sa.sa_handler = sigint_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &sa, NULL);
-	return 0;
 }

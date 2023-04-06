@@ -157,8 +157,7 @@ int				heredoc(char **delim, int fd, t_data *data);
 char			*get_path(char *path, char *cmd);
 
 // SIGNAUX
-void			sigint_handler(int signum);
-int				sig(t_data *data);
+void			sig_handler();
 
 
 // MAIN
