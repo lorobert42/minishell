@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 16:11:25 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/31 14:07:01 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/06 13:55:05 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*create_env_value(char *key, char *value)
 	return (res);
 }
 
-int		print_export(char **env)
+int	print_export(char **env)
 {
 	int		i;
 	int		j;
@@ -79,7 +79,7 @@ int		print_export(char **env)
 		ft_printf("\"\n");
 		i++;
 	}
-	return (1);
+	return (0);
 }
 
 int	ft_export(t_data *data, char *key, char *value)

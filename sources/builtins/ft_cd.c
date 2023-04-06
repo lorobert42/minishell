@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 09:11:34 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/06 10:12:08 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/06 13:51:45 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void	ft_cd_minus(t_data *data)
 
 int	ft_cd(t_data *data, char *path)
 {
-	ft_printf("test --> .%s.\n", path);
 	if (!path || ft_strncmp(path, "~", 2) == 0)
 	{
 		ft_cd_home(data, path);
