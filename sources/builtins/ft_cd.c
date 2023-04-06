@@ -15,9 +15,8 @@
 static void	print_cd_error(char *msg, char *command)
 {
 	char	*base;
-	ft_printf("ytest --> %d\n", g_glob);
+
 	g_glob = 1;
-	ft_printf("DUCON\n");
 	base = ft_strjoin("Hérishell: ", command);
 	if (errno)
 		perror(base);
@@ -96,6 +95,7 @@ void	ft_cd_minus(t_data *data)
 
 int	ft_cd(t_data *data, char *path)
 {
+	ft_printf("test --> .%s.\n", path);
 	if (!path || ft_strncmp(path, "~", 2) == 0)
 	{
 		ft_cd_home(data, path);
