@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/04/06 09:52:26 by lorobert         ###   ########.fr        #
+#    Updated: 2023/04/06 10:09:56 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,7 +57,8 @@ SRCS			:=	builtins/ft_echo.c \
 					executer/heredoc.c \
 					utils/execute_utils.c \
 					utils/error.c \
-					signaux/signaux.c
+					sig_handler/signals.c \
+					sig_handler/termios.c
 
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 
