@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:43:34 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/06 12:20:15 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/06 13:44:31 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,8 @@ void	loop(t_data *data)
 	char				*buffer;
 	int					i;
 
-//	(void)sa;
 	while (data->run)
 	{
-//
-
 		buffer = readline("🦔 \e[34m Hérishell 🦔 => \e[39m");
 		if (!buffer)
 			exit(0);
@@ -101,7 +98,6 @@ void	loop(t_data *data)
 			free(buffer);
 			continue ;
 		}
-		//print_command_table(data->table);
 		i = 0;
 		while (i < data->table->n_commands)
 		{

@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:04:43 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/30 15:59:27 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/06 13:51:26 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,11 @@ void	execution_loop(t_data *data)
 	while (i < data->table->n_commands)
 	{
 		pipe(data->fd);
-		check_builtins_out(data, i);
+		if (!check_builtins_out(data, i))
+		{
+			i++;
+			continue ;
+		}
 		id = fork();
 		if (id == 0)
 			children(data, &prev_read, i);
