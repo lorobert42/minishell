@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:43:34 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/06 09:51:34 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/06 12:20:15 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,14 @@ int	run_export(t_data *data, char **cmd)
 	return (0);
 }
 
-int	check_builtins(t_data *data, int i)
+int	check_builtins(t_data *data)
 {
 	char	**cmd;
 
-	cmd = data->table->commands[i].args;
-	if (ft_strncmp(cmd[0], "cd\0", 3) == 0)
+	cmd = data->table->commands[0].args;
+	if (ft_strncmp(cmd[0], "exit\0", 5) == 0)
+		exit(0);
+	else if (ft_strncmp(cmd[0], "cd\0", 3) == 0)
 		return (ft_cd(data, data->table->commands->args[1]));
 	else if (ft_strncmp(cmd[0], "env\0", 4) == 0)
 		return (ft_env(data->env));
@@ -61,8 +63,11 @@ void	loop(t_data *data)
 	char				*buffer;
 	int					i;
 
+//	(void)sa;
 	while (data->run)
 	{
+//
+
 		buffer = readline("🦔 \e[34m Hérishell 🦔 => \e[39m");
 		if (!buffer)
 			exit(0);
@@ -71,9 +76,9 @@ void	loop(t_data *data)
 		if (!data->token)
 		{
 			free(buffer);
-			continue;
+			continue ;
 		}
-		else if (expander(data->token, data->env) == 1)
+		if (expander(data->token, data->env) == 1)
 		{
 			clean_tokens(data->token);
 			free(buffer);
@@ -86,6 +91,7 @@ void	loop(t_data *data)
 			free(buffer);
 			continue ;
 		}
+		//print_command_table(data->table);
 		i = 0;
 		while (i < data->table->n_commands)
 		{
@@ -93,7 +99,10 @@ void	loop(t_data *data)
 				heredoc(&data->table->commands[i].infile, STDOUT_FILENO, data);
 			i++;
 		}
-		execute(data);
+		if (check_builtins(data))
+		{
+			execute(data);
+		}
 		clean_tokens(data->token);
 		clean_command_table(data->table);
 		free(buffer);
