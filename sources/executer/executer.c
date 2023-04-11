@@ -71,7 +71,7 @@ void	children(t_data *data, int *prev_read, int i)
 		else
 		{
 			ft_printf("🤷 Hérishell: %s: a pas trouver ... 🤷\n", \
-				data->table->commands->args[0]);
+				data->table->commands[i].args[0]);
 		}
 	}
 	exit(0);
