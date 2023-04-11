@@ -85,6 +85,7 @@ int	print_export(char **env)
 int	ft_export(t_data *data, char *key, char *value)
 {
 	char	*new_value;
+	char 	*env;
 	int		index;
 	int		res;
 
@@ -98,7 +99,8 @@ int	ft_export(t_data *data, char *key, char *value)
 	res = check_export_format(key);
 	if (res == 0)
 	{
-		if (ft_getenv(data->env, key) != NULL)
+		env = ft_getenv(data->env, key);
+		if (env != NULL)
 		{
 			index = get_env_index(data->env, key);
 			free(data->env[index]);
@@ -110,6 +112,7 @@ int	ft_export(t_data *data, char *key, char *value)
 			data->env = tab_add_back(data, new_value);
 			g_glob = 0;
 		}
+		free(env);
 	}
 	else
 	{

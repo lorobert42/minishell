@@ -59,5 +59,6 @@ char	**tab_add_back(t_data *data, char *content)
 		new[0] = ft_strdup(content);
 		new[1] = NULL;
 	}
+	clear_split(data->env);
 	return (new);
 }

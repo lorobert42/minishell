@@ -26,17 +26,18 @@ char	**remove_string(char **env, int i)
 	while (j < i)
 	{
 		new[j] = ft_strdup(env[j]);
-		free(env[j]);
+		//free(env[j]);
 		j++;
 	}
-	free(env[i]);
+	//free(env[i]);
 	while (j < size - 1)
 	{
 		new[j] = ft_strdup(env[j + 1]);
-		free(env[j + 1]);
+		//free(env[j + 1]);
 		j++;
 	}
 	new[j] = NULL;
+	clear_split(env);
 	return (new);
 }
 
@@ -47,23 +48,26 @@ int	ft_unset(t_data *data, char *s)
 {
 	int		i;
 
-	if (!ft_isalpha(s[0]) && s[0] != '_')
+	if (s != NULL)
 	{
-		errno = EINVAL;
-		print_error(NULL, "Unset");
-		return (0);
-	}
-	i = 0;
-	while (data->env[i])
-	{
-		if (ft_strncmp(data->env[i], s, ft_strchr(data->env[i], '=') \
-			- data->env[i]) == 0)
+		if (!ft_isalpha(s[0]) && s[0] != '_')
 		{
-			g_glob = 0;
-			data->env = remove_string(data->env, i);
+			errno = EINVAL;
+			print_error(NULL, "Unset");
 			return (0);
 		}
-		i++;
+		i = 0;
+		while (data->env[i])
+		{
+			if (ft_strncmp(data->env[i], s, ft_strchr(data->env[i], '=') \
+			- data->env[i]) == 0)
+			{
+				g_glob = 0;
+				data->env = remove_string(data->env, i);
+				return (0);
+			}
+			i++;
+		}
 	}
 	return (0);
 }

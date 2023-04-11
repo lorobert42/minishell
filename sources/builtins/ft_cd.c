@@ -22,7 +22,7 @@ void	update_env_ifexist(t_data *data, char *key, char *newval)
 		ft_export(data, key, newval);
 		g_glob = 0;
 	}
-
+	free(oldval);
 }
 
 void	ft_cd_path(t_data *data, char *path)
@@ -59,6 +59,7 @@ void	ft_cd_home(t_data *data, char *path)
 	if (getcwd(pwd, PATH_MAX) == NULL)
 		return (print_error(home, "cd"));
 	update_env_ifexist(data, "PWD", pwd);
+	free(home);
 }
 
 void	ft_cd_minus(t_data *data)
@@ -77,6 +78,7 @@ void	ft_cd_minus(t_data *data)
 	if (getcwd(pwd, PATH_MAX) == NULL)
 		return (print_error(tmp, "cd"));
 	update_env_ifexist(data, "PWD", pwd);
+	free(tmp);
 }
 
 int	ft_cd(t_data *data, char *path)

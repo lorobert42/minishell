@@ -1,20 +1,28 @@
 ---> ECHO
 // gestion error ok
+// leaks ok
 
 ---> CD
 // gestion error ok
+// leaks ok
 
 ---> ENV
 // gestion error ok
+// leaks ok
 
 ---> EXPORT
 // gestion error ok
+// leaks ok
+
+!!! double erreur quand arg invalide !!!
 
 ---> PWD
 // gestion error ok
+// leaks ok
 
 ---> UNSET
 // gestion error ok
+// leaks ok
 
 ---> EXECUTER
 // gestion error ok

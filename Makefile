@@ -67,9 +67,9 @@ OBJS			:=	$(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 DEPS			:=	$(OBJS:.o=.d)
 
 CC				:=	gcc
-CFLAGS			:=	-Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS			:=	-Wall -Wextra -Werror -g #-fsanitize=address
 CPPFLAGS		:=	$(addprefix -I,$(INCS)) -MMD -MP
-LDFLAGS			:=	$(addprefix -L,$(dir $(LIBS_TARGET))) -fsanitize=address
+LDFLAGS			:=	$(addprefix -L,$(dir $(LIBS_TARGET))) #-fsanitize=address
 LDLIBS			:=	$(addprefix -l,$(LIBS))
 
 # If READLINE env variable is set, use it as an extra include and
@@ -90,7 +90,7 @@ all: ascii $(NAME)
 	@echo "\n$(GREEN)Your minishell is ready to go !$(ENDCOLOR)"
 
 ascii:
-		@tput setaf 6; cat ascii_art/minishell; tput setaf 7
+		@tput setaf 6; cat ascii_art/minishell_ascii; tput setaf 7
 		@echo "\n$(ENDCOLOR)"
 		@tput setaf 6; cat ascii_art/libft; tput setaf 7
 		@echo "\n"
