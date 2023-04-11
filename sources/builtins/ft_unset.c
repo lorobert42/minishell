@@ -26,14 +26,11 @@ char	**remove_string(char **env, int i)
 	while (j < i)
 	{
 		new[j] = ft_strdup(env[j]);
-		//free(env[j]);
 		j++;
 	}
-	//free(env[i]);
 	while (j < size - 1)
 	{
 		new[j] = ft_strdup(env[j + 1]);
-		//free(env[j + 1]);
 		j++;
 	}
 	new[j] = NULL;

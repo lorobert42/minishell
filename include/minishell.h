@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_ascii.h                                        :+:      :+:    :+:   */
+/*   minishell_ascii.h                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -29,7 +29,6 @@
 # include "../libs/libft_rework/libft/include/libft.h"
 # include "../libs/libft_rework/gnl/include/get_next_line.h"
 # include "../libs/libft_rework/printf/include/ft_printf.h"
-# include "error.h"
 
 int	g_glob;
 
@@ -77,13 +76,13 @@ typedef struct s_command_table
 
 typedef struct s_data
 {
-	int				run;
-	int				fd[2];
-	char			**env;
-	t_token			*token;
-	t_command_table	*table;
-	struct sigaction		sa;
-	struct termios			tp;
+	int					run;
+	int					fd[2];
+	char				**env;
+	t_token				*token;
+	t_command_table		*table;
+	struct sigaction	sa;
+	struct termios		tp;
 
 }	t_data;
 
@@ -159,7 +158,7 @@ void			set_heredoc(t_data *data);
 char			*get_path(char *path, char *cmd);
 
 // SIGNAUX
-void			sig_handler();
+void			sig_handler(void);
 void			termios_remove_ctrl(void);
 void			termios_restore_ctrl(void);
 

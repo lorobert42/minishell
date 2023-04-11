@@ -82,11 +82,30 @@ int	print_export(char **env)
 	return (0);
 }
 
+void	update(t_data *data, char *key, char *new_value)
+{
+	char	*env;
+	int		index;
+
+	env = ft_getenv(data->env, key);
+	if (env != NULL)
+	{
+		index = get_env_index(data->env, key);
+		free(data->env[index]);
+		data->env[index] = ft_strdup(new_value);
+		g_glob = 0;
+	}
+	else
+	{
+		data->env = tab_add_back(data, new_value);
+		g_glob = 0;
+	}
+	free(env);
+}
+
 int	ft_export(t_data *data, char *key, char *value)
 {
 	char	*new_value;
-	char 	*env;
-	int		index;
 	int		res;
 
 	if (!key)
@@ -98,22 +117,7 @@ int	ft_export(t_data *data, char *key, char *value)
 	new_value = create_env_value(key, value);
 	res = check_export_format(key);
 	if (res == 0)
-	{
-		env = ft_getenv(data->env, key);
-		if (env != NULL)
-		{
-			index = get_env_index(data->env, key);
-			free(data->env[index]);
-			data->env[index] = ft_strdup(new_value);
-			g_glob = 0;
-		}
-		else
-		{
-			data->env = tab_add_back(data, new_value);
-			g_glob = 0;
-		}
-		free(env);
-	}
+		update(data, key, new_value);
 	else
 	{
 		print_error("Invalid argument", "export");
