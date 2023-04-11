@@ -24,7 +24,6 @@ void	print_error(char *msg, char *command)
 	}
 	else
 	{
-
 		g_glob = 1;
 		ft_putstr_fd(base, 2);
 		ft_putstr_fd(": ", 2);

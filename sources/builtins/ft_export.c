@@ -91,6 +91,7 @@ int	ft_export(t_data *data, char *key, char *value)
 	if (!key)
 	{
 		print_export(data->env);
+		g_glob = 0;
 		return (0);
 	}
 	new_value = create_env_value(key, value);
@@ -102,9 +103,17 @@ int	ft_export(t_data *data, char *key, char *value)
 			index = get_env_index(data->env, key);
 			free(data->env[index]);
 			data->env[index] = ft_strdup(new_value);
+			g_glob = 0;
 		}
 		else
+		{
 			data->env = tab_add_back(data, new_value);
+			g_glob = 0;
+		}
+	}
+	else
+	{
+		print_error("Invalid argument", "export");
 	}
 	free(new_value);
 	return (res);

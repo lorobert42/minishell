@@ -12,31 +12,17 @@
 
 #include "../../include/minishell.h"
 
-static void	print_cd_error(char *msg, char *command)
-{
-	char	*base;
-
-	g_glob = 1;
-	base = ft_strjoin("Hérishell: ", command);
-	if (errno)
-		perror(base);
-	else
-	{
-		ft_putstr_fd(base, 2);
-		ft_putstr_fd(": ", 2);
-		ft_putstr_fd(msg, 2);
-		ft_putchar_fd('\n', 2);
-	}
-	free(base);
-}
-
 void	update_env_ifexist(t_data *data, char *key, char *newval)
 {
 	char	*oldval;
 
 	oldval = ft_getenv(data->env, key);
 	if (oldval)
+	{
 		ft_export(data, key, newval);
+		g_glob = 0;
+	}
+
 }
 
 void	ft_cd_path(t_data *data, char *path)
@@ -44,12 +30,12 @@ void	ft_cd_path(t_data *data, char *path)
 	char	pwd[PATH_MAX];
 
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		return (print_cd_error(path, "cd"));
+		return (print_error(path, "cd"));
 	if (chdir(path) == -1)
-		print_cd_error(path, "cd");
+		return (print_error(path, "cd"));
 	update_env_ifexist(data, "OLDPWD", pwd);
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		print_cd_error(path, "cd");
+		return (print_error(path, "cd"));
 	update_env_ifexist(data, "PWD", pwd);
 }
 
@@ -62,16 +48,16 @@ void	ft_cd_home(t_data *data, char *path)
 
 	home = getenv_value(data->env, "HOME");
 	if (!home[0] && !path)
-		return (print_cd_error("HOME not set", "cd"));
+		return (print_error("HOME not set", "cd"));
 	if (!home[0] && path)
 		home = ft_strjoin("/Users/", getenv_value(data->env, "USER"));
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		return (print_cd_error(home, "cd"));
+		return (print_error(home, "cd"));
 	if (chdir(home) == -1)
-		print_cd_error(home, "cd");
+		return (print_error(home, "cd"));
 	update_env_ifexist(data, "OLDPWD", pwd);
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		print_cd_error(home, "cd");
+		return (print_error(home, "cd"));
 	update_env_ifexist(data, "PWD", pwd);
 }
 
@@ -82,14 +68,14 @@ void	ft_cd_minus(t_data *data)
 
 	tmp = getenv_value(data->env, "OLDPWD");
 	if (!tmp[0])
-		return (print_cd_error("OLDPWD not set", "cd"));
+		return (print_error("OLDPWD not set", "cd"));
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		return (print_cd_error(tmp, "cd"));
+		return (print_error(tmp, "cd"));
 	if (chdir(tmp) == -1)
-		print_cd_error(tmp, "cd");
+		return (print_error(tmp, "cd"));
 	update_env_ifexist(data, "OLDPWD", pwd);
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		print_cd_error(tmp, "cd");
+		return (print_error(tmp, "cd"));
 	update_env_ifexist(data, "PWD", pwd);
 }
 
@@ -105,6 +91,5 @@ int	ft_cd(t_data *data, char *path)
 	}
 	else
 		ft_cd_path(data, path);
-	g_glob = 0;
 	return (0);
 }

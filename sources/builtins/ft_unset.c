@@ -49,9 +49,8 @@ int	ft_unset(t_data *data, char *s)
 
 	if (!ft_isalpha(s[0]) && s[0] != '_')
 	{
-		g_glob = 1;
 		errno = EINVAL;
-		perror(s);
+		print_error(NULL, "Unset");
 		return (0);
 	}
 	i = 0;
@@ -60,6 +59,7 @@ int	ft_unset(t_data *data, char *s)
 		if (ft_strncmp(data->env[i], s, ft_strchr(data->env[i], '=') \
 			- data->env[i]) == 0)
 		{
+			g_glob = 0;
 			data->env = remove_string(data->env, i);
 			return (0);
 		}

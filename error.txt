@@ -1,7 +1,24 @@
 ---> ECHO
-
-// gestion erreur ok
+// gestion error ok
 
 echo - : pas la meme sortie
 
 ---> CD
+// gestion error ok
+
+---> ENV
+// gestion error ok
+
+---> EXPORT
+// gestion error ok
+
+---> PWD
+// gestion error ok
+
+---> UNSET
+// gestion error ok
+
+---> EXECUTER
+// gestion error ok
+
+!!! pas de message quand PATH unset !!!

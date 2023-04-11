@@ -18,6 +18,8 @@ char	*find_path(t_data *data, int num)
 	int		i;
 
 	path = ft_split(ft_getenv(data->env, "PATH"), ':');
+	if (path == NULL)
+		ft_printf("VA CHIER\n");
 	i = 0;
 	while (path[i] != NULL)
 	{
@@ -26,6 +28,7 @@ char	*find_path(t_data *data, int num)
 			return (get_path(path[i], data->table->commands[num].args[0]));
 		i++;
 	}
+	ft_printf("MERDE\n");
 	clear_split(path);
 	return (NULL);
 }
@@ -40,7 +43,9 @@ void	children(t_data *data, int *prev_read, int i)
 		dup2(data->fd[1], STDOUT_FILENO);
 	if (check_builtins_forks(data, i) == 1)
 	{
+		ft_printf("inside\n");
 		path = find_path(data, i);
+		ft_printf("test -> %s\n", path);
 		if (path != NULL)
 		{
 			execve(path, data->table->commands[i].args, data->env);

@@ -20,11 +20,13 @@ int	ft_pwd(void)
 	char	var[PATH_MAX];
 
 	if (getcwd(var, PATH_MAX) != NULL)
+	{
 		ft_printf("%s\n", var);
+		g_glob = 0;
+	}
 	else
 	{
-		g_glob = 1;
-		perror("pwd");
+		print_error(NULL, "PWD");
 	}
 	return (0);
 }
