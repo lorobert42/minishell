@@ -103,7 +103,6 @@ int				ft_unset(t_data *data, char *s);
 int				ft_echo(char **args);
 int				ft_pwd(void);
 int				ft_cd(t_data *data, char *path);
-
 char			**parse_env(char **env_strs);
 t_env			*extract_entry(char *env_entry);
 t_env			*create_entry(char *key, char *value);

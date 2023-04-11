@@ -92,7 +92,8 @@ all: ascii $(NAME)
 ascii:
 		@tput setaf 6; cat ascii_art/minishell; tput setaf 7
 		@echo "\n$(ENDCOLOR)"
-		@echo "$(GREEN)Compilation de la libft !$(ENDCOLOR)"
+		@tput setaf 6; cat ascii_art/libft; tput setaf 7
+		@echo "\n"
 
 $(NAME): $(LIBS_TARGET) $(OBJS)
 	$(CC) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(NAME)

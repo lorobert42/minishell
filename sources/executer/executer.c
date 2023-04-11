@@ -14,22 +14,24 @@
 
 char	*find_path(t_data *data, int num)
 {
+	char	*env;
 	char	**path;
 	int		i;
 
-	path = ft_split(ft_getenv(data->env, "PATH"), ':');
-	if (path == NULL)
-		ft_printf("VA CHIER\n");
-	i = 0;
-	while (path[i] != NULL)
+	env = ft_getenv(data->env, "PATH");
+	if (env != NULL)
 	{
-		if (access(get_path(path[i], data->table->commands[num].args[0]), \
+		path = ft_split(env, ':');
+		i = 0;
+		while (path[i] != NULL)
+		{
+			if (access(get_path(path[i], data->table->commands[num].args[0]), \
 		F_OK | R_OK) == 0)
-			return (get_path(path[i], data->table->commands[num].args[0]));
-		i++;
+				return (get_path(path[i], data->table->commands[num].args[0]));
+			i++;
+		}
+		clear_split(path);
 	}
-	ft_printf("MERDE\n");
-	clear_split(path);
 	return (NULL);
 }
 
@@ -61,9 +63,7 @@ void	children(t_data *data, int *prev_read, int i)
 		dup2(data->fd[1], STDOUT_FILENO);
 	if (check_builtins_forks(data, i) == 1)
 	{
-		ft_printf("inside\n");
 		path = find_path(data, i);
-		ft_printf("test -> %s\n", path);
 		if (path != NULL)
 		{
 			execve(path, data->table->commands[i].args, data->env);
