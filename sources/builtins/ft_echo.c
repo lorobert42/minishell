@@ -24,6 +24,8 @@ static int	is_n(char *arg)
 	if (arg[i] != '-')
 		return (0);
 	i++;
+	if (arg[i] != 'n')
+		return (0);
 	while (arg[i] == 'n')
 		i++;
 	if (arg[i] != '\0')

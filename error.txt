@@ -1,8 +1,6 @@
 ---> ECHO
 // gestion error ok
 
-echo - : pas la meme sortie
-
 ---> CD
 // gestion error ok
 
@@ -20,5 +18,3 @@ echo - : pas la meme sortie
 
 ---> EXECUTER
 // gestion error ok
-
-!!! pas de message quand PATH unset !!!
