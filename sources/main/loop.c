@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:43:34 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/06 13:44:31 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/06 14:25:52 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	check_builtins_forks(t_data *data, int i)
 void	loop(t_data *data)
 {
 	char				*buffer;
-	int					i;
 
 	while (data->run)
 	{
@@ -97,13 +96,6 @@ void	loop(t_data *data)
 			clean_tokens(data->token);
 			free(buffer);
 			continue ;
-		}
-		i = 0;
-		while (i < data->table->n_commands)
-		{
-			if (data->table->commands[i].infile && data->table->commands[i].append)
-				heredoc(&data->table->commands[i].infile, STDOUT_FILENO, data);
-			i++;
 		}
 		execute(data);
 		clean_tokens(data->token);

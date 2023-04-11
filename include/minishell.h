@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/06 10:08:39 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/06 15:37:15 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_command
 	char	*infile;
 	char	*outfile;
 	int		append;
+	int		fd[2];
 	int		ret;
 }	t_command;
 
@@ -153,6 +154,7 @@ int				check_expansion(char **str, char **env);
 // EXECUTER
 int				execute(t_data *data);
 int				heredoc(char **delim, int fd, t_data *data);
+void			set_heredoc(t_data *data);
 
 // EXECUTE_UTILS
 char			*get_path(char *path, char *cmd);
