@@ -37,29 +37,16 @@ HEREDOCS are processed before executing any command:
 Environment variables are expanded inside HEREDOCS execpt if delimiter contains
 	quotes.
 */
-int	heredoc(char **delim, int fd, t_data *data)
+void	heredoc_loop(t_data *data, char **delim, int expand, int fd)
 {
-	int		expand;
-	int		i;
 	char	*line;
 
-	expand = 1;
-	i = 0;
-	while ((*delim)[i])
-	{
-		if ((*delim)[i] == '\'' || (*delim)[i] == '"')
-			expand = 0;
-		i++;
-	}
-	*delim = delete_quotes(*delim);
-	if (*delim == NULL)
-		return (-1);
 	line = "";
 	while (line)
 	{
 		line = readline("> ");
 		if (!line)
-			return (0);
+			return ;
 		if (ft_strncmp(line, *delim, ft_strlen(*delim) + 1) == 0)
 		{
 			free(line);
@@ -74,5 +61,24 @@ int	heredoc(char **delim, int fd, t_data *data)
 			free(line);
 		}
 	}
+}
+
+int	heredoc(char **delim, int fd, t_data *data)
+{
+	int		expand;
+	int		i;
+
+	expand = 1;
+	i = 0;
+	while ((*delim)[i])
+	{
+		if ((*delim)[i] == '\'' || (*delim)[i] == '"')
+			expand = 0;
+		i++;
+	}
+	*delim = delete_quotes(*delim);
+	if (*delim == NULL)
+		return (-1);
+	heredoc_loop(data, delim, expand, fd);
 	return (0);
 }

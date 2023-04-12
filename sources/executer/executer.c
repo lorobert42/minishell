@@ -35,44 +35,49 @@ char	*find_path(t_data *data, int num)
 	return (NULL);
 }
 
-void	children(t_data *data, int *prev_read, int i)
+void	redirection(t_data *data, int i, int *prev_read)
 {
-	char	*path;
-
-	close(data->fd[0]);
 	if (data->table->commands[i].infile && data->table->commands[i].append)
 		dup2(data->table->commands[i].fd[0], STDIN_FILENO);
 	else if (data->table->commands[i].infile)
 	{
-		data->table->commands[i].fd[0] = open(data->table->commands[i].infile, O_RDONLY);
+		data->table->commands[i].fd[0] = open(data->table->commands[i].infile, \
+			O_RDONLY);
 		dup2(data->table->commands[i].fd[0], STDIN_FILENO);
 	}
 	else
 		dup2(*prev_read, STDIN_FILENO);
 	if (data->table->commands[i].outfile && data->table->commands[i].append)
 	{
-		data->table->commands[i].fd[1] = open(data->table->commands[i].outfile, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR | S_IRGRP | S_IRGRP | S_IROTH);
+		data->table->commands[i].fd[1] = open(data->table->commands[i].outfile, \
+		O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		dup2(data->table->commands[i].fd[1], STDOUT_FILENO);
 	}
 	else if (data->table->commands[i].outfile)
 	{
-		data->table->commands[i].fd[1] = open(data->table->commands[i].outfile, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IRGRP | S_IROTH);
+		data->table->commands[i].fd[1] = open(data->table->commands[i].outfile, \
+			O_WRONLY | O_CREAT, \
+				S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 		dup2(data->table->commands[i].fd[1], STDOUT_FILENO);
 	}
 	else if (i < data->table->n_commands - 1)
 		dup2(data->fd[1], STDOUT_FILENO);
+}
+
+void	children(t_data *data, int *prev_read, int i)
+{
+	char	*path;
+
+	close(data->fd[0]);
+	redirection(data, i, prev_read);
 	if (check_builtins_forks(data, i) == 1)
 	{
 		path = find_path(data, i);
 		if (path != NULL)
-		{
 			execve(path, data->table->commands[i].args, data->env);
-		}
 		else
-		{
 			ft_printf("🤷 Hérishell: %s: a pas trouver ... 🤷\n", \
 				data->table->commands[i].args[0]);
-		}
 	}
 	exit(0);
 }
@@ -82,6 +87,8 @@ void	execution_loop(t_data *data)
 	int		prev_read;
 	pid_t	id;
 	int		i;
+	int		status;
+	int		wait;
 
 	i = 0;
 	prev_read = 0;
@@ -98,13 +105,20 @@ void	execution_loop(t_data *data)
 			children(data, &prev_read, i);
 		else
 		{
-			waitpid(id, &g_glob, 0);
 			close(data->fd[1]);
 			prev_read = data->fd[0];
 		}
 		i++;
 	}
+	wait = waitpid(-1, &status, 0);
+	while (wait != -1)
+	{
+		if (wait == id)
+			g_glob = status;
+		wait = waitpid(-1, &status, 0);
+	}
 }
+
 int	execute(t_data *data)
 {
 	set_heredoc(data);

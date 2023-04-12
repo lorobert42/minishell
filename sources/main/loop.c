@@ -81,6 +81,7 @@ void	loop(t_data *data)
 		data->token = lexer(buffer);
 		if (!data->token)
 		{
+			clean_tokens(data->token);
 			free(buffer);
 			continue ;
 		}

@@ -87,7 +87,8 @@ char	*delete_quotes(char *str)
 	in_quote = 0;
 	while (str[i])
 	{
-		if (!is_quote(str[i]) || (is_quote(str[i]) && in_quote && in_quote != str[i]))
+		if (!is_quote(str[i]) || (is_quote(str[i]) && in_quote \
+			&& in_quote != str[i]))
 		{
 			if (in_quote == str[i])
 				in_quote = 0;

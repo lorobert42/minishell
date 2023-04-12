@@ -23,7 +23,7 @@ void	handler(int sig)
 	}
 }
 
-void	sig_handler()
+void	sig_handler(void)
 {
 	struct sigaction	sa;
 
