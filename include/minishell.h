@@ -83,6 +83,7 @@ typedef struct s_data
 	t_command_table		*table;
 	struct sigaction	sa;
 	struct termios		tp;
+	int 				sig_state;
 
 }	t_data;
 
@@ -125,6 +126,7 @@ void			clear_lst(t_data *data);
 int				get_tab_size(char **tab);
 char			**tab_add_back(t_data *data, char *content);
 void			print_str_tab(char **tab);
+char			**sort_tab(char **env);
 
 // CLEAR_SPLIT
 void			clear_split(char **split);
@@ -158,7 +160,7 @@ void			set_heredoc(t_data *data);
 char			*get_path(char *path, char *cmd);
 
 // SIGNAUX
-void			sig_handler(void);
+void			sig_handler(t_data *data);
 void			termios_remove_ctrl(void);
 void			termios_restore_ctrl(void);
 

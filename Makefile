@@ -122,5 +122,10 @@ re:
 	@$(MAKE) fclean
 	@$(MAKE) all
 
+run: $(NAME)
+	@echo "\n"
+	./minishell
+
+
 .PHONY: all clean fclean re
 .SILENT:

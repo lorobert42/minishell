@@ -62,3 +62,31 @@ char	**tab_add_back(t_data *data, char *content)
 	clear_split(data->env);
 	return (new);
 }
+
+char	**sort_tab(char **env)
+{
+	int		i;
+	int		num_env;
+	char	*temp;
+
+	num_env = 0;
+	while (env[num_env]) {
+		num_env++;
+	}
+
+	int swapped = 1;
+	while (swapped) {
+		swapped = 0;
+		i = 0;
+		while (i < num_env - 1) {
+			if (strcmp(env[i], env[i+1]) > 0) {
+				temp = env[i];
+				env[i] = env[i+1];
+				env[i+1] = temp;
+				swapped = 1;
+			}
+			i++;
+		}
+	}
+	return (env);
+}

@@ -54,16 +54,16 @@ char	*create_env_value(char *key, char *value)
 	return (res);
 }
 
-int	print_export(char **env)
+int print_export(char **env)
 {
-	int		i;
-	int		j;
-	char	*sub;
+	int i;
+	int j;
 
 	i = 0;
+	env = sort_tab(env);
 	while (env[i])
 	{
-		sub = ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i] + 1);
+		char *sub = ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i] + 1);
 		ft_printf("declare -x %s\"", sub);
 		j = ft_strlen(sub);
 		free(sub);
@@ -117,10 +117,12 @@ int	ft_export(t_data *data, char *key, char *value)
 	new_value = create_env_value(key, value);
 	res = check_export_format(key);
 	if (res == 0)
+	{
 		update(data, key, new_value);
+	}
 	else
 	{
-		print_error("Invalid argument", "export");
+		print_error("Invalid argument test", "export");
 	}
 	free(new_value);
 	return (res);

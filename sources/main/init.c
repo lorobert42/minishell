@@ -17,4 +17,5 @@ void	init(t_data *data, char **env)
 	g_glob = 0;
 	data->run = 1;
 	data->env = parse_env(env);
+	data->sig_state = 0;
 }

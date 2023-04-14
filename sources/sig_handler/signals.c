@@ -12,24 +12,31 @@
 
 #include "../../include/minishell.h"
 
-void	handler(int sig)
+void	handler(int sig, siginfo_t *info, void *context)
 {
-	if (sig == SIGINT)
+	t_data *data = (t_data *)info;
+
+	(void)context;
+	//ft_printf("sig_state -> %d\n", data->sig_state);
+	if (data->sig_state == 0)
 	{
-		write(1, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
+		if (sig == SIGINT)
+		{
+			write(1, "\n", 1);
+			rl_replace_line("", 0);
+			rl_on_new_line();
+			rl_redisplay();
+		}
 	}
 }
 
-void	sig_handler(void)
-{
-	struct sigaction	sa;
+void sig_handler(t_data *data) {
+	struct sigaction sa;
+	union sigval value;
 
-	sa.sa_handler = handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
+	memset(&sa, 0, sizeof(sa));
+	value.sival_ptr = data;
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = handler;
 	sigaction(SIGINT, &sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
 }

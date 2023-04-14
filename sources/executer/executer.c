@@ -94,6 +94,12 @@ void	execution_loop(t_data *data)
 	prev_read = 0;
 	while (i < data->table->n_commands)
 	{
+		if (ft_strncmp(data->table->commands[i].args[0], "cat\0", 4) == 0)
+		{
+			termios_restore_ctrl();
+			data->sig_state = 1;
+			ft_printf("BEFORE -> %d\n", data->sig_state);
+		}
 		pipe(data->fd);
 		if (!check_builtins_out(data, i))
 		{
@@ -111,6 +117,7 @@ void	execution_loop(t_data *data)
 		i++;
 	}
 	wait = waitpid(-1, &status, 0);
+	termios_remove_ctrl();
 	while (wait != -1)
 	{
 		if (wait == id)

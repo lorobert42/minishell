@@ -3,47 +3,54 @@
         (que alpha num \ attention a si il exit ou pas)
 
 ---> ECHO
-// leaks ok
+    !!! ne prend pas l'entree de heredoc
 
 ---> CD
-// leaks ok
 
 ---> ENV
-// leaks ok
 
 -> ne pas afficher une valeur sans value ni '='
+    (a detecter dans le parsing si pas de = dans la com export)
 
 ---> EXPORT
-// leaks ok
 
-    -> double erreur quand arg invalide !!!
-
--> trier par ordre alphabetique pour export sans argument
+    ->  ̶d̶o̶u̶b̶l̶e̶ ̶e̶r̶r̶e̶u̶r̶ ̶q̶u̶a̶n̶d̶ ̶a̶r̶g̶ ̶i̶n̶v̶a̶l̶i̶d̶e̶ ̶!̶!̶!̶
+    ->  ̶t̶r̶i̶e̶r̶ ̶p̶a̶r̶ ̶o̶r̶d̶r̶e̶ ̶a̶l̶p̶h̶a̶b̶e̶t̶i̶q̶u̶e̶ ̶p̶o̶u̶r̶ ̶e̶x̶p̶o̶r̶t̶ ̶s̶a̶n̶s̶ ̶a̶r̶g̶u̶m̶e̶n̶t̶
 
 ---> PWD
-// leaks ok
 
 ---> UNSET
-// leaks ok
 
 ---> EXECUTER
-// leaks ok
-    -> cat | cat | ls (need to execute ls before cat)
+    -> c̶a̶t̶ ̶|̶ ̶c̶a̶t̶ ̶|̶ ̶l̶s̶ ̶(̶n̶e̶e̶d̶ ̶t̶o̶ ̶e̶x̶e̶c̶u̶t̶e̶ ̶l̶s̶ ̶b̶e̶f̶o̶r̶e̶ ̶c̶a̶t̶)̶
+    -> cat tourne en boucle
 
 ---> HEREDOC
     ->heredoc cree pas tout les fichier
+    doit passer par la gestion des quotes
 
 exit general :
-    -> bien gerer les erreurs en retour general
+    -> bien gerer les erreurs en retour general des builtins
 
 redirection:
     -> SEGF quand pas d'entree
 
 parse:
-    -> SEGF quand un seul pipe ou double pipe
+    -> SEGF quand un seul pipe ou double pipe (commande vide interpretter)
 
 SQ \DQ
-    ->probleme de conteur
+    ->probleme de conteur :
+            a tester :
+                line = "\"'\"\"'$USERRRR'\"'\"'";
+                line = "\"'\"\"'$USER'\"'\"'";
+                line = "'$USER'";
+                line = "\"$USER\"";
+                line = "$\"USER\"";
+                line = "$'USER'";
+                line = "\"$'USER'\"";
+                line = "'$\"USER\"'";
+                line = "\"$\"\"USER\"";
+                line = "'$''USER'";
 
 les signaux:
     ->les signaux ne sont pas bien gerer dans les commands bloquante

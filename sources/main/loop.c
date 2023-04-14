@@ -21,7 +21,7 @@ int	run_export(t_data *data, char **cmd)
 	if (!cmd[1])
 	{
 		ft_export(data, NULL, NULL);
-		return (0);
+		return (1);
 	}
 	split = ft_split(cmd[1], '=');
 	if (split[0])
@@ -30,7 +30,6 @@ int	run_export(t_data *data, char **cmd)
 	{
 		g_glob = 1;
 		errno = EINVAL;
-		perror(cmd[1]);
 	}
 	clear_split(split);
 	return (0);
@@ -72,6 +71,7 @@ void	loop(t_data *data)
 {
 	char				*buffer;
 
+
 	while (data->run)
 	{
 		buffer = readline("🦔 \e[34m Hérishell 🦔 => \e[39m");
@@ -79,6 +79,7 @@ void	loop(t_data *data)
 			exit(0);
 		add_history(buffer);
 		data->token = lexer(buffer);
+
 		if (!data->token)
 		{
 			clean_tokens(data->token);

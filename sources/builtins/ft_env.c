@@ -19,7 +19,8 @@ int	ft_env(char **env)
 	i = 0;
 	while (env[i] != NULL)
 	{
-		ft_printf("%s\n", env[i]);
+		if (ft_strchr(env[i], '=') != NULL)
+			ft_printf("%s\n", env[i]);
 		i++;
 	}
 	g_glob = 0;
