@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/04/06 15:37:23 by lorobert         ###   ########.fr        #
+#    Updated: 2023/04/17 17:21:32 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,6 @@ SRCS			:=	builtins/ft_echo.c \
 					builtins/ft_unset.c \
 					builtins/ft_export.c \
 					env/parse_env.c \
-					env/del_env.c \
 					lexer/lexer.c \
 					lexer/token.c \
 					lexer/issep.c \
@@ -116,11 +115,11 @@ clean:
 
 fclean: clean
 	for f in $(dir $(LIBS_TARGET)); do $(MAKE) -C $$f fclean; done
-	@$(RM) $(NAME)
+	$(RM) $(NAME)
 
 re:
-	@$(MAKE) fclean
-	@$(MAKE) all
+	$(MAKE) fclean
+	$(MAKE) all
 
 run: $(NAME)
 	@echo "\n"

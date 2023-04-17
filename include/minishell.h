@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_ascii.h                                  :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/06 15:37:15 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:59:34 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,13 @@ int				issep(int c);
 // BULTINS
 int				ft_env(char **env);
 char			*ft_getenv(char **env, char *key);
-int				ft_export(t_data *data, char *key, char *value);
+int				ft_export(t_data *data, char *arg);
 int				print_export(char **env);
+void			update_env(t_data *data, char *key, char *new_value);
 int				ft_unset(t_data *data, char *s);
 int				ft_echo(char **args);
 int				ft_pwd(void);
-int				ft_cd(t_data *data, char *path);
+int				ft_cd(t_data *data, char **args);
 char			**parse_env(char **env_strs);
 t_env			*extract_entry(char *env_entry);
 t_env			*create_entry(char *key, char *value);

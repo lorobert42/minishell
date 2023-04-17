@@ -3,14 +3,14 @@
         (que alpha num \ attention a si il exit ou pas)
 
 ---> ECHO
-    !!! ne prend pas l'entree de heredoc
+    !!! ne prend pas l'entree de heredoc --> bash non plus d'après mes tests
 
 ---> CD
 
 ---> ENV
 
--> ne pas afficher une valeur sans value ni '='
-    (a detecter dans le parsing si pas de = dans la com export)
+->  ̶n̶e̶ ̶p̶a̶s̶ ̶a̶f̶f̶i̶c̶h̶e̶r̶ ̶u̶n̶e̶ ̶v̶a̶l̶e̶u̶r̶ ̶s̶a̶n̶s̶ ̶v̶a̶l̶u̶e̶ ̶n̶i̶ ̶'̶=̶'̶ --> affiche si pas de valeur (comme bash)
+    (a detecter dans le parsing si pas de = dans la com export) --> fait
 
 ---> EXPORT
 
@@ -26,17 +26,20 @@
     -> cat tourne en boucle
 
 ---> HEREDOC
-    ->heredoc cree pas tout les fichier
-    doit passer par la gestion des quotes
+    ->heredoc cree pas tout les fichier --> est-ce qu'il y a un exemple d'erreur ?
+    doit passer par la gestion des quotes --> est-ce qu'il y a un exemple d'erreur ?
 
 exit general :
     -> bien gerer les erreurs en retour general des builtins
 
 redirection:
-    -> SEGF quand pas d'entree
+    ->  ̶S̶E̶G̶F̶ ̶q̶u̶a̶n̶d̶ ̶p̶a̶s̶ ̶d̶'̶e̶n̶t̶r̶e̶e̶
 
 parse:
-    -> SEGF quand un seul pipe ou double pipe (commande vide interpretter)
+    ->  ̶S̶E̶G̶F̶ ̶q̶u̶a̶n̶d̶ ̶u̶n̶ ̶s̶e̶u̶l̶ ̶p̶i̶p̶e̶ ̶o̶u̶ ̶d̶o̶u̶b̶l̶e̶ ̶p̶i̶p̶e̶ ̶(̶c̶o̶m̶m̶a̶n̶d̶e̶ ̶v̶i̶d̶e̶ ̶i̶n̶t̶e̶r̶p̶r̶e̶t̶t̶e̶r̶)̶
+    ->  g_glob ne permet pas de suivre les erreurs de parsing
+        car il faut savoir si une erreur de parsing s'est produite, mais aussi
+        garder la valeur de g_glob pour la prochaine commande
 
 SQ \DQ
     ->probleme de conteur :

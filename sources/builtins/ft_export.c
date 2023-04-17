@@ -6,38 +6,26 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 16:11:25 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/06 13:55:05 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/17 17:18:42 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-/*
-Set a new environment variable, if key already exists, replace it by the new
-one.
-*/
-int	check_export_format(char *args)
+int	is_valid_key(char *args)
 {
-	int	res;
 	int	i;
 
-	res = 1;
+	if (args == NULL)
+		return (0);
 	i = 1;
-	if (ft_isalpha(args[0]) != 0 || args[0] == '_')
-		res = 0;
-	while (args[i])
-	{
-		if (args[i] == ' ' || args[i] == '!' || args[i] == '*' || \
-			args[i] == '%')
-			res = 1;
-		if (ft_isalnum(args[i]) == 0)
-		{
-			if (args[i] != '_')
-				res = 1;
-		}
+	if (ft_isalpha(args[0]) == 0 && args[0] != '_')
+		return (0);
+	while (ft_isalnum(args[i]) != 0 || args[i] == '_')
 		i++;
-	}
-	return (res);
+	if (args[i] != '\0')
+		return (0);
+	return (1);
 }
 
 char	*create_env_value(char *key, char *value)
@@ -54,16 +42,17 @@ char	*create_env_value(char *key, char *value)
 	return (res);
 }
 
-int print_export(char **env)
+int	print_export(char **env)
 {
-	int i;
-	int j;
+	int		i;
+	int		j;
+	char	*sub;
 
 	i = 0;
 	env = sort_tab(env);
 	while (env[i])
 	{
-		char *sub = ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i] + 1);
+		sub = ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i] + 1);
 		ft_printf("declare -x %s\"", sub);
 		j = ft_strlen(sub);
 		free(sub);
@@ -82,7 +71,7 @@ int print_export(char **env)
 	return (0);
 }
 
-void	update(t_data *data, char *key, char *new_value)
+void	update_env(t_data *data, char *key, char *new_value)
 {
 	char	*env;
 	int		index;
@@ -103,27 +92,25 @@ void	update(t_data *data, char *key, char *new_value)
 	free(env);
 }
 
-int	ft_export(t_data *data, char *key, char *value)
+int	ft_export(t_data *data, char *arg)
 {
 	char	*new_value;
+	char	**split;
 	int		res;
 
-	if (!key)
+	split = ft_split(arg, '=');
+	res = is_valid_key(split[0]);
+	if (res == 1 && ft_strchr(arg, '=') != NULL)
 	{
-		print_export(data->env);
-		g_glob = 0;
-		return (0);
+		new_value = create_env_value(split[0], split[1]);
+		update_env(data, split[0], new_value);
+		free(new_value);
 	}
-	new_value = create_env_value(key, value);
-	res = check_export_format(key);
-	if (res == 0)
+	else if (res == 0)
 	{
-		update(data, key, new_value);
+		g_glob = 1;
+		print_error("not a valid identifier", "export");
+		clear_split(split);
 	}
-	else
-	{
-		print_error("Invalid argument test", "export");
-	}
-	free(new_value);
-	return (res);
+	return (0);
 }

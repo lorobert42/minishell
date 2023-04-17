@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:04:43 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/06 15:36:56 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:54:07 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,11 @@ void	execution_loop(t_data *data)
 	prev_read = 0;
 	while (i < data->table->n_commands)
 	{
-		if (ft_strncmp(data->table->commands[i].args[0], "cat\0", 4) == 0)
+		if (data->table->commands[i].args[0] && ft_strncmp(data->table->commands[i].args[0], "cat\0", 4) == 0)
 		{
 			termios_restore_ctrl();
 			data->sig_state = 1;
-			ft_printf("BEFORE -> %d\n", data->sig_state);
+			//ft_printf("BEFORE -> %d\n", data->sig_state);
 		}
 		pipe(data->fd);
 		if (!check_builtins_out(data, i))

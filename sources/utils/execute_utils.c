@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afavre <afavre@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 13:27:20 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/30 13:27:24 by afavre           ###   ########.fr       */
+/*   Updated: 2023/04/17 10:11:44 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ char	*get_path(char *path, char *cmd)
 	char	*temp;
 
 	temp = ft_strjoin(path, "/");
-	res = ft_strjoin(temp, cmd);
+	if (cmd == NULL)
+		res = ft_strdup(temp);
+	else
+		res = ft_strjoin(temp, cmd);
 	free(temp);
 	return (res);
 }

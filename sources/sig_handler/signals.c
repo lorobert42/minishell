@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afavre <afavre@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 09:57:14 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/06 09:57:17 by afavre           ###   ########.fr       */
+/*   Updated: 2023/04/17 09:42:53 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void sig_handler(t_data *data) {
 	struct sigaction sa;
 	union sigval value;
 
+	(void)value;
 	memset(&sa, 0, sizeof(sa));
 	value.sival_ptr = data;
 	sa.sa_flags = SA_SIGINFO;
