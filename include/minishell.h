@@ -30,7 +30,7 @@
 # include "../libs/libft_rework/gnl/include/get_next_line.h"
 # include "../libs/libft_rework/printf/include/ft_printf.h"
 
-int	g_glob;
+int	g_glob[2];
 
 typedef enum e_token_type
 {
@@ -83,7 +83,6 @@ typedef struct s_data
 	t_command_table		*table;
 	struct sigaction	sa;
 	struct termios		tp;
-	int 				sig_state;
 
 }	t_data;
 
@@ -161,7 +160,7 @@ void			set_heredoc(t_data *data);
 char			*get_path(char *path, char *cmd);
 
 // SIGNAUX
-void			sig_handler(t_data *data);
+void			sig_handler();
 void			termios_remove_ctrl(void);
 void			termios_restore_ctrl(void);
 

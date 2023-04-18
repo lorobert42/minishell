@@ -3,7 +3,7 @@
         (que alpha num \ attention a si il exit ou pas)
 
 ---> ECHO
-    !!! ne prend pas l'entree de heredoc --> bash non plus d'après mes tests
+     ̶!̶!̶!̶ ̶n̶e̶ ̶p̶r̶e̶n̶d̶ ̶p̶a̶s̶ ̶l̶'̶e̶n̶t̶r̶e̶e̶ ̶d̶e̶ ̶h̶e̶r̶e̶d̶o̶c̶ ̶-̶-̶>̶ ̶b̶a̶s̶h̶ ̶n̶o̶n̶ ̶p̶l̶u̶s̶ ̶d̶'̶a̶p̶r̶è̶s̶ ̶m̶e̶s̶ ̶t̶e̶s̶t̶s̶
 
 ---> CD
 

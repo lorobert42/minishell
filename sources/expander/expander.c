@@ -36,7 +36,7 @@ int	get_variable(char *s, char **var, char **env)
 		return (0);
 	varname = ft_substr(s, 0, end);
 	if (ft_strncmp(varname, "?", 2) == 0)
-		*var = ft_itoa(g_glob);
+		*var = ft_itoa(g_glob[0]);
 	else
 		*var = getenv_value(env, varname);
 	free(varname);

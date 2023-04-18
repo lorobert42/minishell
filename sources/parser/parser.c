@@ -16,7 +16,7 @@ t_token	*extract_redirection(t_token *tokens, t_command *command)
 {
 	if (tokens->next == NULL || !is_string(tokens->next->type))
 	{
-		g_glob = 1;
+		g_glob[0] = 1;
 		return (NULL);
 	}
 	if (tokens->type == REDIR_LEFT)
@@ -66,7 +66,7 @@ t_token	*parse_command(t_token *tokens, t_command *command)
 		{
 			tokens = extract_string(tokens, command);
 		}
-		if (g_glob == 1)
+		if (g_glob[0] == 1)
 			return (NULL);
 	}
 	if (command->args == NULL)
@@ -108,7 +108,7 @@ t_command_table	*init_table(t_token *tokens)
 	if (table->n_commands == -1)
 	{
 		free(table);
-		g_glob = 1;
+		g_glob[0] = 1;
 		return (NULL);
 	}
 	table->commands = malloc(sizeof(t_command) * table->n_commands);
@@ -138,7 +138,7 @@ t_command_table	*parser(t_token *tokens)
 		while (tokens && tokens->type != PIPE)
 		{
 			tokens = parse_command(tokens, &(table->commands[i]));
-			if (g_glob == 1)
+			if (g_glob[0] == 1)
 			{
 				clean_command_table(table);
 				return (NULL);

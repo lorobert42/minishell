@@ -23,6 +23,6 @@ int	ft_env(char **env)
 			ft_printf("%s\n", env[i]);
 		i++;
 	}
-	g_glob = 0;
+	g_glob[0] = 0;
 	return (0);
 }

@@ -22,7 +22,7 @@ int	ft_pwd(void)
 	if (getcwd(var, PATH_MAX) != NULL)
 	{
 		ft_printf("%s\n", var);
-		g_glob = 0;
+		g_glob[0] = 0;
 	}
 	else
 	{

@@ -97,7 +97,7 @@ void	execution_loop(t_data *data)
 		if (data->table->commands[i].args[0] && ft_strncmp(data->table->commands[i].args[0], "cat\0", 4) == 0)
 		{
 			termios_restore_ctrl();
-			data->sig_state = 1;
+			g_glob[1] = 43;
 			//ft_printf("BEFORE -> %d\n", data->sig_state);
 		}
 		pipe(data->fd);
@@ -121,7 +121,7 @@ void	execution_loop(t_data *data)
 	while (wait != -1)
 	{
 		if (wait == id)
-			g_glob = status;
+			g_glob[0] = status;
 		wait = waitpid(-1, &status, 0);
 	}
 }

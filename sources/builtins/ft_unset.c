@@ -59,7 +59,7 @@ int	ft_unset(t_data *data, char *s)
 			if (ft_strncmp(data->env[i], s, ft_strchr(data->env[i], '=') \
 			- data->env[i]) == 0)
 			{
-				g_glob = 0;
+				g_glob[0] = 0;
 				data->env = remove_string(data->env, i);
 				return (0);
 			}

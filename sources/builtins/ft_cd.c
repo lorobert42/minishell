@@ -20,7 +20,7 @@ void	update_env_ifexist(t_data *data, char *key, char *newval)
 	if (oldval)
 	{
 		update_env(data, key, newval);
-		g_glob = 0;
+		g_glob[0] = 0;
 	}
 	free(oldval);
 }
@@ -88,7 +88,7 @@ int	ft_cd(t_data *data, char **args)
 	path = args[1];
 	if (path && args[2])
 	{
-		g_glob = 1;
+		g_glob[0] = 1;
 		print_error("too many arguments", "cd");
 		return (0);
 	}

@@ -14,11 +14,9 @@
 
 void	handler(int sig, siginfo_t *info, void *context)
 {
-	t_data *data = (t_data *)info;
-
+	(void)info;
 	(void)context;
-	//ft_printf("sig_state -> %d\n", data->sig_state);
-	if (data->sig_state == 0)
+	if (g_glob[1] == 0)
 	{
 		if (sig == SIGINT)
 		{
@@ -30,13 +28,9 @@ void	handler(int sig, siginfo_t *info, void *context)
 	}
 }
 
-void sig_handler(t_data *data) {
+void sig_handler(void) {
 	struct sigaction sa;
-	union sigval value;
 
-	(void)value;
-	memset(&sa, 0, sizeof(sa));
-	value.sival_ptr = data;
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = handler;
 	sigaction(SIGINT, &sa, NULL);

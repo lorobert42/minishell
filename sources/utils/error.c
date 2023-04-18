@@ -19,12 +19,12 @@ void	print_error(char *msg, char *command)
 	base = ft_strjoin("Hérishell: ", command);
 	if (errno)
 	{
-		g_glob = errno;
+		g_glob[0] = errno;
 		perror(base);
 	}
 	else
 	{
-		g_glob = 1;
+		g_glob[0] = 1;
 		ft_putstr_fd(base, 2);
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(msg, 2);

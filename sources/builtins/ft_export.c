@@ -82,12 +82,12 @@ void	update_env(t_data *data, char *key, char *new_value)
 		index = get_env_index(data->env, key);
 		free(data->env[index]);
 		data->env[index] = ft_strdup(new_value);
-		g_glob = 0;
+		g_glob[0] = 0;
 	}
 	else
 	{
 		data->env = tab_add_back(data, new_value);
-		g_glob = 0;
+		g_glob[0] = 0;
 	}
 	free(env);
 }
@@ -108,7 +108,7 @@ int	ft_export(t_data *data, char *arg)
 	}
 	else if (res == 0)
 	{
-		g_glob = 1;
+		g_glob[0] = 1;
 		print_error("not a valid identifier", "export");
 		clear_split(split);
 	}
