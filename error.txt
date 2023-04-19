@@ -1,42 +1,14 @@
----> EXIT
--> gerer les args
-        (que alpha num \ attention a si il exit ou pas)
-
----> ECHO
-     ̶!̶!̶!̶ ̶n̶e̶ ̶p̶r̶e̶n̶d̶ ̶p̶a̶s̶ ̶l̶'̶e̶n̶t̶r̶e̶e̶ ̶d̶e̶ ̶h̶e̶r̶e̶d̶o̶c̶ ̶-̶-̶>̶ ̶b̶a̶s̶h̶ ̶n̶o̶n̶ ̶p̶l̶u̶s̶ ̶d̶'̶a̶p̶r̶è̶s̶ ̶m̶e̶s̶ ̶t̶e̶s̶t̶s̶
-
----> CD
-
----> ENV
-
-->  ̶n̶e̶ ̶p̶a̶s̶ ̶a̶f̶f̶i̶c̶h̶e̶r̶ ̶u̶n̶e̶ ̶v̶a̶l̶e̶u̶r̶ ̶s̶a̶n̶s̶ ̶v̶a̶l̶u̶e̶ ̶n̶i̶ ̶'̶=̶'̶ --> affiche si pas de valeur (comme bash)
-    (a detecter dans le parsing si pas de = dans la com export) --> fait
-
----> EXPORT
-
-    ->  ̶d̶o̶u̶b̶l̶e̶ ̶e̶r̶r̶e̶u̶r̶ ̶q̶u̶a̶n̶d̶ ̶a̶r̶g̶ ̶i̶n̶v̶a̶l̶i̶d̶e̶ ̶!̶!̶!̶
-    ->  ̶t̶r̶i̶e̶r̶ ̶p̶a̶r̶ ̶o̶r̶d̶r̶e̶ ̶a̶l̶p̶h̶a̶b̶e̶t̶i̶q̶u̶e̶ ̶p̶o̶u̶r̶ ̶e̶x̶p̶o̶r̶t̶ ̶s̶a̶n̶s̶ ̶a̶r̶g̶u̶m̶e̶n̶t̶
-
----> PWD
-
----> UNSET
-
 ---> EXECUTER
-    -> c̶a̶t̶ ̶|̶ ̶c̶a̶t̶ ̶|̶ ̶l̶s̶ ̶(̶n̶e̶e̶d̶ ̶t̶o̶ ̶e̶x̶e̶c̶u̶t̶e̶ ̶l̶s̶ ̶b̶e̶f̶o̶r̶e̶ ̶c̶a̶t̶)̶
     -> cat tourne en boucle
-
----> HEREDOC
 
 exit general :
     -> bien gerer les erreurs en retour general des builtins
 
 redirection:
-    ->  ̶S̶E̶G̶F̶ ̶q̶u̶a̶n̶d̶ ̶p̶a̶s̶ ̶d̶'̶e̶n̶t̶r̶e̶e̶
     -> Si plusieurs redirections pour la même commande, doit créer tous les fichiers
     -> doit passer par la gestion des quotes
 
 parse:
-    ->  ̶S̶E̶G̶F̶ ̶q̶u̶a̶n̶d̶ ̶u̶n̶ ̶s̶e̶u̶l̶ ̶p̶i̶p̶e̶ ̶o̶u̶ ̶d̶o̶u̶b̶l̶e̶ ̶p̶i̶p̶e̶ ̶(̶c̶o̶m̶m̶a̶n̶d̶e̶ ̶v̶i̶d̶e̶ ̶i̶n̶t̶e̶r̶p̶r̶e̶t̶t̶e̶r̶)̶
     ->  g_glob ne permet pas de suivre les erreurs de parsing
         car il faut savoir si une erreur de parsing s'est produite, mais aussi
         garder la valeur de g_glob pour la prochaine commande
@@ -55,9 +27,6 @@ SQ \DQ
                 line = "\"$\"\"USER\"";
                 line = "'$''USER'";
 
-les signaux:
-     ̶-̶>̶l̶e̶s̶ ̶s̶i̶g̶n̶a̶u̶x̶ ̶n̶e̶ ̶s̶o̶n̶t̶ ̶p̶a̶s̶ ̶b̶i̶e̶n̶ ̶g̶e̶r̶e̶r̶ ̶d̶a̶n̶s̶ ̶l̶e̶s̶ ̶c̶o̶m̶m̶a̶n̶d̶s̶ ̶b̶l̶o̶q̶u̶a̶n̶t̶e̶
-      ̶(̶s̶e̶t̶ ̶h̶e̶r̶e̶d̶o̶c̶ ̶a̶ ̶g̶_̶g̶l̶o̶b̶[̶1̶]̶ ̶=̶ ̶1̶)̶
 
 // SOUS LE TAPIS
     --> Premier prompt (SIGQUIT retourne au debut du prompt)
