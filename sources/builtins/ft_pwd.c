@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 09:33:27 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/17 16:17:12 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/19 10:02:24 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_pwd(void)
 	if (getcwd(var, PATH_MAX) != NULL)
 	{
 		ft_printf("%s\n", var);
-		g_glob[0] = 0;
+		g_glob.error = 0;
 	}
 	else
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afavre <afavre@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:35:00 by afavre            #+#    #+#             */
-/*   Updated: 2023/02/24 11:34:11 by afavre           ###   ########.fr       */
+/*   Updated: 2023/04/19 10:06:12 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 void	init(t_data *data, char **env)
 {
-	g_glob[0] = 0;
-	g_glob[1] = 0;
+	g_glob.error = 0;
+	g_glob.status = 0;
+	g_glob.parsing = 0;
 	data->run = 1;
 	data->env = parse_env(env);
 }

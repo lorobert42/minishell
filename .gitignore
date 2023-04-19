@@ -2,6 +2,7 @@ minishell
 .build/
 .vscode/
 .idea/
+minishell_tester/
 
 # Prerequisites
 *.d

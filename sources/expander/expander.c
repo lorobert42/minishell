@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:48:13 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/05 10:03:52 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/19 10:04:11 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	get_variable(char *s, char **var, char **env)
 		return (0);
 	varname = ft_substr(s, 0, end);
 	if (ft_strncmp(varname, "?", 2) == 0)
-		*var = ft_itoa(g_glob[0]);
+		*var = ft_itoa(g_glob.error);
 	else
 		*var = getenv_value(env, varname);
 	free(varname);

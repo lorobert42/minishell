@@ -26,15 +26,14 @@
     -> cat tourne en boucle
 
 ---> HEREDOC
-    -> heredoc cree pas tout les fichier --> est-ce qu'il y a un exemple d'erreur ?
-    -> doit passer par la gestion des quotes ET L'EXPANDER --> est-ce qu'il y a un exemple d'erreur ?
-        (cat >> test.txt <<EOF (void fichier test_heredoc.txt))
 
 exit general :
     -> bien gerer les erreurs en retour general des builtins
 
 redirection:
     ->  ̶S̶E̶G̶F̶ ̶q̶u̶a̶n̶d̶ ̶p̶a̶s̶ ̶d̶'̶e̶n̶t̶r̶e̶e̶
+    -> Si plusieurs redirections pour la même commande, doit créer tous les fichiers
+    -> doit passer par la gestion des quotes
 
 parse:
     ->  ̶S̶E̶G̶F̶ ̶q̶u̶a̶n̶d̶ ̶u̶n̶ ̶s̶e̶u̶l̶ ̶p̶i̶p̶e̶ ̶o̶u̶ ̶d̶o̶u̶b̶l̶e̶ ̶p̶i̶p̶e̶ ̶(̶c̶o̶m̶m̶a̶n̶d̶e̶ ̶v̶i̶d̶e̶ ̶i̶n̶t̶e̶r̶p̶r̶e̶t̶t̶e̶r̶)̶

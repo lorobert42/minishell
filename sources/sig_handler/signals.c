@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 09:57:14 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/17 09:42:53 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/19 10:07:40 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	handler(int sig, siginfo_t *info, void *context)
 {
 	(void)info;
 	(void)context;
-	if (g_glob[1] == 0)
+	if (g_glob.status == 0)
 	{
 		if (sig == SIGINT)
 		{
@@ -26,7 +26,7 @@ void	handler(int sig, siginfo_t *info, void *context)
 			rl_redisplay();
 		}
 	}
-	if (g_glob[1] == 1)
+	if (g_glob.status == 1)
 	{
 		if (sig == SIGINT)
 		{
@@ -37,7 +37,7 @@ void	handler(int sig, siginfo_t *info, void *context)
 		{
 			ft_printf("Quit: 3\n");
 		}
-		g_glob[1] = 0;
+		g_glob.status = 0;
 	}
 }
 
