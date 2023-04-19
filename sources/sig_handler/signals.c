@@ -31,6 +31,7 @@ void	handler(int sig, siginfo_t *info, void *context)
 		if (sig == SIGINT)
 		{
 			ft_putchar('\n');
+			ft_putchar('a');
 		}
 		if (sig == SIGQUIT)
 		{
