@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:25:52 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/19 10:05:35 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/19 10:16:23 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@ void	extract_redirection(t_token *tokens, t_command *command)
 		if (is_redir(tokens->type))
 		{
 			if (!tokens->next || !is_string(tokens->next->type))
-				// ERROR
+			{
+				g_glob.parsing = 1;
 				return ;
+			}
 			if (tokens->type == REDIR_LEFT || tokens->type == HERE_DOC)
 				command->infile = ft_strdup(tokens->next->value);
 			else
@@ -132,10 +134,8 @@ t_command_table	*parser(t_token *tokens)
 
 	g_glob.parsing = 0;
 	table = init_table(tokens);
-	if (!table)
-		return (NULL);
 	i = 0;
-	while (i < table->n_commands)
+	while (table && i < table->n_commands)
 	{
 		table->commands[i].infile = NULL;
 		table->commands[i].outfile = NULL;
@@ -144,14 +144,17 @@ t_command_table	*parser(t_token *tokens)
 		{
 			tokens = parse_command(tokens, &(table->commands[i]));
 			if (g_glob.parsing == 1)
-			{
-				clean_command_table(table);
-				return (NULL);
-			}
+				break ;
 		}
 		if (tokens && tokens->type == PIPE)
 			tokens = tokens->next;
 		i++;
+	}
+	if (g_glob.parsing == 1)
+	{
+		g_glob.error = 258;
+		clean_command_table(table);
+		return (NULL);
 	}
 	return (table);
 }
