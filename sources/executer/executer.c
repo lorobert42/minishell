@@ -97,8 +97,7 @@ void	execution_loop(t_data *data)
 		if (data->table->commands[i].args[0] && ft_strncmp(data->table->commands[i].args[0], "cat\0", 4) == 0)
 		{
 			termios_restore_ctrl();
-			g_glob[1] = 43;
-			//ft_printf("BEFORE -> %d\n", data->sig_state);
+			g_glob[1] = 1;
 		}
 		pipe(data->fd);
 		if (!check_builtins_out(data, i))

@@ -30,6 +30,7 @@
 # include "../libs/libft_rework/gnl/include/get_next_line.h"
 # include "../libs/libft_rework/printf/include/ft_printf.h"
 
+// g_glob --> 0 = error gestion, 1 = loop_cmd status
 int	g_glob[2];
 
 typedef enum e_token_type
@@ -160,7 +161,7 @@ void			set_heredoc(t_data *data);
 char			*get_path(char *path, char *cmd);
 
 // SIGNAUX
-void			sig_handler();
+void			sig_handler(void);
 void			termios_remove_ctrl(void);
 void			termios_restore_ctrl(void);
 
@@ -172,5 +173,8 @@ void			init(t_data *data, char **env);
 
 // ERROR
 void			print_error(char *msg, char *command);
+
+// EXIT
+void			ft_exit(void);
 
 #endif

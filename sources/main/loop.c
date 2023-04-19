@@ -20,7 +20,7 @@ int	check_builtins_out(t_data *data, int i)
 	if (cmd[0] == NULL)
 		return (1);
 	else if (ft_strncmp(cmd[0], "exit\0", 5) == 0)
-		exit(0);
+		exit(g_glob[0]);
 	else if (ft_strncmp(cmd[0], "cd\0", 3) == 0)
 		return (ft_cd(data, cmd));
 	else if (ft_strncmp(cmd[0], "export\0", 7) == 0 && cmd[1] != NULL)
@@ -56,7 +56,7 @@ void	loop(t_data *data)
 	{
 		buffer = readline("🦔 \e[34m Hérishell 🦔 => \e[39m");
 		if (!buffer)
-			exit(0);
+			exit(g_glob[0]);
 		add_history(buffer);
 		data->token = lexer(buffer);
 		if (!data->token)

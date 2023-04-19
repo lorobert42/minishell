@@ -26,8 +26,9 @@
     -> cat tourne en boucle
 
 ---> HEREDOC
-    ->heredoc cree pas tout les fichier --> est-ce qu'il y a un exemple d'erreur ?
-    doit passer par la gestion des quotes --> est-ce qu'il y a un exemple d'erreur ?
+    -> heredoc cree pas tout les fichier --> est-ce qu'il y a un exemple d'erreur ?
+    -> doit passer par la gestion des quotes ET L'EXPANDER --> est-ce qu'il y a un exemple d'erreur ?
+        (cat >> test.txt <<EOF (void fichier test_heredoc.txt))
 
 exit general :
     -> bien gerer les erreurs en retour general des builtins
@@ -56,7 +57,8 @@ SQ \DQ
                 line = "'$''USER'";
 
 les signaux:
-    ->les signaux ne sont pas bien gerer dans les commands bloquante
+     ̶-̶>̶l̶e̶s̶ ̶s̶i̶g̶n̶a̶u̶x̶ ̶n̶e̶ ̶s̶o̶n̶t̶ ̶p̶a̶s̶ ̶b̶i̶e̶n̶ ̶g̶e̶r̶e̶r̶ ̶d̶a̶n̶s̶ ̶l̶e̶s̶ ̶c̶o̶m̶m̶a̶n̶d̶s̶ ̶b̶l̶o̶q̶u̶a̶n̶t̶e̶
+     (set heredoc a g_glob[1] = 1)
 
 
 
