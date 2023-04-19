@@ -12,39 +12,36 @@
 
 #include "../../include/minishell.h"
 
-void	handler(int sig, siginfo_t *info, void *context)
+static void	handler(int sig)
 {
-	(void)info;
-	(void)context;
 	if (g_glob.status == 0)
 	{
 		if (sig == SIGINT)
 		{
-			write(1, "\n", 1);
+			ft_putchar('\n');
 			rl_replace_line("", 0);
 			rl_on_new_line();
 			rl_redisplay();
+		}
+		if (sig == SIGQUIT)
+		{
+			signal(SIGQUIT, SIG_IGN);
 		}
 	}
 	if (g_glob.status == 1)
 	{
 		if (sig == SIGINT)
-		{
 			ft_putchar('\n');
-		}
 		if (sig == SIGQUIT)
-		{
 			ft_printf("Quit: 3\n");
-		}
 		g_glob.status = 0;
 	}
 }
 
 void sig_handler() {
-	struct sigaction sa;
+	struct sigaction sa_int;
 
-	sa.sa_flags = SA_SIGINFO;
-	sa.sa_sigaction = handler;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
+	sa_int.sa_handler = &handler;
+	sigaction(SIGINT, &sa_int, NULL);
+	sigaction(SIGQUIT, &sa_int, NULL);
 }

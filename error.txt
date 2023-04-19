@@ -57,7 +57,10 @@ SQ \DQ
 
 les signaux:
      ̶-̶>̶l̶e̶s̶ ̶s̶i̶g̶n̶a̶u̶x̶ ̶n̶e̶ ̶s̶o̶n̶t̶ ̶p̶a̶s̶ ̶b̶i̶e̶n̶ ̶g̶e̶r̶e̶r̶ ̶d̶a̶n̶s̶ ̶l̶e̶s̶ ̶c̶o̶m̶m̶a̶n̶d̶s̶ ̶b̶l̶o̶q̶u̶a̶n̶t̶e̶
-     (set heredoc a g_glob[1] = 1)
+      ̶(̶s̶e̶t̶ ̶h̶e̶r̶e̶d̶o̶c̶ ̶a̶ ̶g̶_̶g̶l̶o̶b̶[̶1̶]̶ ̶=̶ ̶1̶)̶
+
+// SOUS LE TAPIS
+    --> Premier prompt (SIGQUIT retourne au debut du prompt)
 
 
 
