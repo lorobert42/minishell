@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 10:05:06 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/03 11:59:23 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/19 12:09:59 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,13 @@ char	*delete_quotes(char *str)
 		if (!is_quote(str[i]) || (is_quote(str[i]) && in_quote \
 			&& in_quote != str[i]))
 		{
-			if (in_quote == str[i])
-				in_quote = 0;
 			new[j] = str[i];
 			j++;
 		}
 		else if (in_quote == 0)
 			in_quote = str[i];
+		else if (is_quote(str[i]) && in_quote)
+			in_quote = 0;
 		i++;
 	}
 	new[j] = '\0';
