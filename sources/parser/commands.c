@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:39:37 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/17 10:43:37 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/19 10:17:14 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void	clean_command_table(t_command_table *table)
 	int	i;
 	int	j;
 
+	if (!table)
+		return ;
 	i = 0;
 	while (i < table->n_commands)
 	{

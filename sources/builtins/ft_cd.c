@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 09:11:34 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/19 10:02:46 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/19 10:22:38 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,6 @@ int	ft_cd(t_data *data, char **args)
 	char	*path;
 
 	path = args[1];
-	if (path && args[2])
-	{
-		g_glob.error = 1;
-		print_error("too many arguments", "cd");
-		return (0);
-	}
 	if (!path || ft_strncmp(path, "~", 2) == 0)
 	{
 		ft_cd_home(data, path);
@@ -102,5 +96,7 @@ int	ft_cd(t_data *data, char **args)
 	}
 	else
 		ft_cd_path(data, path);
+	if (errno != 0)
+		g_glob.error = 1;
 	return (0);
 }
