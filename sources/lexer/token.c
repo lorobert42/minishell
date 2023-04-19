@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 09:26:21 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/03 18:20:44 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/19 09:15:42 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@ void	add_token(t_token **tokens, t_token *new)
 	while (current->next != NULL)
 		current = current->next;
 	current->next = new;
+}
+
+void	delete_token(t_token *start, t_token *to_del)
+{
+	while (start->next != to_del)
+		start = start->next;
+	start->next = to_del->next;
+	free(to_del->value);
 }
 
 void	clean_tokens(t_token *tokens)

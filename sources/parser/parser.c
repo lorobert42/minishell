@@ -6,30 +6,37 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:25:52 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/17 17:23:58 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/19 10:05:35 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-t_token	*extract_redirection(t_token *tokens, t_command *command)
+void	extract_redirection(t_token *tokens, t_command *command)
 {
-	if (tokens->next == NULL || !is_string(tokens->next->type))
+	t_token	*start;
+	t_token	*next;
+
+	start = tokens;
+	while (tokens && tokens->type != PIPE)
 	{
-		g_glob[0] = 1;
-		return (NULL);
+		if (is_redir(tokens->type))
+		{
+			if (!tokens->next || !is_string(tokens->next->type))
+				// ERROR
+				return ;
+			if (tokens->type == REDIR_LEFT || tokens->type == HERE_DOC)
+				command->infile = ft_strdup(tokens->next->value);
+			else
+				command->outfile = ft_strdup(tokens->next->value);
+			next = tokens->next->next;
+			delete_token(start, tokens->next);
+			delete_token(start, tokens);
+			tokens = next;
+		}
+		else
+			tokens = tokens->next;
 	}
-	if (tokens->type == REDIR_LEFT)
-		command->infile = ft_strdup(tokens->next->value);
-	else if (tokens->type == REDIR_RIGHT)
-		command->outfile = ft_strdup(tokens->next->value);
-	else if (tokens->type == HERE_DOC)
-		command->infile = ft_strdup(tokens->next->value);
-	else
-		command->outfile = ft_strdup(tokens->next->value);
-	command->append = tokens->type >= HERE_DOC;
-	tokens = tokens->next->next;
-	return (tokens);
 }
 
 t_token	*extract_string(t_token *tokens, t_command *command)
@@ -56,17 +63,14 @@ t_token	*parse_command(t_token *tokens, t_command *command)
 {
 	int	i;
 
+	extract_redirection(tokens, command);
 	while (tokens && tokens->type != PIPE)
 	{
-		if (is_redir(tokens->type))
-		{
-			tokens = extract_redirection(tokens, command);
-		}
-		else if (is_string(tokens->type))
+		if (is_string(tokens->type))
 		{
 			tokens = extract_string(tokens, command);
 		}
-		if (g_glob[0] == 1)
+		if (g_glob.parsing == 1)
 			return (NULL);
 	}
 	if (command->args == NULL)
@@ -108,7 +112,7 @@ t_command_table	*init_table(t_token *tokens)
 	if (table->n_commands == -1)
 	{
 		free(table);
-		g_glob[0] = 1;
+		g_glob.parsing = 1;
 		return (NULL);
 	}
 	table->commands = malloc(sizeof(t_command) * table->n_commands);
@@ -126,6 +130,7 @@ t_command_table	*parser(t_token *tokens)
 	t_command_table	*table;
 	int				i;
 
+	g_glob.parsing = 0;
 	table = init_table(tokens);
 	if (!table)
 		return (NULL);
@@ -138,7 +143,7 @@ t_command_table	*parser(t_token *tokens)
 		while (tokens && tokens->type != PIPE)
 		{
 			tokens = parse_command(tokens, &(table->commands[i]));
-			if (g_glob[0] == 1)
+			if (g_glob.parsing == 1)
 			{
 				clean_command_table(table);
 				return (NULL);

@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/11 09:45:05 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/31 10:18:21 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/19 10:02:59 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@ int	ft_env(char **env)
 			ft_printf("%s\n", env[i]);
 		i++;
 	}
-	g_glob[0] = 0;
+	g_glob.error = 0;
 	return (0);
 }

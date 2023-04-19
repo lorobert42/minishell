@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/17 16:59:34 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/19 10:02:09 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,14 @@
 # include "../libs/libft_rework/gnl/include/get_next_line.h"
 # include "../libs/libft_rework/printf/include/ft_printf.h"
 
-// g_glob --> 0 = error gestion, 1 = loop_cmd status
-int	g_glob[2];
+typedef struct s_global
+{
+	int	error;
+	int	status;
+	int	parsing;
+}	t_global;
+
+t_global	g_glob;
 
 typedef enum e_token_type
 {
@@ -51,13 +57,6 @@ typedef struct s_token
 	t_token_type	type;
 	struct s_token	*next;
 }	t_token;
-
-typedef struct s_env
-{
-	char			*key;
-	char			*value;
-	struct s_env	*next;
-}	t_env;
 
 typedef struct s_command
 {
@@ -91,6 +90,7 @@ typedef struct s_data
 t_token			*lexer(char *command);
 t_token			*create_token(char *value, t_token_type type);
 void			add_token(t_token **tokens, t_token *new);
+void			delete_token(t_token *start, t_token *to_del);
 void			clean_tokens(t_token *tokens);
 int				issep(int c);
 
@@ -104,11 +104,8 @@ int				ft_unset(t_data *data, char *s);
 int				ft_echo(char **args);
 int				ft_pwd(void);
 int				ft_cd(t_data *data, char **args);
+int				ft_exit(char **args);
 char			**parse_env(char **env_strs);
-t_env			*extract_entry(char *env_entry);
-t_env			*create_entry(char *key, char *value);
-void			del_env(t_env *env);
-void			del_all_env(t_env **env);
 
 // FT_GETENV
 int				get_env_index(char **env, char *key);
@@ -131,9 +128,6 @@ char			**sort_tab(char **env);
 
 // CLEAR_SPLIT
 void			clear_split(char **split);
-
-// ENV_UTILS
-char			*get_full_env(t_env *env, char *key);
 
 // PARSER
 t_command_table	*parser(t_token *tokens);
@@ -173,8 +167,5 @@ void			init(t_data *data, char **env);
 
 // ERROR
 void			print_error(char *msg, char *command);
-
-// EXIT
-void			ft_exit(void);
 
 #endif

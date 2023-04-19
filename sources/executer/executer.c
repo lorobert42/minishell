@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:04:43 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/17 16:54:07 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/19 10:06:56 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	execution_loop(t_data *data)
 		if (data->table->commands[i].args[0] && ft_strncmp(data->table->commands[i].args[0], "cat\0", 4) == 0)
 		{
 			termios_restore_ctrl();
-			g_glob[1] = 1;
+			g_glob.status = 1;
 		}
 		pipe(data->fd);
 		if (!check_builtins_out(data, i))
@@ -120,7 +120,7 @@ void	execution_loop(t_data *data)
 	while (wait != -1)
 	{
 		if (wait == id)
-			g_glob[0] = status;
+			g_glob.error = status;
 		wait = waitpid(-1, &status, 0);
 	}
 }

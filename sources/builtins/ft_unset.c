@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 09:57:45 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/31 14:15:06 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/19 10:03:12 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_unset(t_data *data, char *s)
 			if (ft_strncmp(data->env[i], s, ft_strchr(data->env[i], '=') \
 			- data->env[i]) == 0)
 			{
-				g_glob[0] = 0;
+				g_glob.error = 0;
 				data->env = remove_string(data->env, i);
 				return (0);
 			}
