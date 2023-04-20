@@ -35,6 +35,7 @@ typedef struct s_global
 	int	error;
 	int	status;
 	int	parsing;
+	int nb_children;
 }	t_global;
 
 t_global	g_glob;

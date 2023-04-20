@@ -17,6 +17,7 @@ void	init(t_data *data, char **env)
 	g_glob.error = 0;
 	g_glob.status = 0;
 	g_glob.parsing = 0;
+	g_glob.nb_children = 0;
 	data->run = 1;
 	data->env = parse_env(env);
 }

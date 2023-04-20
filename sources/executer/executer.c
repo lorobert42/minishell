@@ -73,7 +73,6 @@ void	children(t_data *data, int *prev_read, int i)
 	if (check_builtins_forks(data, i) == 1)
 	{
 		path = find_path(data, i);
-		ft_printf("path -> %s\n", path);
 		if (path != NULL)
 		{
 			execve(path, data->table->commands[i].args, data->env);
@@ -88,16 +87,16 @@ void	children(t_data *data, int *prev_read, int i)
 void	execution_loop(t_data *data)
 {
 	int		prev_read;
-	pid_t	id;
+	pid_t	pid;
 	int		i;
 	int		status;
 	int		wait;
 
 	i = 0;
 	prev_read = 0;
+	wait = 0;
 	while (i < data->table->n_commands)
 	{
-		ft_printf("cmd num -> %d, value -> %s\n", i , data->table->commands[i]. args[0]);
 		if (data->table->commands[i].args[0] && ft_strncmp(data->table->commands[i].args[0], "cat\0", 4) == 0)
 		{
 			termios_restore_ctrl();
@@ -109,9 +108,12 @@ void	execution_loop(t_data *data)
 			i++;
 			continue ;
 		}
-		id = fork();
-		if (id == 0)
+		pid = fork();
+		g_glob.nb_children += 1;
+		if (pid == 0)
+		{
 			children(data, &prev_read, i);
+		}
 		else
 		{
 			close(data->fd[1]);
@@ -119,14 +121,16 @@ void	execution_loop(t_data *data)
 		}
 		i++;
 	}
-	wait = waitpid(-1, &status, 0);
-	termios_remove_ctrl();
-	while (wait != -1)
+	while (g_glob.nb_children > 0)
 	{
-		if (wait == id)
-			g_glob.error = status;
-		wait = waitpid(-1, &status, 0);
+		pid = waitpid(-1, &status, 0);
+		if (pid > 0) {
+			g_glob.nb_children--;
+			printf("Processus fils %d terminé avec état de sortie %d.\n", pid, status);
+		}
 	}
+	g_glob.error = status;
+	termios_remove_ctrl();
 }
 
 int	execute(t_data *data)
