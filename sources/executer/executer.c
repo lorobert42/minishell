@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:04:43 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/20 14:26:27 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/20 14:28:13 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,15 +120,9 @@ void	execution_loop(t_data *data)
 
 	i = 0;
 	prev_read = 0;
-	wait = 0;
 	while (i < data->table->n_commands)
 	{
 		pipe(data->fd);
-		if (!check_builtins_out(data, i))
-		{
-			i++;
-			continue ;
-		}
 		pid = fork();
 		g_glob.nb_children += 1;
 		if (pid == 0)
