@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:04:43 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/20 14:23:03 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/20 14:26:27 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,9 @@ void	children(t_data *data, int *prev_read, int i)
 	{
 		path = find_path(data, i);
 		if (path != NULL)
+		{
 			execve(path, data->table->commands[i].args, data->env);
+		}
 		else
 			ft_printf("🤷 Hérishell: %s: a pas trouver ... 🤷\n", \
 				data->table->commands[i].args[0]);
@@ -112,18 +114,27 @@ void	children(t_data *data, int *prev_read, int i)
 void	execution_loop(t_data *data)
 {
 	int		prev_read;
-	pid_t	id;
+	pid_t	pid;
 	int		i;
 	int		status;
 
 	i = 0;
 	prev_read = 0;
+	wait = 0;
 	while (i < data->table->n_commands)
 	{
 		pipe(data->fd);
-		id = fork();
-		if (id == 0)
+		if (!check_builtins_out(data, i))
+		{
+			i++;
+			continue ;
+		}
+		pid = fork();
+		g_glob.nb_children += 1;
+		if (pid == 0)
+		{
 			children(data, &prev_read, i);
+		}
 		else
 		{
 			close(data->fd[1]);
@@ -131,11 +142,16 @@ void	execution_loop(t_data *data)
 		}
 		i++;
 	}
-	while (waitpid(-1, &status, 0) > 0)
+	while (g_glob.nb_children > 0)
 	{
+		pid = waitpid(-1, &status, 0);
+		if (pid > 0) {
+			g_glob.nb_children--;
+			printf("Processus fils %d terminé avec état de sortie %d.\n", pid, status);
+		}
 	}
-	if (WIFEXITED(status))
-		g_glob.error = WEXITSTATUS(status);
+	g_glob.error = status;
+	termios_remove_ctrl();
 }
 
 int	execute(t_data *data)
