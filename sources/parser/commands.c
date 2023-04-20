@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:39:37 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/19 10:17:14 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/20 11:45:52 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,10 @@ void	clean_command_table(t_command_table *table)
 	i = 0;
 	while (i < table->n_commands)
 	{
-		if (table->commands[i].infile)
-			free(table->commands[i].infile);
-		if (table->commands[i].outfile)
-			free(table->commands[i].outfile);
+		if (table->commands[i].infiles)
+			free(table->commands[i].infiles);
+		if (table->commands[i].outfiles)
+			free(table->commands[i].outfiles);
 		j = 0;
 		while (table->commands[i].args[j] != NULL)
 		{

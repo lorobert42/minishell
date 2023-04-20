@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 11:01:43 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/06 15:36:36 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/20 13:46:22 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,22 @@ void	set_heredoc(t_data *data)
 {
 	int			i;
 	t_command	*c;
+	t_file		*current;
 
 	c = data->table->commands;
 	i = 0;
 	while (i < data->table->n_commands)
 	{
-		if (c[i].infile && c[i].append)
+		current = c[i].infiles;
+		while (current)
 		{
-			pipe(c[i].fd);
-			heredoc(&c[i].infile, c[i].fd[1], data);
-			close(c[i].fd[1]);
+			if (current->append)
+			{
+				pipe(c[i].fd);
+				heredoc(&current->name, c[i].fd[1], data);
+				close(c[i].fd[1]);
+			}
+			current = current->next;
 		}
 		i++;
 	}

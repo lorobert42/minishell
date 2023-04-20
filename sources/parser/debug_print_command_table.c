@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:25:08 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/03 14:14:36 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/20 11:46:40 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,8 @@ void	print_command_table(t_command_table *table)
 	i = 0;
 	while (i < table->n_commands)
 	{
-		ft_printf("IN: %s\n", table->commands[i].infile);
-		ft_printf("OUT: %s\n", table->commands[i].outfile);
-		ft_printf("append mode ?: %d\n", table->commands[i].append);
+		ft_printf("IN: %s\n", table->commands[i].infiles);
+		ft_printf("OUT: %s\n", table->commands[i].outfiles);
 		j = 0;
 		while (table->commands[i].args[j] != NULL)
 		{

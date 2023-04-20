@@ -6,11 +6,33 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:25:52 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/19 10:16:23 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/20 13:46:44 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	add_redirection(t_file **files, char *name, int append)
+{
+	t_file	*new;
+	t_file	*to_replace;
+
+	new = malloc(sizeof(t_file));
+	if (!new)
+		return ;
+	new->name = ft_strdup(name);
+	new->append = append;
+	new->next = NULL;
+	if (!*files)
+	{
+		*files = new;
+		return ;
+	}
+	to_replace = *files;
+	while (to_replace->next != NULL)
+		to_replace = to_replace->next;
+	to_replace->next = new;
+}
 
 void	extract_redirection(t_token *tokens, t_command *command)
 {
@@ -28,12 +50,12 @@ void	extract_redirection(t_token *tokens, t_command *command)
 				return ;
 			}
 			if (tokens->type == REDIR_LEFT || tokens->type == HERE_DOC)
-				command->infile = ft_strdup(tokens->next->value);
+				add_redirection(&command->infiles, tokens->next->value, tokens->type == HERE_DOC);
 			else
-				command->outfile = ft_strdup(tokens->next->value);
+				add_redirection(&command->outfiles, tokens->next->value, tokens->type == REDIR_APPEND);
 			next = tokens->next->next;
-			delete_token(start, tokens->next);
-			delete_token(start, tokens);
+			delete_token(&start, tokens->next);
+			delete_token(&start, tokens);
 			tokens = next;
 		}
 		else
@@ -137,9 +159,8 @@ t_command_table	*parser(t_token *tokens)
 	i = 0;
 	while (table && i < table->n_commands)
 	{
-		table->commands[i].infile = NULL;
-		table->commands[i].outfile = NULL;
-		table->commands[i].append = 0;
+		table->commands[i].infiles = NULL;
+		table->commands[i].outfiles = NULL;
 		while (tokens && tokens->type != PIPE)
 		{
 			tokens = parse_command(tokens, &(table->commands[i]));

@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/19 10:02:09 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/20 11:12:01 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,18 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_file
+{
+	char			*name;
+	int				append;
+	struct s_file	*next;
+}	t_file;
+
 typedef struct s_command
 {
 	char	**args;
-	char	*infile;
-	char	*outfile;
-	int		append;
+	t_file	*infiles;
+	t_file	*outfiles;
 	int		fd[2];
 	int		ret;
 }	t_command;
@@ -90,7 +96,7 @@ typedef struct s_data
 t_token			*lexer(char *command);
 t_token			*create_token(char *value, t_token_type type);
 void			add_token(t_token **tokens, t_token *new);
-void			delete_token(t_token *start, t_token *to_del);
+void			delete_token(t_token **start, t_token *to_del);
 void			clean_tokens(t_token *tokens);
 int				issep(int c);
 
@@ -106,6 +112,7 @@ int				ft_pwd(void);
 int				ft_cd(t_data *data, char **args);
 int				ft_exit(char **args);
 char			**parse_env(char **env_strs);
+int				check_builtins(t_data *data, char **cmd);
 
 // FT_GETENV
 int				get_env_index(char **env, char *key);
@@ -161,8 +168,6 @@ void			termios_restore_ctrl(void);
 
 // MAIN
 void			loop(t_data *data);
-int				check_builtins_forks(t_data *data, int i);
-int				check_builtins_out(t_data *data, int i);
 void			init(t_data *data, char **env);
 
 // ERROR

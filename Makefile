@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/04/19 09:32:39 by lorobert         ###   ########.fr        #
+#    Updated: 2023/04/20 10:00:28 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,6 +37,7 @@ SRCS			:=	builtins/ft_echo.c \
 					builtins/ft_unset.c \
 					builtins/ft_export.c \
 					builtins/ft_exit.c \
+					builtins/check_builtins.c \
 					env/parse_env.c \
 					lexer/lexer.c \
 					lexer/token.c \
@@ -67,9 +68,9 @@ OBJS			:=	$(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 DEPS			:=	$(OBJS:.o=.d)
 
 CC				:=	gcc
-CFLAGS			:=	-Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS			:=	-Wall -Wextra -Werror -g -fsanitize=address
 CPPFLAGS		:=	$(addprefix -I,$(INCS)) -MMD -MP
-LDFLAGS			:=	$(addprefix -L,$(dir $(LIBS_TARGET))) #-fsanitize=address
+LDFLAGS			:=	$(addprefix -L,$(dir $(LIBS_TARGET))) -fsanitize=address
 LDLIBS			:=	$(addprefix -l,$(LIBS))
 
 # If READLINE env variable is set, use it as an extra include and
