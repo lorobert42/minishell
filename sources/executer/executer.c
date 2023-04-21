@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:04:43 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/20 14:28:13 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/21 13:31:58 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,69 +35,23 @@ char	*find_path(t_data *data, int num)
 	return (NULL);
 }
 
-void	redirection_out(t_data *data, int i, int solo)
-{
-	t_file	*current;
-	t_file	*prev;
-
-	current = data->table->commands[i].outfiles;
-	if (!current && !solo)
-		dup2(data->fd[1], STDOUT_FILENO);
-	prev = NULL;
-	while (current)
-	{
-		if (prev)
-			close(data->table->commands[i].fd[1]);
-		if (current->append)
-		{
-			data->table->commands[i].fd[1] = open(current->name, O_WRONLY | O_CREAT | O_APPEND, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-			dup2(data->table->commands[i].fd[1], STDOUT_FILENO);
-		}
-		else
-		{
-			data->table->commands[i].fd[1] = open(current->name, \
-			O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-			dup2(data->table->commands[i].fd[1], STDOUT_FILENO);
-		}
-		prev = current;
-		current = current->next;
-	}
-}
-
-void	redirection_in(t_data *data, int i, int *prev_read)
-{
-	t_file	*current;
-	t_file	*prev;
-
-	current = data->table->commands[i].infiles;
-	if (!current && prev_read)
-		dup2(*prev_read, STDIN_FILENO);
-	prev = NULL;
-	while (current)
-	{
-		if (prev)
-			close(data->table->commands[i].fd[0]);
-		if (current->append)
-			dup2(data->table->commands[i].fd[0], STDIN_FILENO);
-		else
-		{
-			data->table->commands[i].fd[0] = open(current->name, \
-				O_RDONLY);
-			dup2(data->table->commands[i].fd[0], STDIN_FILENO);
-		}
-		prev = current;
-		current = current->next;
-	}
-}
-
-void	children(t_data *data, int *prev_read, int i)
+void	children(t_data *data, int i)
 {
 	char	*path;
 
-	close(data->fd[0]);
-	redirection_in(data, i, prev_read);
-	redirection_out(data, i, 0);
-	if (check_builtins(data, data->table->commands[i].args) == 1)
+	/* if (redirection_in(data, i))
+	{
+		close_redirections(data, i);
+		exit(1);
+	}
+	if (redirection_out(data, i, 0))
+	{
+		close_redirections(data, i);
+		exit(1);
+	} */
+	if (is_builtins(data->table->commands[i].args))
+		exec_builtins(data, data->table->commands[i].args);
+	else
 	{
 		path = find_path(data, i);
 		if (path != NULL)
@@ -108,69 +62,93 @@ void	children(t_data *data, int *prev_read, int i)
 			ft_printf("🤷 Hérishell: %s: a pas trouver ... 🤷\n", \
 				data->table->commands[i].args[0]);
 	}
+	// close_redirections(data, i);
 	exit(0);
 }
 
 void	execution_loop(t_data *data)
 {
-	int		prev_read;
 	pid_t	pid;
 	int		i;
 	int		status;
 
 	i = 0;
-	prev_read = 0;
 	while (i < data->table->n_commands)
 	{
-		pipe(data->fd);
+		pipe(data->table->commands[i].fd);
 		pid = fork();
 		g_glob.nb_children += 1;
 		if (pid == 0)
 		{
-			children(data, &prev_read, i);
+			if (i > 0)
+			{
+				dup2(data->table->commands[i - 1].fd[0], STDIN_FILENO);
+				if (close(data->table->commands[i - 1].fd[0]) == -1)
+					print_error(NULL, "close1");
+				if (close(data->table->commands[i - 1].fd[1]) == -1)
+					print_error(NULL, "close2");
+			}
+			if (i < data->table->n_commands - 1)
+			{
+				if (close(data->table->commands[i].fd[0]) == -1)
+					print_error(NULL, "close3");
+				dup2(data->table->commands[i].fd[1], STDOUT_FILENO);
+				if (close(data->table->commands[i].fd[1]) == -1)
+					print_error(NULL, "close4");
+			}
+			children(data, i);
 		}
 		else
 		{
-			close(data->fd[1]);
-			prev_read = data->fd[0];
+			if (i > 0)
+			{
+				if (close(data->table->commands[i - 1].fd[0]) == -1)
+					print_error(NULL, "close5");
+				if (close(data->table->commands[i - 1].fd[1]) == -1)
+					print_error(NULL, "close6");
+			}
 		}
 		i++;
+	}
+	if (i > 0)
+	{
+		if (close(data->table->commands[i - 1].fd[0]) == -1)
+			print_error(NULL, "close7");
+		if (close(data->table->commands[i - 1].fd[1]) == -1)
+			print_error(NULL, "close8");
 	}
 	while (g_glob.nb_children > 0)
 	{
 		pid = waitpid(-1, &status, 0);
-		if (pid > 0) {
+		if (pid > 0)
+		{
 			g_glob.nb_children--;
-			printf("Processus fils %d terminé avec état de sortie %d.\n", pid, status);
 		}
 	}
-	g_glob.error = status;
+	if (WIFEXITED(status))
+		g_glob.error = WEXITSTATUS(status);
 	termios_remove_ctrl();
 }
 
 int	execute(t_data *data)
 {
-	int	saved_io[2];
-
 	set_heredoc(data);
 	if (data->table->n_commands == 1)
 	{
-		saved_io[0] = dup(STDIN_FILENO);
-		saved_io[1] = dup(STDOUT_FILENO);
-		redirection_in(data, 0, NULL);
-		redirection_out(data, 0, 1);
-		if (check_builtins(data, data->table->commands[0].args) == 0)
+		if (is_builtins(data->table->commands[0].args))
 		{
-			if (data->table->commands[0].outfiles)
+			if (redirection_in(data, 0))
 			{
-				dup2(saved_io[1], STDOUT_FILENO);
-				close(data->table->commands[0].fd[1]);
+				close_redirections(data, 0);
+				return (1);
 			}
-			else if (data->table->commands[0].infiles)
+			if (redirection_out(data, 0, 1))
 			{
-				dup2(saved_io[0], STDIN_FILENO);
-				close(data->table->commands[0].fd[0]);
+				close_redirections(data, 0);
+				return (1);
 			}
+			exec_builtins(data, data->table->commands[0].args);
+			close_redirections(data, 0);
 			return (0);
 		}
 	}

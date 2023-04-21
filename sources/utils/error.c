@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 11:22:27 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/19 10:07:19 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/21 11:07:00 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_error(char *msg, char *command)
 	base = ft_strjoin("Hérishell: ", command);
 	if (errno)
 	{
-		g_glob.error = errno;
+		g_glob.error = 1;
 		perror(base);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/20 11:12:01 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/21 11:51:11 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,12 @@ typedef struct s_command_table
 typedef struct s_data
 {
 	int					run;
-	int					fd[2];
+	int					saved_io[2];
 	char				**env;
 	t_token				*token;
 	t_command_table		*table;
 	struct sigaction	sa;
 	struct termios		tp;
-
 }	t_data;
 
 // LEXER
@@ -113,7 +112,8 @@ int				ft_pwd(void);
 int				ft_cd(t_data *data, char **args);
 int				ft_exit(char **args);
 char			**parse_env(char **env_strs);
-int				check_builtins(t_data *data, char **cmd);
+int				exec_builtins(t_data *data, char **cmd);
+int				is_builtins(char **cmd);
 
 // FT_GETENV
 int				get_env_index(char **env, char *key);
@@ -158,6 +158,9 @@ int				check_expansion(char **str, char **env);
 int				execute(t_data *data);
 int				heredoc(char **delim, int fd, t_data *data);
 void			set_heredoc(t_data *data);
+int				redirection_in(t_data *data, int i);
+int				redirection_out(t_data *data, int i, int solo);
+void			close_redirections(t_data *data, int i);
 
 // EXECUTE_UTILS
 char			*get_path(char *path, char *cmd);
