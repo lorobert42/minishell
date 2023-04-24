@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 09:34:19 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/30 13:00:39 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/24 14:41:04 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	extract_literal(t_token **tokens, char *command)
 
 	t = LITERAL;
 	i = 0;
-	while (command[i] && !issep(command[i]))
+	while (command[i] && (!issep(command[i]) || t != LITERAL))
 	{
 		if (t == LITERAL && command[i] == '\'')
 			t = QUOTE_STR;

@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/21 11:51:11 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/24 15:36:11 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,14 @@
 # include <signal.h>
 # include <termios.h>
 
-# include "../libs/libft_rework/libft/include/libft.h"
-# include "../libs/libft_rework/gnl/include/get_next_line.h"
-# include "../libs/libft_rework/printf/include/ft_printf.h"
+# include "../libs/libft/include/libft.h"
 
 typedef struct s_global
 {
 	int	error;
 	int	status;
 	int	parsing;
-	int nb_children;
+	int	nb_children;
 }	t_global;
 
 t_global	g_glob;
@@ -158,8 +156,11 @@ int				check_expansion(char **str, char **env);
 int				execute(t_data *data);
 int				heredoc(char **delim, int fd, t_data *data);
 void			set_heredoc(t_data *data);
-int				redirection_in(t_data *data, int i);
-int				redirection_out(t_data *data, int i, int solo);
+void			close_pipe(t_data *data, int i);
+int				redir_pipe(t_data *data, int i);
+int				redir_file_in(t_data *data, int i);
+int				redir_file_out(t_data *data, int i);
+void			delete_heredoc(t_data *data, int i);
 void			close_redirections(t_data *data, int i);
 
 // EXECUTE_UTILS

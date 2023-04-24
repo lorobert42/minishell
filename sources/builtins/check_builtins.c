@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 09:24:55 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/21 09:09:47 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/24 14:35:23 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ int	is_builtins(char **cmd)
 		return (1);
 	else if (ft_strncmp(cmd[0], "cd\0", 3) == 0)
 		return (1);
-	else if (ft_strncmp(cmd[0], "export\0", 7) == 0 && cmd[1] != NULL)
-		return (1);
-	else if (ft_strncmp(cmd[0], "export\0", 7) == 0 && cmd[1] == NULL)
+	else if (ft_strncmp(cmd[0], "export\0", 7) == 0)
 		return (1);
 	else if (ft_strncmp(cmd[0], "unset\0", 6) == 0)
 		return (1);

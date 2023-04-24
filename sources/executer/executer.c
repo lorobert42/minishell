@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:04:43 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/21 13:31:58 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/24 15:39:26 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,6 @@ void	children(t_data *data, int i)
 {
 	char	*path;
 
-	/* if (redirection_in(data, i))
-	{
-		close_redirections(data, i);
-		exit(1);
-	}
-	if (redirection_out(data, i, 0))
-	{
-		close_redirections(data, i);
-		exit(1);
-	} */
 	if (is_builtins(data->table->commands[i].args))
 		exec_builtins(data, data->table->commands[i].args);
 	else
@@ -62,7 +52,6 @@ void	children(t_data *data, int i)
 			ft_printf("🤷 Hérishell: %s: a pas trouver ... 🤷\n", \
 				data->table->commands[i].args[0]);
 	}
-	// close_redirections(data, i);
 	exit(0);
 }
 
@@ -80,42 +69,31 @@ void	execution_loop(t_data *data)
 		g_glob.nb_children += 1;
 		if (pid == 0)
 		{
-			if (i > 0)
+			if (data->table->commands[i].infiles)
 			{
-				dup2(data->table->commands[i - 1].fd[0], STDIN_FILENO);
-				if (close(data->table->commands[i - 1].fd[0]) == -1)
-					print_error(NULL, "close1");
-				if (close(data->table->commands[i - 1].fd[1]) == -1)
-					print_error(NULL, "close2");
+				if (redir_file_in(data, i))
+					exit(1);
 			}
-			if (i < data->table->n_commands - 1)
+			if (data->table->commands[i].outfiles)
 			{
-				if (close(data->table->commands[i].fd[0]) == -1)
-					print_error(NULL, "close3");
-				dup2(data->table->commands[i].fd[1], STDOUT_FILENO);
-				if (close(data->table->commands[i].fd[1]) == -1)
-					print_error(NULL, "close4");
+				if (redir_file_out(data, i))
+					exit(1);
 			}
+			redir_pipe(data, i);
 			children(data, i);
 		}
 		else
 		{
 			if (i > 0)
 			{
-				if (close(data->table->commands[i - 1].fd[0]) == -1)
-					print_error(NULL, "close5");
-				if (close(data->table->commands[i - 1].fd[1]) == -1)
-					print_error(NULL, "close6");
+				close_pipe(data, i - 1);
 			}
 		}
 		i++;
 	}
 	if (i > 0)
 	{
-		if (close(data->table->commands[i - 1].fd[0]) == -1)
-			print_error(NULL, "close7");
-		if (close(data->table->commands[i - 1].fd[1]) == -1)
-			print_error(NULL, "close8");
+		close_pipe(data, i - 1);
 	}
 	while (g_glob.nb_children > 0)
 	{
@@ -125,6 +103,9 @@ void	execution_loop(t_data *data)
 			g_glob.nb_children--;
 		}
 	}
+	i = -1;
+	while (++i < data->table->n_commands)
+		delete_heredoc(data, i);
 	if (WIFEXITED(status))
 		g_glob.error = WEXITSTATUS(status);
 	termios_remove_ctrl();
@@ -137,18 +118,24 @@ int	execute(t_data *data)
 	{
 		if (is_builtins(data->table->commands[0].args))
 		{
-			if (redirection_in(data, 0))
+			data->saved_io[0] = dup(STDIN_FILENO);
+			data->saved_io[1] = dup(STDOUT_FILENO);
+			if (redir_file_in(data, 0))
 			{
 				close_redirections(data, 0);
 				return (1);
 			}
-			if (redirection_out(data, 0, 1))
+			if (redir_file_out(data, 0))
 			{
 				close_redirections(data, 0);
 				return (1);
 			}
 			exec_builtins(data, data->table->commands[0].args);
 			close_redirections(data, 0);
+			dup2(data->saved_io[0], STDIN_FILENO);
+			close(data->saved_io[0]);
+			dup2(data->saved_io[1], STDOUT_FILENO);
+			close(data->saved_io[1]);
 			return (0);
 		}
 	}

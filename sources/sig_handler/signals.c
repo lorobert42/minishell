@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 09:57:14 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/19 10:07:40 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/24 09:40:16 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	handler(int sig)
 	{
 		if (sig == SIGINT)
 		{
-			ft_putchar('\n');
+			write(1, "\n", 1);
 			rl_replace_line("", 0);
 			rl_on_new_line();
 			rl_redisplay();
@@ -31,15 +31,16 @@ static void	handler(int sig)
 	if (g_glob.status == 1)
 	{
 		if (sig == SIGINT)
-			ft_putchar('\n');
+			write(1, "\n", 1);
 		if (sig == SIGQUIT)
 			ft_printf("Quit: 3\n");
 		g_glob.status = 0;
 	}
 }
 
-void sig_handler() {
-	struct sigaction sa_int;
+void	sig_handler(void)
+{
+	struct sigaction	sa_int;
 
 	sa_int.sa_handler = &handler;
 	sigaction(SIGINT, &sa_int, NULL);

@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 16:11:25 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/19 10:03:29 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/24 14:42:21 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,23 +94,25 @@ void	update_env(t_data *data, char *key, char *new_value)
 
 int	ft_export(t_data *data, char *arg)
 {
-	char	*new_value;
-	char	**split;
+	char	*equal;
+	char	*key;
 	int		res;
 
-	split = ft_split(arg, '=');
-	res = is_valid_key(split[0]);
+	equal = ft_strchr(arg, '=');
+	if (!equal)
+		key = ft_strdup(arg);
+	else
+		key = ft_substr(arg, 0, equal - arg);
+	res = is_valid_key(key);
 	if (res == 1 && ft_strchr(arg, '=') != NULL)
 	{
-		new_value = create_env_value(split[0], split[1]);
-		update_env(data, split[0], new_value);
-		free(new_value);
+		update_env(data, key, arg);
 	}
 	else if (res == 0)
 	{
 		g_glob.error = 1;
 		print_error("not a valid identifier", "export");
-		clear_split(split);
 	}
+	free(key);
 	return (0);
 }

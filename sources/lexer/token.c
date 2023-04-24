@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 09:26:21 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/20 13:44:13 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/24 14:47:09 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	delete_token(t_token **start, t_token *to_del)
 	if (*start == to_del)
 	{
 		free(to_del->value);
+		free(to_del);
 		*start = NULL;
 		return ;
 	}
@@ -55,6 +56,7 @@ void	delete_token(t_token **start, t_token *to_del)
 		current = current->next;
 	current->next = to_del->next;
 	free(to_del->value);
+	free(to_del);
 }
 
 void	clean_tokens(t_token *tokens)
