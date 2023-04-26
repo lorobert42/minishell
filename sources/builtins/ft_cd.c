@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 09:11:34 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/26 15:30:40 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:49:37 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	update_env_ifexist(t_data *data, char *key, char *newval)
 	{
 		update_env(data, key, newval);
 		g_glob.error = 0;
+		free(oldval);
 	}
-	free(oldval);
 }
 
 void	ft_cd_path(t_data *data, char *path)

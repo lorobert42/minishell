@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 16:11:25 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/24 14:42:21 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:50:27 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	update_env(t_data *data, char *key, char *new_value)
 	{
 		index = get_env_index(data->env, key);
 		free(data->env[index]);
-		data->env[index] = ft_strdup(new_value);
+		data->env[index] = create_env_value(key, new_value);
 		g_glob.error = 0;
 	}
 	else
