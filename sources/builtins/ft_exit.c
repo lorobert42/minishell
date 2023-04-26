@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 09:22:18 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/19 11:22:44 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 09:38:56 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,14 @@ long long int	ft_atoui(const char *str, int *overflow)
 	return (res);
 }
 
-void	exit_error(void)
+void	exit_error(t_data *data)
 {
 	print_error("numeric argument required", "exit");
+	restore_stdio(data);
 	exit(255);
 }
 
-int	ft_exit(char **args)
+int	ft_exit(char **args, t_data *data)
 {
 	long long int	i;
 	int				overflow;
@@ -77,19 +78,23 @@ int	ft_exit(char **args)
 		return (0);
 	}
 	if (!args[1])
+	{
+		restore_stdio(data);
 		exit(g_glob.error % 256);
+	}
 	args[1] = delete_quotes(args[1]);
 	if (!ft_isdigit(args[1][0]) && args[1][0] != '+' && args[1][0] != '-')
-		exit_error();
+		exit_error(data);
 	i = 0;
 	while (args[1][++i])
 	{
 		if (!ft_isdigit(args[1][i]))
-			exit_error();
+			exit_error(data);
 	}
 	overflow = 0;
 	i = ft_atoui(args[1], &overflow);
 	if (overflow)
-		exit_error();
+		exit_error(data);
+	restore_stdio(data);
 	exit(i % 256);
 }

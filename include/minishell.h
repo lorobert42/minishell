@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/24 15:36:11 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 09:37:34 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,8 @@
 # include <signal.h>
 # include <termios.h>
 
-//# include "../libs/libft/include/libft.h"
-# include "../libs/libft_rework/gnl/include/get_next_line.h"
 # include "../libs/libft_rework/libft/include/libft.h"
+# include "../libs/libft_rework/gnl/include/get_next_line.h"
 # include "../libs/libft_rework/printf/include/ft_printf.h"
 
 typedef struct s_global
@@ -111,7 +110,7 @@ int				ft_unset(t_data *data, char *s);
 int				ft_echo(char **args);
 int				ft_pwd(void);
 int				ft_cd(t_data *data, char **args);
-int				ft_exit(char **args);
+int				ft_exit(char **args, t_data *data);
 char			**parse_env(char **env_strs);
 int				exec_builtins(t_data *data, char **cmd);
 int				is_builtins(char **cmd);
@@ -157,6 +156,8 @@ int				check_expansion(char **str, char **env);
 
 // EXECUTER
 int				execute(t_data *data);
+
+// REDIRECTIONS
 int				heredoc(char **delim, int fd, t_data *data);
 void			set_heredoc(t_data *data);
 void			close_pipe(t_data *data, int i);
@@ -165,6 +166,7 @@ int				redir_file_in(t_data *data, int i);
 int				redir_file_out(t_data *data, int i);
 void			delete_heredoc(t_data *data, int i);
 void			close_redirections(t_data *data, int i);
+void			restore_stdio(t_data *data);
 
 // EXECUTE_UTILS
 char			*get_path(char *path, char *cmd);

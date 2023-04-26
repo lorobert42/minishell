@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:04:43 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/24 15:39:26 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 09:39:39 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,10 +132,7 @@ int	execute(t_data *data)
 			}
 			exec_builtins(data, data->table->commands[0].args);
 			close_redirections(data, 0);
-			dup2(data->saved_io[0], STDIN_FILENO);
-			close(data->saved_io[0]);
-			dup2(data->saved_io[1], STDOUT_FILENO);
-			close(data->saved_io[1]);
+			restore_stdio(data);
 			return (0);
 		}
 	}
