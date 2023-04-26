@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/26 11:03:13 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:29:10 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ t_token			*lexer(char *command);
 // ---> token.c
 t_token			*create_token(char *value, t_token_type type);
 void			add_token(t_token **tokens, t_token *new);
-void			delete_token(t_token **start, t_token *to_del);
+t_token			*delete_token(t_token *start, t_token *to_del);
 void			clean_tokens(t_token *tokens);
 
 // MAIN

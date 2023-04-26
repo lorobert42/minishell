@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:43:34 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/26 10:59:43 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:58:39 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	loop(t_data *data)
 		{
 			clean_tokens(data->token);
 			free(buffer);
+			g_glob.error = 258;
+			print_error("syntax error", "parsing");
 			continue ;
 		}
 		data->table = parser(data->token);
@@ -42,11 +44,12 @@ void	loop(t_data *data)
 		{
 			clean_tokens(data->token);
 			free(buffer);
+			g_glob.error = 258;
 			print_error("syntax error", "parsing");
 			continue ;
 		}
-		execute(data);
 		clean_tokens(data->token);
+		execute(data);
 		clean_command_table(data->table);
 		free(buffer);
 	}

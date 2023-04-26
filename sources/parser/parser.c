@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:25:52 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/24 14:59:30 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:23:50 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	add_redirection(t_file **files, char *name, int append)
 	to_replace->next = new;
 }
 
-void	extract_redirection(t_token *tokens, t_command *command)
+t_token	*extract_redirection(t_token *tokens, t_command *command)
 {
 	t_token	*start;
 	t_token	*next;
@@ -47,20 +47,21 @@ void	extract_redirection(t_token *tokens, t_command *command)
 			if (!tokens->next || !is_string(tokens->next->type))
 			{
 				g_glob.parsing = 1;
-				return ;
+				return (NULL);
 			}
 			if (tokens->type == REDIR_LEFT || tokens->type == HERE_DOC)
 				add_redirection(&command->infiles, tokens->next->value, tokens->type == HERE_DOC);
 			else
 				add_redirection(&command->outfiles, tokens->next->value, tokens->type == REDIR_APPEND);
 			next = tokens->next->next;
-			delete_token(&start, tokens->next);
-			delete_token(&start, tokens);
+			start = delete_token(start, tokens->next);
+			start = delete_token(start, tokens);
 			tokens = next;
 		}
 		else
 			tokens = tokens->next;
 	}
+	return (start);
 }
 
 t_token	*extract_string(t_token *tokens, t_command *command)
@@ -87,7 +88,7 @@ t_token	*parse_command(t_token *tokens, t_command *command)
 {
 	int	i;
 
-	extract_redirection(tokens, command);
+	tokens = extract_redirection(tokens, command);
 	while (tokens && tokens->type != PIPE)
 	{
 		if (is_string(tokens->type))

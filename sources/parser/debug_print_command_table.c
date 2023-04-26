@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:25:08 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/24 15:03:14 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:51:57 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	print_command_table(t_command_table *table)
 		if (table->commands[i].outfiles)
 			ft_printf("OUT: %s\n", table->commands[i].outfiles->name);
 		j = 0;
+		ft_printf("Command: ");
 		while (table->commands[i].args[j] != NULL)
 		{
 			ft_printf("%s ", table->commands[i].args[j]);
