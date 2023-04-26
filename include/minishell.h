@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/24 15:36:11 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 09:27:34 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@
 # include <signal.h>
 # include <termios.h>
 
-# include "../libs/libft/include/libft.h"
+# include "../libs/libft_rework/libft/include/libft.h"
+# include "../libs/libft_rework/gnl/include/get_next_line.h"
+# include "../libs/libft_rework/printf/include/ft_printf.h"
 
 typedef struct s_global
 {
