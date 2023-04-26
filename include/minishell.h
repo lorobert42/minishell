@@ -26,7 +26,10 @@
 # include <signal.h>
 # include <termios.h>
 
-# include "../libs/libft/include/libft.h"
+//# include "../libs/libft/include/libft.h"
+# include "../libs/libft_rework/gnl/include/get_next_line.h"
+# include "../libs/libft_rework/libft/include/libft.h"
+# include "../libs/libft_rework/printf/include/ft_printf.h"
 
 typedef struct s_global
 {
