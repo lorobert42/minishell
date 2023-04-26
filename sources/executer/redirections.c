@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:15:13 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/26 09:35:48 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 10:58:17 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	redir_file_out(t_data *data, int i)
 		else
 		{
 			data->table->commands[i].fd[1] = open(current->name, O_WRONLY | \
-				O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+				O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
 			if (data->table->commands[i].fd[1] == -1)
 			{
 				print_error(NULL, current->name);
