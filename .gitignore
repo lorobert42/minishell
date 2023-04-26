@@ -3,6 +3,8 @@ minishell
 .vscode/
 .idea/
 minishell_tester/
+big
+little
 
 # Prerequisites
 *.d
