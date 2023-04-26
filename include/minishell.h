@@ -186,19 +186,18 @@ void			termios_restore_ctrl(void);
 // UTILS
 // ---> clear_split.c
 void			clear_split(char **split);
-// ---> env_utils.c
-//char	*get_full_env(t_env *env, char *key) <---- useless ???
 // ---> error.c
 void			print_error(char *msg, char *command);
 // ---> execute_utils.c
 char			*get_path(char *path, char *cmd);
 // ---> ft_isspace.c
 int				ft_isspace(int c);
-// ---> lsit_utils.c
+// ---> list_utils.c
 void			clear_lst(t_data *data);
 // --->tab_utils.c
 int				get_tab_size(char **tab);
 void			print_str_tab(char **tab);
 char			**tab_add_back(t_data *data, char *content);
 char			**sort_tab(char **env);
+
 #endif
