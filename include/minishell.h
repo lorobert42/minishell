@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/26 09:37:34 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 11:03:13 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ int				execute(t_data *data);
 
 // REDIRECTIONS
 int				heredoc(char **delim, int fd, t_data *data);
-void			set_heredoc(t_data *data);
+int				set_heredoc(t_data *data);
 void			close_pipe(t_data *data, int i);
 int				redir_pipe(t_data *data, int i);
 int				redir_file_in(t_data *data, int i);

@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:43:34 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/20 13:45:45 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 10:59:43 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	loop(t_data *data)
 		//buffer = readline("my shell");
 		if (!buffer)
 			exit(g_glob.error);
-		add_history(buffer);
+		if (buffer[0] != '\0')
+			add_history(buffer);
 		data->token = lexer(buffer);
 		if (!data->token)
 		{

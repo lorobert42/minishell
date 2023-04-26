@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:04:43 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/26 09:39:39 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 12:01:38 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*find_path(t_data *data, int num)
 	char	**path;
 	int		i;
 
+	if (ft_strchr(data->table->commands[num].args[0], '/'))
+		return (data->table->commands[num].args[0]);
 	env = ft_getenv(data->env, "PATH");
 	if (env != NULL)
 	{
@@ -43,17 +45,15 @@ void	children(t_data *data, int i)
 		exec_builtins(data, data->table->commands[i].args);
 	else
 	{
-		termios_restore_ctrl();
 		path = find_path(data, i);
-		if (path != NULL)
+		if (!path)
 		{
-			execve(path, data->table->commands[i].args, data->env);
+			print_error("command not found", data->table->commands[i].args[0]);
+			g_glob.nb_children--;
+			exit(127);
 		}
-		else
-		{
-			ft_printf("🤷 Hérishell: %s: a pas trouver ... 🤷\n", data->table->commands[i].args[0]);
-			termios_remove_ctrl();
-		}
+		termios_restore_ctrl();
+		execve(path, data->table->commands[i].args, data->env);
 	}
 	exit(0);
 }
@@ -112,12 +112,15 @@ void	execution_loop(t_data *data)
 		delete_heredoc(data, i);
 	if (WIFEXITED(status))
 		g_glob.error = WEXITSTATUS(status);
+	if (WIFSIGNALED(status))
+		g_glob.error = 128 + WTERMSIG(status);
 	termios_remove_ctrl();
 }
 
 int	execute(t_data *data)
 {
-	set_heredoc(data);
+	if (set_heredoc(data))
+		return (0);
 	if (data->table->n_commands == 1)
 	{
 		if (is_builtins(data->table->commands[0].args))

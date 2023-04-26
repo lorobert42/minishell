@@ -6,13 +6,13 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 11:01:43 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/26 09:44:54 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 11:02:47 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	set_heredoc(t_data *data)
+int	set_heredoc(t_data *data)
 {
 	int			i;
 	t_command	*c;
@@ -32,7 +32,14 @@ void	set_heredoc(t_data *data)
 				i_str = ft_itoa(i);
 				tmp = ft_strjoin("/tmp/minishell_heredoc_", i_str);
 				free(i_str);
-				c[i].fd[1] = open(tmp, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
+				c[i].fd[1] = open(tmp, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+				if (c[i].fd[1] == -1)
+				{
+					print_error(NULL, "heredoc tmp file");
+					free(tmp);
+					g_glob.error = 1;
+					return (1);
+				}
 				heredoc(&current->name, c[i].fd[1], data);
 				close(c[i].fd[1]);
 				free(current->name);
@@ -42,6 +49,7 @@ void	set_heredoc(t_data *data)
 		}
 		i++;
 	}
+	return (0);
 }
 
 /*
