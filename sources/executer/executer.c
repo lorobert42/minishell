@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:04:43 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/26 12:01:38 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 14:58:55 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,11 @@ void	execution_loop(t_data *data)
 		g_glob.status = 1;
 		pipe(data->table->commands[i].fd);
 		pid = fork();
+		if (pid == -1)
+		{
+			g_glob.error = 1;
+			return ;
+		}
 		g_glob.nb_children += 1;
 		if (pid == 0)
 		{

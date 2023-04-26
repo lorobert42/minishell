@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 09:11:34 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/19 10:22:38 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:30:40 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,16 +29,13 @@ void	ft_cd_path(t_data *data, char *path)
 {
 	char	pwd[PATH_MAX];
 
-	ft_printf("1 -> %s\n", pwd);
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		return (print_error(path, "cd"));
-	ft_printf("2 -> %s\n", getcwd(pwd, PATH_MAX));
+		return (print_error(NULL, "cd"));
 	if (chdir(path) == -1)
-		return (print_error(path, "cd"));
+		return (print_error(NULL, path));
 	update_env_ifexist(data, "OLDPWD", pwd);
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		return (print_error(path, "cd"));
-	ft_printf("3 -> %s\n", pwd);
+		return (print_error(NULL, "cd"));
 	update_env_ifexist(data, "PWD", pwd);
 }
 
@@ -55,12 +52,12 @@ void	ft_cd_home(t_data *data, char *path)
 	if (!home[0] && path)
 		home = ft_strjoin("/Users/", getenv_value(data->env, "USER"));
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		return (print_error(home, "cd"));
+		return (print_error(NULL, "cd"));
 	if (chdir(home) == -1)
-		return (print_error(home, "cd"));
+		return (print_error(NULL, home));
 	update_env_ifexist(data, "OLDPWD", pwd);
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		return (print_error(home, "cd"));
+		return (print_error(NULL, "cd"));
 	update_env_ifexist(data, "PWD", pwd);
 	free(home);
 }
@@ -74,12 +71,12 @@ void	ft_cd_minus(t_data *data)
 	if (!tmp[0])
 		return (print_error("OLDPWD not set", "cd"));
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		return (print_error(tmp, "cd"));
+		return (print_error(NULL, "cd"));
 	if (chdir(tmp) == -1)
-		return (print_error(tmp, "cd"));
+		return (print_error(NULL, tmp));
 	update_env_ifexist(data, "OLDPWD", pwd);
 	if (getcwd(pwd, PATH_MAX) == NULL)
-		return (print_error(tmp, "cd"));
+		return (print_error(NULL, "cd"));
 	update_env_ifexist(data, "PWD", pwd);
 	free(tmp);
 }

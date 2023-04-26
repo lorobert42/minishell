@@ -6,11 +6,20 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 09:26:21 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/24 14:47:09 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 15:20:04 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_tokens(t_token *tokens)
+{
+	while (tokens)
+	{
+		ft_printf("Token type: %d, value: %s\nAddress: %p\n", tokens->type, tokens->value, tokens);
+		tokens = tokens->next;
+	}
+}
 
 t_token	*create_token(char *value, t_token_type type)
 {
@@ -40,23 +49,20 @@ void	add_token(t_token **tokens, t_token *new)
 	current->next = new;
 }
 
-void	delete_token(t_token **start, t_token *to_del)
+t_token	*delete_token(t_token *start, t_token *to_del)
 {
 	t_token	*current;
 
-	if (*start == to_del)
+	if (start == to_del)
 	{
-		free(to_del->value);
-		free(to_del);
-		*start = NULL;
-		return ;
+		start = to_del->next;
+		return (start);
 	}
-	current = *start;
+	current = start;
 	while (current->next != to_del)
 		current = current->next;
 	current->next = to_del->next;
-	free(to_del->value);
-	free(to_del);
+	return (start);
 }
 
 void	clean_tokens(t_token *tokens)
