@@ -29,13 +29,16 @@ void	ft_cd_path(t_data *data, char *path)
 {
 	char	pwd[PATH_MAX];
 
+	ft_printf("1 -> %s\n", pwd);
 	if (getcwd(pwd, PATH_MAX) == NULL)
 		return (print_error(path, "cd"));
+	ft_printf("2 -> %s\n", getcwd(pwd, PATH_MAX));
 	if (chdir(path) == -1)
 		return (print_error(path, "cd"));
 	update_env_ifexist(data, "OLDPWD", pwd);
 	if (getcwd(pwd, PATH_MAX) == NULL)
 		return (print_error(path, "cd"));
+	ft_printf("3 -> %s\n", pwd);
 	update_env_ifexist(data, "PWD", pwd);
 }
 

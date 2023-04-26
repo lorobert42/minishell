@@ -92,95 +92,113 @@ typedef struct s_data
 	struct termios		tp;
 }	t_data;
 
-// LEXER
-t_token			*lexer(char *command);
-t_token			*create_token(char *value, t_token_type type);
-void			add_token(t_token **tokens, t_token *new);
-void			delete_token(t_token **start, t_token *to_del);
-void			clean_tokens(t_token *tokens);
-int				issep(int c);
-
 // BULTINS
+// ---> check_builtins.c
+int				is_builtins(char **cmd);
+int				exec_builtins(t_data *data, char **cmd);
+// ---> ft_cd.c
+int				ft_cd(t_data *data, char **args);
+// ---> ft_echo.c
+int				ft_echo(char **args);
+// ---> ft_env.c
 int				ft_env(char **env);
-char			*ft_getenv(char **env, char *key);
-int				ft_export(t_data *data, char *arg);
+// ---> ft_exit.c
+int				ft_exit(char **args, t_data *data);
+// ---> ft_export.c
 int				print_export(char **env);
 void			update_env(t_data *data, char *key, char *new_value);
-int				ft_unset(t_data *data, char *s);
-int				ft_echo(char **args);
-int				ft_pwd(void);
-int				ft_cd(t_data *data, char **args);
-int				ft_exit(char **args, t_data *data);
-char			**parse_env(char **env_strs);
-int				exec_builtins(t_data *data, char **cmd);
-int				is_builtins(char **cmd);
-
-// FT_GETENV
+int				ft_export(t_data *data, char *arg);
+// ---> ft_getenv.c
+char			*getenv_value(char **env, char *key);
 int				get_env_index(char **env, char *key);
 char			*ft_getenv(char **env, char *key);
-char			*getenv_value(char **env, char *key);
+// ---> ft_pwd.c
+int				ft_pwd(void);
+// ---> ft_unset.c
+int				ft_unset(t_data *data, char *s);
 
-// UTILS
-int				ft_isspace(int c);
-
-void			clear_split(char **split);
-
-// LIST_UTILS
-void			clear_lst(t_data *data);
-
-// TAB_UTILS
-int				get_tab_size(char **tab);
-char			**tab_add_back(t_data *data, char *content);
-void			print_str_tab(char **tab);
-char			**sort_tab(char **env);
-
-// CLEAR_SPLIT
-void			clear_split(char **split);
-
-// PARSER
-t_command_table	*parser(t_token *tokens);
-int				count_commands(t_token *tokens);
-int				command_size(t_token *tokens);
-int				is_redir(t_token_type t);
-int				is_string(t_token_type t);
-void			print_command_table(t_command_table *table);
-void			clean_command_table(t_command_table *table);
-
-// EXPANDER
-int				expander(t_token *tokens, char **env);
-int				is_quote(char c);
-int				count_quotes(char *s);
-int				check_unclosed_quotes(char *str);
-char			*delete_quotes(char *str);
-int				check_expansion(char **str, char **env);
+// ENV
+// ---> parse_env.c
+char			**parse_env(char **env_strs);
 
 // EXECUTER
+// --> executer.c
 int				execute(t_data *data);
-
-// REDIRECTIONS
-int				heredoc(char **delim, int fd, t_data *data);
+// --->heredoc.c
 int				set_heredoc(t_data *data);
+int				heredoc(char **delim, int fd, t_data *data);
+// ---> redirection.c
 void			close_pipe(t_data *data, int i);
 int				redir_pipe(t_data *data, int i);
 int				redir_file_in(t_data *data, int i);
 int				redir_file_out(t_data *data, int i);
-void			delete_heredoc(t_data *data, int i);
 void			close_redirections(t_data *data, int i);
 void			restore_stdio(t_data *data);
+void			delete_heredoc(t_data *data, int i);
 
-// EXECUTE_UTILS
-char			*get_path(char *path, char *cmd);
+// EXPANDER
+// ---> expander.c
+int				check_expansion(char **str, char **env);
+int				expander(t_token *tokens, char **env);
+// --->quotes.c
+int				is_quote(char c);
+int				count_quotes(char *s);
+int				check_unclosed_quotes(char *str);
+char			*delete_quotes(char *str);
 
-// SIGNAUX
+// LEXER
+// ---> issep.c
+int				issep(int c);
+// ---> lexer.c
+t_token			*lexer(char *command);
+// ---> token.c
+t_token			*create_token(char *value, t_token_type type);
+void			add_token(t_token **tokens, t_token *new);
+void			delete_token(t_token **start, t_token *to_del);
+void			clean_tokens(t_token *tokens);
+
+// MAIN
+// ---> init.c
+void			init(t_data *data, char **env);
+// ---> loop.c
+void			loop(t_data *data);
+
+// PARSER
+// ---> commands.c
+int				count_commands(t_token *tokens);
+int				command_size(t_token *tokens);
+void			clean_command_table(t_command_table *table);
+// ---> debug_print_command_table.c
+void			print_command_table(t_command_table *table);
+// ---> parser.c
+t_command_table	*parser(t_token *tokens);
+// ---> token_type.c
+int				is_redir(t_token_type t);
+int				is_string(t_token_type t);
+
+// SIG_HANDLER
+// ---> signals.c
 void			sig_handler(void);
+// ---> termios.c
 void			termios_remove_ctrl(void);
 void			termios_restore_ctrl(void);
 
-// MAIN
-void			loop(t_data *data);
-void			init(t_data *data, char **env);
-
-// ERROR
+// UTILS
+// ---> clear_split.c
+void			clear_split(char **split);
+// ---> env_utils.c
+//char	*get_full_env(t_env *env, char *key) <---- useless ???
+// ---> error.c
 void			print_error(char *msg, char *command);
-
+// ---> execute_utils.c
+char			*get_path(char *path, char *cmd);
+// ---> ft_isspace.c
+int				ft_isspace(int c);
+// ---> lsit_utils.c
+void			clear_lst(t_data *data);
+// --->tab_utils.c
+int				get_tab_size(char **tab);
+void			print_str_tab(char **tab);
+char			**tab_add_back(t_data *data, char *content);
+char			**sort_tab(char **env);
 #endif
