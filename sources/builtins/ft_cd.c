@@ -19,6 +19,7 @@ void	update_env_ifexist(t_data *data, char *key, char *newval)
 	oldval = ft_getenv(data->env, key);
 	if (oldval)
 	{
+		ft_printf("key --> %s\nvalue --> %s\n", key, newval);
 		update_env(data, key, newval);
 		g_glob.error = 0;
 	}
@@ -29,16 +30,13 @@ void	ft_cd_path(t_data *data, char *path)
 {
 	char	pwd[PATH_MAX];
 
-	ft_printf("1 -> %s\n", pwd);
 	if (getcwd(pwd, PATH_MAX) == NULL)
 		return (print_error(path, "cd"));
-	ft_printf("2 -> %s\n", getcwd(pwd, PATH_MAX));
 	if (chdir(path) == -1)
 		return (print_error(path, "cd"));
 	update_env_ifexist(data, "OLDPWD", pwd);
 	if (getcwd(pwd, PATH_MAX) == NULL)
 		return (print_error(path, "cd"));
-	ft_printf("3 -> %s\n", pwd);
 	update_env_ifexist(data, "PWD", pwd);
 }
 

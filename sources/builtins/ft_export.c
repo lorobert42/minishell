@@ -77,6 +77,7 @@ void	update_env(t_data *data, char *key, char *new_value)
 	int		index;
 
 	env = ft_getenv(data->env, key);
+	ft_printf("get_env before --> %s\n", env);
 	if (env != NULL)
 	{
 		index = get_env_index(data->env, key);
@@ -89,6 +90,7 @@ void	update_env(t_data *data, char *key, char *new_value)
 		data->env = tab_add_back(data, new_value);
 		g_glob.error = 0;
 	}
+	ft_printf("get_env after --> %s\n", ft_getenv(data->env, key));
 	free(env);
 }
 
