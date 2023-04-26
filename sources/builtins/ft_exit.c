@@ -66,6 +66,19 @@ void	exit_error(t_data *data)
 	exit(255);
 }
 
+long long int	check_digit(char **args, t_data *data)
+{
+	long long int	i;
+
+	i = 0;
+	while (args[1][++i])
+	{
+		if (!ft_isdigit(args[1][i]))
+			exit_error(data);
+	}
+	return (i);
+}
+
 int	ft_exit(char **args, t_data *data)
 {
 	long long int	i;
@@ -85,12 +98,7 @@ int	ft_exit(char **args, t_data *data)
 	args[1] = delete_quotes(args[1]);
 	if (!ft_isdigit(args[1][0]) && args[1][0] != '+' && args[1][0] != '-')
 		exit_error(data);
-	i = 0;
-	while (args[1][++i])
-	{
-		if (!ft_isdigit(args[1][i]))
-			exit_error(data);
-	}
+	i = check_digit(args, data);
 	overflow = 0;
 	i = ft_atoui(args[1], &overflow);
 	if (overflow)
