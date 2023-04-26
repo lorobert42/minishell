@@ -14,5 +14,13 @@
 
 int	main(int ac, char **av, char **env)
 {
+	t_data	data;
 
+	(void)ac;
+	(void)av;
+	termios_remove_ctrl();
+	sig_handler();
+	init(&data, env);
+	loop(&data);
+	termios_restore_ctrl();
 }

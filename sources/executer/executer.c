@@ -43,14 +43,17 @@ void	children(t_data *data, int i)
 		exec_builtins(data, data->table->commands[i].args);
 	else
 	{
+		termios_restore_ctrl();
 		path = find_path(data, i);
 		if (path != NULL)
 		{
 			execve(path, data->table->commands[i].args, data->env);
 		}
 		else
-			ft_printf("🤷 Hérishell: %s: a pas trouver ... 🤷\n", \
-				data->table->commands[i].args[0]);
+		{
+			ft_printf("🤷 Hérishell: %s: a pas trouver ... 🤷\n", data->table->commands[i].args[0]);
+			termios_remove_ctrl();
+		}
 	}
 	exit(0);
 }
@@ -64,6 +67,7 @@ void	execution_loop(t_data *data)
 	i = 0;
 	while (i < data->table->n_commands)
 	{
+		g_glob.status = 1;
 		pipe(data->table->commands[i].fd);
 		pid = fork();
 		g_glob.nb_children += 1;

@@ -19,6 +19,7 @@ void	loop(t_data *data)
 	while (data->run)
 	{
 		buffer = readline("🦔 \e[34m Hérishell 🦔 => \e[39m");
+		//buffer = readline("my shell");
 		if (!buffer)
 			exit(g_glob.error);
 		add_history(buffer);
