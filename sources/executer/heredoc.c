@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 11:01:43 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/21 10:06:38 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 09:44:54 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	set_heredoc(t_data *data)
 			if (current->append)
 			{
 				i_str = ft_itoa(i);
-				tmp = ft_strjoin("minishell_heredoc_", i_str);
+				tmp = ft_strjoin("/tmp/minishell_heredoc_", i_str);
 				free(i_str);
 				c[i].fd[1] = open(tmp, O_WRONLY | O_CREAT, S_IRUSR | S_IWUSR);
 				heredoc(&current->name, c[i].fd[1], data);

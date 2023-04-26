@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:15:13 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/24 15:43:55 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/04/26 09:35:48 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,14 @@ void	close_redirections(t_data *data, int i)
 		close(data->table->commands[i].fd[1]);
 	if (data->table->commands[i].infiles)
 		close(data->table->commands[i].fd[0]);
+}
+
+void	restore_stdio(t_data *data)
+{
+	dup2(data->saved_io[0], STDIN_FILENO);
+	close(data->saved_io[0]);
+	dup2(data->saved_io[1], STDOUT_FILENO);
+	close(data->saved_io[1]);
 }
 
 void	delete_heredoc(t_data *data, int i)
