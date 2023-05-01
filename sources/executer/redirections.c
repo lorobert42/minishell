@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:15:13 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/26 10:58:17 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/01 14:00:50 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	close_pipe(t_data *data, int i)
 {
-	if (close(data->table->commands[i].fd[0]) == -1)
-		print_error(NULL, "closing pipe 0");
-	if (close(data->table->commands[i].fd[1]) == -1)
-		print_error(NULL, "closing pipe 1");
+	close(data->table->commands[i].fd[0]);
+	close(data->table->commands[i].fd[1]);
 }
 
 int	redir_pipe(t_data *data, int i)
@@ -29,16 +27,10 @@ int	redir_pipe(t_data *data, int i)
 	}
 	if (i < data->table->n_commands - 1)
 	{
-		if (!data->table->commands[i].infiles)
-		{
-			if (close(data->table->commands[i].fd[0]) == -1)
-				print_error(NULL, "close3");
-		}
 		if (!data->table->commands[i].outfiles)
 		{
 			dup2(data->table->commands[i].fd[1], STDOUT_FILENO);
-			if (close(data->table->commands[i].fd[1]) == -1)
-				print_error(NULL, "close4");
+			close_pipe(data, i);
 		}
 	}
 	return (0);
@@ -47,23 +39,25 @@ int	redir_pipe(t_data *data, int i)
 int	redir_file_in(t_data *data, int i)
 {
 	t_file	*current;
+	t_file	*prev;
 
 	current = data->table->commands[i].infiles;
 	if (current == NULL)
 		return (0);
+	prev = NULL;
 	while (current)
 	{
-		data->table->commands[i].fd[0] = open(current->name, O_RDONLY);
-		if (data->table->commands[i].fd[0] == -1)
+		if (prev)
+			close(data->table->commands[i].fd_in);
+		data->table->commands[i].fd_in = open(current->name, O_RDONLY);
+		if (data->table->commands[i].fd_in == -1)
 		{
 			print_error(NULL, current->name);
 			return (1);
 		}
 		current = current->next;
 	}
-	dup2(data->table->commands[i].fd[0], STDIN_FILENO);
-	if (close(data->table->commands[i].fd[0]) == -1)
-		print_error(NULL, "closing pipe infile");
+	dup2(data->table->commands[i].fd_in, STDIN_FILENO);
 	return (0);
 }
 
@@ -79,12 +73,12 @@ int	redir_file_out(t_data *data, int i)
 	while (current)
 	{
 		if (prev)
-			close(data->table->commands[i].fd[1]);
+			close(data->table->commands[i].fd_out);
 		if (current->append)
 		{
-			data->table->commands[i].fd[1] = open(current->name, O_WRONLY | \
+			data->table->commands[i].fd_out = open(current->name, O_WRONLY | \
 				O_CREAT | O_APPEND, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-			if (data->table->commands[i].fd[1] == -1)
+			if (data->table->commands[i].fd_out == -1)
 			{
 				print_error(NULL, current->name);
 				return (1);
@@ -92,9 +86,9 @@ int	redir_file_out(t_data *data, int i)
 		}
 		else
 		{
-			data->table->commands[i].fd[1] = open(current->name, O_WRONLY | \
+			data->table->commands[i].fd_out = open(current->name, O_WRONLY | \
 				O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-			if (data->table->commands[i].fd[1] == -1)
+			if (data->table->commands[i].fd_out == -1)
 			{
 				print_error(NULL, current->name);
 				return (1);
@@ -103,18 +97,16 @@ int	redir_file_out(t_data *data, int i)
 		prev = current;
 		current = current->next;
 	}
-	dup2(data->table->commands[i].fd[1], STDOUT_FILENO);
-	if (close(data->table->commands[i].fd[1]) == -1)
-		print_error(NULL, "closing pipe outfile");
+	dup2(data->table->commands[i].fd_out, STDOUT_FILENO);
 	return (0);
 }
 
 void	close_redirections(t_data *data, int i)
 {
 	if (data->table->commands[i].outfiles)
-		close(data->table->commands[i].fd[1]);
+		close(data->table->commands[i].fd_out);
 	if (data->table->commands[i].infiles)
-		close(data->table->commands[i].fd[0]);
+		close(data->table->commands[i].fd_in);
 }
 
 void	restore_stdio(t_data *data)

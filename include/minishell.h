@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/26 15:29:10 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/01 09:52:43 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,9 @@ typedef struct s_command
 	t_file	*infiles;
 	t_file	*outfiles;
 	int		fd[2];
-	int		ret;
+	int		fd_in;
+	int		fd_out;
+	pid_t	pid;
 }	t_command;
 
 typedef struct s_command_table

@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:04:43 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/26 14:58:55 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/01 14:05:28 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,20 +89,16 @@ void	execution_loop(t_data *data)
 					exit(1);
 			}
 			redir_pipe(data, i);
+			close_pipe(data, 0);
 			children(data, i);
-		}
-		else
-		{
-			if (i > 0)
-			{
-				close_pipe(data, i - 1);
-			}
 		}
 		i++;
 	}
-	if (i > 0)
+	i = 0;
+	while (i < data->table->n_commands)
 	{
-		close_pipe(data, i - 1);
+		close_pipe(data, i);
+		i++;
 	}
 	while (g_glob.nb_children > 0)
 	{
