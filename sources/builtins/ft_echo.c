@@ -59,5 +59,6 @@ int	ft_echo(char **args)
 	}
 	if (!n)
 		ft_printf("\n");
+	g_glob.error = 0;
 	return (0);
 }

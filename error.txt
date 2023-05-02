@@ -1,17 +1,27 @@
+commands echo ne remet pas a zero la variable $?
+
+probleme de signaux ! (apres un ctrl-\, le ctrl-\ dans commande bloquante ne quit pas)
+
+echo (gerer ~ and -)
+
+
+
+==============================================================================================================================================
+
 ---> EXIT
 ->  ̶g̶e̶r̶e̶r̶ ̶l̶e̶s̶ ̶a̶r̶g̶s̶
 ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶ ̶(̶q̶u̶e̶ ̶a̶l̶p̶h̶a̶ ̶n̶u̶m̶ ̶\̶ ̶a̶t̶t̶e̶n̶t̶i̶o̶n̶ ̶a̶ ̶s̶i̶ ̶i̶l̶ ̶e̶x̶i̶t̶ ̶o̶u̶ ̶p̶a̶s̶)̶
 
 ---> ECHO
      ̶!̶!̶!̶ ̶n̶e̶ ̶p̶r̶e̶n̶d̶ ̶p̶a̶s̶ ̶l̶'̶e̶n̶t̶r̶e̶e̶ ̶d̶e̶ ̶h̶e̶r̶e̶d̶o̶c̶ ̶-̶-̶>̶ ̶b̶a̶s̶h̶ ̶n̶o̶n̶ ̶p̶l̶u̶s̶ ̶d̶'̶a̶p̶r̶è̶s̶ ̶m̶e̶s̶ ̶t̶e̶s̶t̶s̶
-     -> L'expansion de quotes vides doit faire un espace
+      ̶-̶>̶ ̶L̶'̶e̶x̶p̶a̶n̶s̶i̶o̶n̶ ̶d̶e̶ ̶q̶u̶o̶t̶e̶s̶ ̶v̶i̶d̶e̶s̶ ̶d̶o̶i̶t̶ ̶f̶a̶i̶r̶e̶ ̶u̶n̶ ̶e̶s̶p̶a̶c̶e̶
 
 ---> CD
 
 ---> ENV
 
-->  ̶n̶e̶ ̶p̶a̶s̶ ̶a̶f̶f̶i̶c̶h̶e̶r̶ ̶u̶n̶e̶ ̶v̶a̶l̶e̶u̶r̶ ̶s̶a̶n̶s̶ ̶v̶a̶l̶u̶e̶ ̶n̶i̶ ̶'̶=̶'̶ --> affiche si pas de valeur (comme bash)
-    (a detecter dans le parsing si pas de = dans la com export) --> fait
+->  ̶n̶e̶ ̶p̶a̶s̶ ̶a̶f̶f̶i̶c̶h̶e̶r̶ ̶u̶n̶e̶ ̶v̶a̶l̶e̶u̶r̶ ̶s̶a̶n̶s̶ ̶v̶a̶l̶u̶e̶ ̶n̶i̶ ̶'̶=̶'̶  ̶-̶-̶>̶ ̶a̶f̶f̶i̶c̶h̶e̶ ̶s̶i̶ ̶p̶a̶s̶ ̶d̶e̶ ̶v̶a̶l̶e̶u̶r̶ ̶(̶c̶o̶m̶m̶e̶ ̶b̶a̶s̶h̶)̶
+        (̶a̶ ̶d̶e̶t̶e̶c̶t̶e̶r̶ ̶d̶a̶n̶s̶ ̶l̶e̶ ̶p̶a̶r̶s̶i̶n̶g̶ ̶s̶i̶ ̶p̶a̶s̶ ̶d̶e̶ ̶=̶ ̶d̶a̶n̶s̶ ̶l̶a̶ ̶c̶o̶m̶ ̶e̶x̶p̶o̶r̶t̶)̶ ̶-̶-̶>̶ ̶f̶a̶i̶t
 
 ---> EXPORT
 
@@ -24,19 +34,19 @@
 
 ---> EXECUTER
     -> c̶a̶t̶ ̶|̶ ̶c̶a̶t̶ ̶|̶ ̶l̶s̶ ̶(̶n̶e̶e̶d̶ ̶t̶o̶ ̶e̶x̶e̶c̶u̶t̶e̶ ̶l̶s̶ ̶b̶e̶f̶o̶r̶e̶ ̶c̶a̶t̶)̶
-    -> cat tourne en boucle
-    -> ctrl-C dans cat affiche deux fois le prompt
+     ̶-̶>̶ ̶c̶a̶t̶ ̶t̶o̶u̶r̶n̶e̶ ̶e̶n̶ ̶b̶o̶u̶c̶l̶e̶
+     ̶-̶>̶ ̶c̶t̶r̶l̶-̶C̶ ̶d̶a̶n̶s̶ ̶c̶a̶t̶ ̶a̶f̶f̶i̶c̶h̶e̶ ̶d̶e̶u̶x̶ ̶f̶o̶i̶s̶ ̶l̶e̶ ̶p̶r̶o̶m̶p̶t̶
 
 ---> HEREDOC
 
 exit general :
-    -> bien gerer les erreurs en retour general des builtins
+     ̶-̶>̶ ̶b̶i̶e̶n̶ ̶g̶e̶r̶e̶r̶ ̶l̶e̶s̶ ̶e̶r̶r̶e̶u̶r̶s̶ ̶e̶n̶ ̶r̶e̶t̶o̶u̶r̶ ̶g̶e̶n̶e̶r̶a̶l̶ ̶d̶e̶s̶ ̶b̶u̶i̶l̶t̶i̶n̶s̶
 
 redirection:
     ->  ̶S̶E̶G̶F̶ ̶q̶u̶a̶n̶d̶ ̶p̶a̶s̶ ̶d̶'̶e̶n̶t̶r̶e̶e̶
     ->  ̶S̶i̶ ̶p̶l̶u̶s̶i̶e̶u̶r̶s̶ ̶r̶e̶d̶i̶r̶e̶c̶t̶i̶o̶n̶s̶ ̶p̶o̶u̶r̶ ̶l̶a̶ ̶m̶ê̶m̶e̶ ̶c̶o̶m̶m̶a̶n̶d̶e̶,̶ ̶d̶o̶i̶t̶ ̶c̶r̶é̶e̶r̶ ̶t̶o̶u̶s̶ ̶l̶e̶s̶ ̶f̶i̶c̶h̶i̶e̶r̶s̶
     ->  ̶d̶o̶i̶t̶ ̶p̶a̶s̶s̶e̶r̶ ̶p̶a̶r̶ ̶l̶a̶ ̶g̶e̶s̶t̶i̶o̶n̶ ̶d̶e̶s̶ ̶q̶u̶o̶t̶e̶s̶
-    -> "cat <./minishell_tester/test_files/infile_big | builtins" cat ignore le fichier d'entrée
+     ̶-̶>̶ ̶"̶c̶a̶t̶ ̶<̶.̶/̶m̶i̶n̶i̶s̶h̶e̶l̶l̶_̶t̶e̶s̶t̶e̶r̶/̶t̶e̶s̶t̶_̶f̶i̶l̶e̶s̶/̶i̶n̶f̶i̶l̶e̶_̶b̶i̶g̶ ̶|̶ ̶b̶u̶i̶l̶t̶i̶n̶s̶"̶ ̶c̶a̶t̶ ̶i̶g̶n̶o̶r̶e̶ ̶l̶e̶ ̶f̶i̶c̶h̶i̶e̶r̶ ̶d̶'̶e̶n̶t̶r̶é̶e̶
 
 parse:
     ->  ̶S̶E̶G̶F̶ ̶q̶u̶a̶n̶d̶ ̶u̶n̶ ̶s̶e̶u̶l̶ ̶p̶i̶p̶e̶ ̶o̶u̶ ̶d̶o̶u̶b̶l̶e̶ ̶p̶i̶p̶e̶ ̶(̶c̶o̶m̶m̶a̶n̶d̶e̶ ̶v̶i̶d̶e̶ ̶i̶n̶t̶e̶r̶p̶r̶e̶t̶t̶e̶r̶)̶
@@ -63,6 +73,6 @@ les signaux:
       ̶(̶s̶e̶t̶ ̶h̶e̶r̶e̶d̶o̶c̶ ̶a̶ ̶g̶_̶g̶l̶o̶b̶[̶1̶]̶ ̶=̶ ̶1̶)̶
 
 // SOUS LE TAPIS
-    --> Premier prompt (SIGQUIT retourne au debut du prompt)
+     ̶-̶-̶>̶ ̶P̶r̶e̶m̶i̶e̶r̶ ̶p̶r̶o̶m̶p̶t̶ ̶(̶S̶I̶G̶Q̶U̶I̶T̶ ̶r̶e̶t̶o̶u̶r̶n̶e̶ ̶a̶u̶ ̶d̶e̶b̶u̶t̶ ̶d̶u̶ ̶p̶r̶o̶m̶p̶t̶)̶
 
 
