@@ -6,11 +6,27 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:04:43 by afavre            #+#    #+#             */
-/*   Updated: 2023/05/03 10:47:38 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/03 13:57:11 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	check_access(char *path)
+{
+	DIR	*dir;
+
+	dir = opendir(path);
+	if (dir)
+	{
+		closedir(dir);
+		fatal_error("is a directory", path, 126);
+	}
+	if (access(path, F_OK) != 0)
+		fatal_error(NULL, path, 127);
+	if (access(path, R_OK | X_OK) != 0)
+		fatal_error(NULL, path, 126);
+}
 
 char	*find_path(t_data *data, int num)
 {
@@ -19,7 +35,10 @@ char	*find_path(t_data *data, int num)
 	int		i;
 
 	if (ft_strchr(data->table->commands[num].args[0], '/'))
+	{
+		check_access(data->table->commands[num].args[0]);
 		return (data->table->commands[num].args[0]);
+	}
 	env = ft_getenv(data->env, "PATH");
 	if (env != NULL)
 	{
@@ -27,9 +46,11 @@ char	*find_path(t_data *data, int num)
 		i = 0;
 		while (path[i] != NULL)
 		{
-			if (access(get_path(path[i], data->table->commands[num].args[0]), \
-		F_OK | R_OK) == 0)
+			if (access(get_path(path[i], data->table->commands[num].args[0]), F_OK) == 0)
+			{
+				check_access(get_path(path[i], data->table->commands[num].args[0]));
 				return (get_path(path[i], data->table->commands[num].args[0]));
+			}
 			i++;
 		}
 		clear_split(path);
@@ -45,6 +66,8 @@ void	children(t_data *data, int i)
 		exec_builtins(data, data->table->commands[i].args);
 	else
 	{
+		if (!data->table->commands[i].args[0])
+			exit(0);
 		path = find_path(data, i);
 		if (!path)
 		{

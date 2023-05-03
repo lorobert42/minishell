@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:25:52 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/03 11:41:28 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/03 12:23:30 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,13 @@ t_token	*extract_string(t_token *tokens, t_command *command)
 	if (!command->args)
 		return (NULL);
 	i = 0;
-	while (i < size)
+	while (i < size && tokens)
 	{
+		if (!tokens->value)
+		{
+			tokens = tokens->next;
+			continue ;
+		}
 		command->args[i] = ft_strdup(tokens->value);
 		tokens = tokens->next;
 		i++;

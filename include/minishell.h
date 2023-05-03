@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/03 10:44:59 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/03 13:55:43 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <termios.h>
+# include <dirent.h>
 
 # include "../libs/libft_rework/libft/include/libft.h"
 # include "../libs/libft_rework/gnl/include/get_next_line.h"
@@ -191,6 +192,7 @@ void			termios_restore_ctrl(void);
 void			clear_split(char **split);
 // ---> error.c
 void			print_error(char *msg, char *command);
+void			fatal_error(char *msg, char *command, int code);
 // ---> execute_utils.c
 char			*get_path(char *path, char *cmd);
 // ---> ft_isspace.c

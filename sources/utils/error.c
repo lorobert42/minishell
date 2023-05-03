@@ -6,11 +6,17 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 11:22:27 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/26 11:53:12 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/03 13:50:28 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+void	fatal_error(char *msg, char *command, int code)
+{
+	print_error(msg, command);
+	exit(code);
+}
 
 void	print_error(char *msg, char *command)
 {
