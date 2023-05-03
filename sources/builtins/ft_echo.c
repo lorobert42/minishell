@@ -38,11 +38,20 @@ Print content of args on file descriptor fd.
 If parameter `-n` is set, do not print '\n' at the end.
 Multiple `-n` are possible.
 */
+
+void	print_home(t_data *data)
+{
+	char	**tmp;
+
+	tmp = ft_split(ft_getenv(data->env, "HOME"), '=');
+	ft_printf("%s", tmp[1]);
+	clear_split(tmp);
+}
+
 int	ft_echo(t_data *data, char **args)
 {
 	int		i;
 	int		n;
-	char	**tmp;
 
 	n = 0;
 	i = 0;
@@ -54,11 +63,7 @@ int	ft_echo(t_data *data, char **args)
 	while (args[i])
 	{
 		if (args[i][0] == '~')
-		{
-			tmp = ft_split(ft_getenv(data->env, "HOME"), '=');
-			ft_printf("%s", tmp[1]);
-			clear_split(tmp);
-		}
+			print_home(data);
 		else
 			ft_printf("%s", args[i]);
 		if (args[i + 1])

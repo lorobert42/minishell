@@ -18,8 +18,7 @@ void	loop(t_data *data)
 
 	while (data->run)
 	{
-		//buffer = readline("🦔 \e[34m Hérishell 🦔 => \e[39m");
-		buffer = readline("my shell > ");
+		buffer = readline("🦔 \e[34m Hérishell 🦔 => \e[39m");
 		if (!buffer)
 			exit(g_glob.error);
 		if (buffer[0] != '\0')

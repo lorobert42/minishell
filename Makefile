@@ -69,9 +69,9 @@ OBJS			:=	$(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 DEPS			:=	$(OBJS:.o=.d)
 
 CC				:=	gcc
-CFLAGS			:=	-Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS			:=	-Wall -Wextra -Werror #-g -fsanitize=address
 CPPFLAGS		:=	$(addprefix -I,$(INCS)) -MMD -MP
-LDFLAGS			:=	$(addprefix -L,$(dir $(LIBS_TARGET))) -fsanitize=address
+LDFLAGS			:=	$(addprefix -L,$(dir $(LIBS_TARGET))) #-fsanitize=address
 LDLIBS			:=	$(addprefix -l,$(LIBS))
 
 # If READLINE env variable is set, use it as an extra include and

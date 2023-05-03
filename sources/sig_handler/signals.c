@@ -26,7 +26,7 @@ static void	handler(int sig)
 		if (sig == SIGQUIT)
 		{
 			rl_redisplay();
-			return;
+			return ;
 		}
 	}
 	if (g_glob.status == 1)
