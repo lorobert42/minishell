@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 13:25:52 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/26 15:23:50 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/03 11:41:28 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,11 @@ t_command_table	*parser(t_token *tokens)
 				break ;
 		}
 		if (tokens && tokens->type == PIPE)
+		{
+			if (!tokens->next)
+				g_glob.parsing = 1;
 			tokens = tokens->next;
+		}
 		i++;
 	}
 	if (g_glob.parsing == 1)
