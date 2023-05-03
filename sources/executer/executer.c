@@ -53,6 +53,7 @@ void	children(t_data *data, int i)
 			exit(127);
 		}
 		termios_restore_ctrl();
+		ft_printf("test --> %d\n", g_glob.status);
 		execve(path, data->table->commands[i].args, data->env);
 	}
 	exit(0);
@@ -90,6 +91,7 @@ void	execution_loop(t_data *data)
 			}
 			redir_pipe(data, i);
 			close_pipe(data, 0);
+			close_pipe(data, 0);
 			children(data, i);
 		}
 		i++;
@@ -112,13 +114,17 @@ void	execution_loop(t_data *data)
 	while (++i < data->table->n_commands)
 		delete_heredoc(data, i);
 	if (WIFEXITED(status))
+	{
 		g_glob.error = WEXITSTATUS(status);
+	}
 	if (WIFSIGNALED(status))
 		g_glob.error = 128 + WTERMSIG(status);
 	if (g_glob.error == 138)
 		ft_printf("bus error: 10\n");
 	if (g_glob.error == 139)
 		ft_printf("segmentation fault: 11\n");
+	g_glob.status = 0;
+	ft_printf("test 2 --> %d", g_glob.status);
 	termios_remove_ctrl();
 }
 

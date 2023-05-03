@@ -25,6 +25,7 @@ static void	handler(int sig)
 		}
 		if (sig == SIGQUIT)
 		{
+			ft_printf("ducon");
 			signal(SIGQUIT, SIG_IGN);
 		}
 	}
