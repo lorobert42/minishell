@@ -25,14 +25,14 @@ static void	handler(int sig)
 		}
 		if (sig == SIGQUIT)
 		{
-			ft_printf("ducon");
-			signal(SIGQUIT, SIG_IGN);
+			rl_redisplay();
+			return;
 		}
 	}
 	if (g_glob.status == 1)
 	{
 		if (sig == SIGINT)
-			write(1, "\n", 1);
+			write(1, "test\n", 5);
 		if (sig == SIGQUIT)
 			ft_printf("Quit: 3\n");
 		g_glob.status = 0;
@@ -44,6 +44,8 @@ void	sig_handler(void)
 	struct sigaction	sa_int;
 
 	sa_int.sa_handler = &handler;
-	sigaction(SIGINT, &sa_int, NULL);
-	sigaction(SIGQUIT, &sa_int, NULL);
+	if (sigaction(SIGINT, &sa_int, NULL) == -1)
+		ft_printf("error sigint");
+	if (sigaction(SIGQUIT, &sa_int, NULL) == -1)
+		ft_printf("error sigquit");
 }

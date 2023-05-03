@@ -53,7 +53,6 @@ void	children(t_data *data, int i)
 			exit(127);
 		}
 		termios_restore_ctrl();
-		ft_printf("test --> %d\n", g_glob.status);
 		execve(path, data->table->commands[i].args, data->env);
 	}
 	exit(0);
@@ -118,7 +117,6 @@ void	execution_loop(t_data *data)
 	if (g_glob.error == 139)
 		ft_printf("segmentation fault: 11\n");
 	g_glob.status = 0;
-	ft_printf("test 2 --> %d", g_glob.status);
 	termios_remove_ctrl();
 }
 
