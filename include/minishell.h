@@ -131,14 +131,8 @@ int				execute(t_data *data);
 int				set_heredoc(t_data *data);
 int				heredoc(char **delim, int fd, t_data *data);
 // ---> redirection.c
-void			close_all_pipes(t_data *data, int i);
-void			close_pipe(t_data *data, int i);
-int				redir_pipe(t_data *data, int i);
 int				redir_file_in(t_data *data, int i);
 int				redir_file_out(t_data *data, int i);
-void			close_redirections(t_data *data, int i);
-void			restore_stdio(t_data *data);
-void			delete_heredoc(t_data *data, int i);
 
 // EXPANDER
 // ---> expander.c
@@ -204,5 +198,11 @@ int				get_tab_size(char **tab);
 void			print_str_tab(char **tab);
 char			**tab_add_back(t_data *data, char *content);
 char			**sort_tab(char **env);
+// --->redirections_utils.c
+void			close_all_pipes(t_data *data, int i);
+void			close_redirections(t_data *data, int i);
+void			restore_stdio(t_data *data);
+void			delete_heredoc(t_data *data, int i);
+int				redir_pipe(t_data *data, int i);
 
 #endif

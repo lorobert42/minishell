@@ -61,6 +61,7 @@ SRCS			:=	builtins/ft_echo.c \
 					utils/error.c \
 					sig_handler/signals.c \
 					sig_handler/termios.c \
+					utils/redirections_utils.c \
 
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 

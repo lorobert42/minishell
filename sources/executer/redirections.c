@@ -12,45 +12,6 @@
 
 #include "../../include/minishell.h"
 
-void	close_all_pipes(t_data *data, int i)
-{
-	int	j;
-
-	j = 0;
-	while (j <= i)
-	{
-		if (close(data->table->commands[j].fd[0]) == -1)
-			print_error(NULL, "close pipe in");
-		if (close(data->table->commands[j].fd[1]) == -1)
-			print_error(NULL, "close pipe out");
-		j++;
-	}
-}
-
-void	close_pipe(t_data *data, int i)
-{
-	if (close(data->table->commands[i].fd[0]) == -1)
-		print_error(NULL, "close pipe in");
-	if (close(data->table->commands[i].fd[1]) == -1)
-		print_error(NULL, "close pipe out");
-}
-
-int	redir_pipe(t_data *data, int i)
-{
-	if (i > 0 && !data->table->commands[i].infiles)
-	{
-		dup2(data->table->commands[i - 1].fd[0], STDIN_FILENO);
-	}
-	if (i < data->table->n_commands - 1)
-	{
-		if (!data->table->commands[i].outfiles)
-		{
-			dup2(data->table->commands[i].fd[1], STDOUT_FILENO);
-		}
-	}
-	return (0);
-}
-
 int	redir_file_in(t_data *data, int i)
 {
 	t_file	*current;
@@ -76,6 +37,33 @@ int	redir_file_in(t_data *data, int i)
 	return (0);
 }
 
+int	create_file(t_data *data, t_file *prev, t_file *current, int i)
+{
+	if (prev)
+		close(data->table->commands[i].fd_out);
+	if (current->append)
+	{
+		data->table->commands[i].fd_out = open(current->name, O_WRONLY | \
+				O_CREAT | O_APPEND, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		if (data->table->commands[i].fd_out == -1)
+		{
+			print_error(NULL, current->name);
+			return (1);
+		}
+	}
+	else
+	{
+		data->table->commands[i].fd_out = open(current->name, O_WRONLY | \
+				O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+		if (data->table->commands[i].fd_out == -1)
+		{
+			print_error(NULL, current->name);
+			return (1);
+		}
+	}
+	return (0);
+}
+
 int	redir_file_out(t_data *data, int i)
 {
 	t_file	*current;
@@ -87,66 +75,11 @@ int	redir_file_out(t_data *data, int i)
 	prev = NULL;
 	while (current)
 	{
-		if (prev)
-			close(data->table->commands[i].fd_out);
-		if (current->append)
-		{
-			data->table->commands[i].fd_out = open(current->name, O_WRONLY | \
-				O_CREAT | O_APPEND, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-			if (data->table->commands[i].fd_out == -1)
-			{
-				print_error(NULL, current->name);
-				return (1);
-			}
-		}
-		else
-		{
-			data->table->commands[i].fd_out = open(current->name, O_WRONLY | \
-				O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-			if (data->table->commands[i].fd_out == -1)
-			{
-				print_error(NULL, current->name);
-				return (1);
-			}
-		}
+		if (create_file(data, prev, current, i) == 1)
+			return (1);
 		prev = current;
 		current = current->next;
 	}
 	dup2(data->table->commands[i].fd_out, STDOUT_FILENO);
 	return (0);
-}
-
-void	close_redirections(t_data *data, int i)
-{
-	if (data->table->commands[i].outfiles)
-		close(data->table->commands[i].fd_out);
-	if (data->table->commands[i].infiles)
-		close(data->table->commands[i].fd_in);
-}
-
-void	restore_stdio(t_data *data)
-{
-	dup2(data->saved_io[0], STDIN_FILENO);
-	close(data->saved_io[0]);
-	dup2(data->saved_io[1], STDOUT_FILENO);
-	close(data->saved_io[1]);
-}
-
-void	delete_heredoc(t_data *data, int i)
-{
-	t_file	*current;
-
-	current = data->table->commands[i].infiles;
-	while (current && current->next)
-	{
-		current = current->next;
-	}
-	if (current)
-	{
-		if (current->append)
-		{
-			if (unlink(current->name) == -1)
-				print_error(NULL, "deleting heredoc");
-		}
-	}
 }

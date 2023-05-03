@@ -20,7 +20,6 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	sig_handler();
 	termios_remove_ctrl();
-	//rl_outstream = stderr;
 	init(&data, env);
 	loop(&data);
 	termios_restore_ctrl();
