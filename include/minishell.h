@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/03 13:55:43 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/03 15:04:15 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ int				check_unclosed_quotes(char *str);
 char			*delete_quotes(char *str);
 
 // LEXER
-// ---> issep.c
+// ---> char_type.c
 int				issep(int c);
 // ---> lexer.c
 t_token			*lexer(char *command);
@@ -165,6 +165,8 @@ void			loop(t_data *data);
 
 // PARSER
 // ---> commands.c
+t_command_table	*init_table(t_token *tokens);
+void			init_commands(t_command_table *table);
 int				count_commands(t_token *tokens);
 int				command_size(t_token *tokens);
 void			clean_command_table(t_command_table *table);
@@ -172,6 +174,8 @@ void			clean_command_table(t_command_table *table);
 void			print_command_table(t_command_table *table);
 // ---> parser.c
 t_command_table	*parser(t_token *tokens);
+t_token			*extract_redirections(t_token *tokens, t_command *command);
+t_token			*extract_strings(t_token *tokens, t_command *command);
 // ---> token_type.c
 int				is_redir(t_token_type t);
 int				is_string(t_token_type t);

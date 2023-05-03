@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/04/26 13:09:36 by lorobert         ###   ########.fr        #
+#    Updated: 2023/05/03 15:32:54 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,12 +41,14 @@ SRCS			:=	builtins/ft_echo.c \
 					env/parse_env.c \
 					lexer/lexer.c \
 					lexer/token.c \
-					lexer/issep.c \
+					lexer/char_type.c \
 					expander/expander.c \
 					expander/quotes.c \
 					parser/parser.c \
 					parser/commands.c \
 					parser/token_type.c \
+					parser/parse_redirections.c \
+					parser/parse_strings.c \
 					parser/debug_print_command_table.c \
 					utils/ft_isspace.c \
 					utils/tab_utils.c \
@@ -61,6 +63,7 @@ SRCS			:=	builtins/ft_echo.c \
 					utils/error.c \
 					sig_handler/signals.c \
 					sig_handler/termios.c \
+					clean/clean_table.c \
 					utils/redirections_utils.c \
 
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)

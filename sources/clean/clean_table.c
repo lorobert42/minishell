@@ -1,40 +1,52 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug_print_command_table.c                        :+:      :+:    :+:   */
+/*   clean_table.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/29 10:25:08 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/03 14:31:45 by lorobert         ###   ########.fr       */
+/*   Created: 2023/05/03 15:07:49 by lorobert          #+#    #+#             */
+/*   Updated: 2023/05/03 15:26:22 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	print_command_table(t_command_table *table)
+void	clean_command_io(t_file *io)
+{
+	t_file	*tmp;
+
+	tmp = io;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		free(io->name);
+		free(io);
+		io = tmp;
+	}
+}
+
+void	clean_command_table(t_command_table *table)
 {
 	int	i;
 	int	j;
 
+	if (!table)
+		return ;
 	i = 0;
 	while (i < table->n_commands)
 	{
-		if (table->commands[i].infiles)
-		{
-			ft_printf("IN: %s, mode: %d\n", table->commands[i].infiles->name, \
-				table->commands[i].infiles->append);
-		}
-		if (table->commands[i].outfiles)
-			ft_printf("OUT: %s\n", table->commands[i].outfiles->name);
+		clean_command_io(table->commands[i].infiles);
+		clean_command_io(table->commands[i].outfiles);
 		j = 0;
-		ft_printf("Command: ");
-		while (table->commands[i].args[j] != NULL)
+		while (table->commands[i].args && table->commands[i].args[j] != NULL)
 		{
-			ft_printf("%s ", table->commands[i].args[j]);
+			free(table->commands[i].args[j]);
 			j++;
 		}
-		ft_printf("\n");
+		free(table->commands[i].args);
 		i++;
 	}
+	free(table->commands);
+	free(table);
 }
