@@ -32,7 +32,8 @@ int	set_heredoc(t_data *data)
 				i_str = ft_itoa(i);
 				tmp = ft_strjoin("/tmp/minishell_heredoc_", i_str);
 				free(i_str);
-				c[i].fd[1] = open(tmp, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+				c[i].fd[1] = open(tmp, \
+					O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
 				if (c[i].fd[1] == -1)
 				{
 					print_error(NULL, "heredoc tmp file");

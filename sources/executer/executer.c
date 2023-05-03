@@ -46,9 +46,11 @@ char	*find_path(t_data *data, int num)
 		i = 0;
 		while (path[i] != NULL)
 		{
-			if (access(get_path(path[i], data->table->commands[num].args[0]), F_OK) == 0)
+			if (access(get_path(path[i], \
+			data->table->commands[num].args[0]), F_OK) == 0)
 			{
-				check_access(get_path(path[i], data->table->commands[num].args[0]));
+				check_access(get_path(path[i], \
+				data->table->commands[num].args[0]));
 				return (get_path(path[i], data->table->commands[num].args[0]));
 			}
 			i++;

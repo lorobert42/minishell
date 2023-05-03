@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/05/03 15:26:51 by lorobert         ###   ########.fr        #
+#    Updated: 2023/05/03 15:32:54 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,7 +63,8 @@ SRCS			:=	builtins/ft_echo.c \
 					utils/error.c \
 					sig_handler/signals.c \
 					sig_handler/termios.c \
-					clean/clean_table.c
+					clean/clean_table.c \
+					utils/redirections_utils.c \
 
 SRCS			:=	$(SRCS:%=$(SRC_DIR)/%)
 
