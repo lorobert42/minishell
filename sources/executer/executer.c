@@ -31,8 +31,6 @@ void	check_access(char *path)
 char	*find_path(t_data *data, int num)
 {
 	char	*env;
-	char	**path;
-	int		i;
 
 	if (ft_strchr(data->table->commands[num].args[0], '/'))
 	{
@@ -42,20 +40,7 @@ char	*find_path(t_data *data, int num)
 	env = ft_getenv(data->env, "PATH");
 	if (env != NULL)
 	{
-		path = ft_split(env, ':');
-		i = 0;
-		while (path[i] != NULL)
-		{
-			if (access(get_path(path[i], \
-			data->table->commands[num].args[0]), F_OK) == 0)
-			{
-				check_access(get_path(path[i], \
-				data->table->commands[num].args[0]));
-				return (get_path(path[i], data->table->commands[num].args[0]));
-			}
-			i++;
-		}
-		clear_split(path);
+		return (utils_path(data, env, num));
 	}
 	return (NULL);
 }
@@ -89,34 +74,11 @@ void	execution_loop(t_data *data)
 	int		i;
 	int		status;
 
+	pid = 0;
 	i = 0;
 	while (i < data->table->n_commands)
 	{
-		g_glob.status = 1;
-		pipe(data->table->commands[i].fd);
-		pid = fork();
-		if (pid == -1)
-		{
-			g_glob.error = 1;
-			return ;
-		}
-		g_glob.nb_children += 1;
-		if (pid == 0)
-		{
-			if (data->table->commands[i].infiles)
-			{
-				if (redir_file_in(data, i))
-					exit(1);
-			}
-			if (data->table->commands[i].outfiles)
-			{
-				if (redir_file_out(data, i))
-					exit(1);
-			}
-			redir_pipe(data, i);
-			close_all_pipes(data, i);
-			children(data, i);
-		}
+		init_and_exec_children(data, i, pid);
 		i++;
 	}
 	close_all_pipes(data, i - 1);
@@ -124,23 +86,12 @@ void	execution_loop(t_data *data)
 	{
 		pid = waitpid(-1, &status, 0);
 		if (pid > 0)
-		{
 			g_glob.nb_children--;
-		}
 	}
 	i = -1;
 	while (++i < data->table->n_commands)
 		delete_heredoc(data, i);
-	if (WIFEXITED(status))
-	{
-		g_glob.error = WEXITSTATUS(status);
-	}
-	if (WIFSIGNALED(status))
-		g_glob.error = 128 + WTERMSIG(status);
-	if (g_glob.error == 138)
-		ft_printf("bus error: 10\n");
-	if (g_glob.error == 139)
-		ft_printf("segmentation fault: 11\n");
+	check_status(status);
 	g_glob.status = 0;
 	termios_remove_ctrl();
 }
@@ -153,22 +104,7 @@ int	execute(t_data *data)
 	{
 		if (is_builtins(data->table->commands[0].args))
 		{
-			data->saved_io[0] = dup(STDIN_FILENO);
-			data->saved_io[1] = dup(STDOUT_FILENO);
-			if (redir_file_in(data, 0))
-			{
-				close_redirections(data, 0);
-				return (1);
-			}
-			if (redir_file_out(data, 0))
-			{
-				close_redirections(data, 0);
-				return (1);
-			}
-			exec_builtins(data, data->table->commands[0].args);
-			close_redirections(data, 0);
-			restore_stdio(data);
-			return (0);
+			return (inside_exec(data));
 		}
 	}
 	execution_loop(data);

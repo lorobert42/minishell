@@ -32,7 +32,7 @@ static void	handler(int sig)
 	if (g_glob.status == 1)
 	{
 		if (sig == SIGINT)
-			write(1, "test\n", 5);
+			write(1, "\n", 1);
 		if (sig == SIGQUIT)
 			ft_printf("Quit: 3\n");
 		g_glob.status = 0;

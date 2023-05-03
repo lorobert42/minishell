@@ -126,6 +126,8 @@ char			**parse_env(char **env_strs);
 
 // EXECUTER
 // --> executer.c
+void			check_access(char *path);
+void			children(t_data *data, int i);
 int				execute(t_data *data);
 // --->heredoc.c
 int				set_heredoc(t_data *data);
@@ -189,6 +191,10 @@ void			print_error(char *msg, char *command);
 void			fatal_error(char *msg, char *command, int code);
 // ---> execute_utils.c
 char			*get_path(char *path, char *cmd);
+int				inside_exec(t_data *data);
+void			init_and_exec_children(t_data *data, int i, int pid);
+void			check_status(int status);
+char			*utils_path(t_data *data, char *env, int num);
 // ---> ft_isspace.c
 int				ft_isspace(int c);
 // ---> list_utils.c

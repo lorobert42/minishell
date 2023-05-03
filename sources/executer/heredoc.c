@@ -12,13 +12,35 @@
 
 #include "../../include/minishell.h"
 
+int	execute_heredoc(t_data *data, t_file *current, t_command *c, int i)
+{
+	char		*tmp;
+	char		*i_str;
+
+	i_str = ft_itoa(i);
+	tmp = ft_strjoin("/tmp/minishell_heredoc_", i_str);
+	free(i_str);
+	c[i].fd[1] = open(tmp, \
+					O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
+	if (c[i].fd[1] == -1)
+	{
+		print_error(NULL, "heredoc tmp file");
+		free(tmp);
+		g_glob.error = 1;
+		return (1);
+	}
+	heredoc(&current->name, c[i].fd[1], data);
+	close(c[i].fd[1]);
+	free(current->name);
+	current->name = tmp;
+	return (0);
+}
+
 int	set_heredoc(t_data *data)
 {
 	int			i;
 	t_command	*c;
 	t_file		*current;
-	char		*tmp;
-	char		*i_str;
 
 	c = data->table->commands;
 	i = 0;
@@ -29,22 +51,8 @@ int	set_heredoc(t_data *data)
 		{
 			if (current->append)
 			{
-				i_str = ft_itoa(i);
-				tmp = ft_strjoin("/tmp/minishell_heredoc_", i_str);
-				free(i_str);
-				c[i].fd[1] = open(tmp, \
-					O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR);
-				if (c[i].fd[1] == -1)
-				{
-					print_error(NULL, "heredoc tmp file");
-					free(tmp);
-					g_glob.error = 1;
+				if (execute_heredoc(data, current, c, i) == 1)
 					return (1);
-				}
-				heredoc(&current->name, c[i].fd[1], data);
-				close(c[i].fd[1]);
-				free(current->name);
-				current->name = tmp;
 			}
 			current = current->next;
 		}

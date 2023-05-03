@@ -22,18 +22,6 @@ int	get_tab_size(char **tab)
 	return (i);
 }
 
-void	print_str_tab(char **tab)
-{
-	int	i;
-
-	i = 0;
-	while (tab[i] != NULL)
-	{
-		ft_printf("%s\n", tab[i]);
-		i++;
-	}
-}
-
 char	**tab_add_back(t_data *data, char *content)
 {
 	int		size;
@@ -63,27 +51,35 @@ char	**tab_add_back(t_data *data, char *content)
 	return (new);
 }
 
+void	swap_somthing(char **env, int i, int *swapped)
+{
+	char	*temp;
+
+	temp = env[i];
+	env[i] = env[i + 1];
+	env[i + 1] = temp;
+	*swapped = 1;
+}
+
 char	**sort_tab(char **env)
 {
 	int		i;
 	int		num_env;
-	char	*temp;
+	int		swapped;
 
 	num_env = 0;
-	while (env[num_env]) {
+	while (env[num_env])
 		num_env++;
-	}
-
-	int swapped = 1;
-	while (swapped) {
+	swapped = 1;
+	while (swapped)
+	{
 		swapped = 0;
 		i = 0;
-		while (i < num_env - 1) {
-			if (strcmp(env[i], env[i+1]) > 0) {
-				temp = env[i];
-				env[i] = env[i+1];
-				env[i+1] = temp;
-				swapped = 1;
+		while (i < num_env - 1)
+		{
+			if (strcmp(env[i], env[i + 1]) > 0)
+			{
+				swap_somthing(env, i, &swapped);
 			}
 			i++;
 		}

@@ -61,6 +61,7 @@ void	delete_heredoc(t_data *data, int i)
 		}
 	}
 }
+
 int	redir_pipe(t_data *data, int i)
 {
 	if (i > 0 && !data->table->commands[i].infiles)
