@@ -6,16 +6,33 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 10:15:13 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/01 14:00:50 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/03 10:47:05 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
+void	close_all_pipes(t_data *data, int i)
+{
+	int	j;
+
+	j = 0;
+	while (j <= i)
+	{
+		if (close(data->table->commands[j].fd[0]) == -1)
+			print_error(NULL, "close pipe in");
+		if (close(data->table->commands[j].fd[1]) == -1)
+			print_error(NULL, "close pipe out");
+		j++;
+	}
+}
+
 void	close_pipe(t_data *data, int i)
 {
-	close(data->table->commands[i].fd[0]);
-	close(data->table->commands[i].fd[1]);
+	if (close(data->table->commands[i].fd[0]) == -1)
+		print_error(NULL, "close pipe in");
+	if (close(data->table->commands[i].fd[1]) == -1)
+		print_error(NULL, "close pipe out");
 }
 
 int	redir_pipe(t_data *data, int i)
@@ -23,14 +40,12 @@ int	redir_pipe(t_data *data, int i)
 	if (i > 0 && !data->table->commands[i].infiles)
 	{
 		dup2(data->table->commands[i - 1].fd[0], STDIN_FILENO);
-		close_pipe(data, i - 1);
 	}
 	if (i < data->table->n_commands - 1)
 	{
 		if (!data->table->commands[i].outfiles)
 		{
 			dup2(data->table->commands[i].fd[1], STDOUT_FILENO);
-			close_pipe(data, i);
 		}
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:40:38 by lorobert          #+#    #+#             */
-/*   Updated: 2023/03/31 13:41:16 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/03 10:57:37 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ Multiple `-n` are possible.
 */
 int	ft_echo(t_data *data, char **args)
 {
-	int	i;
-	int	n;
-	char **tmp;
+	int		i;
+	int		n;
+	char	**tmp;
 
 	n = 0;
 	i = 0;
@@ -59,10 +59,9 @@ int	ft_echo(t_data *data, char **args)
 			ft_printf("%s", tmp[1]);
 			clear_split(tmp);
 		}
-
 		else
 			ft_printf("%s", args[i]);
-		if (args[i + 1] && args[i + 1][0] != '\0')
+		if (args[i + 1])
 			ft_printf(" ");
 		i++;
 	}
