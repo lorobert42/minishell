@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 09:24:55 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/26 09:37:44 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/03 11:37:25 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_builtins(char **cmd)
 {
-	if (cmd[0] == NULL)
+	if (cmd && cmd[0] == NULL)
 		return (0);
 	else if (ft_strncmp(cmd[0], "exit\0", 5) == 0)
 		return (1);
