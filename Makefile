@@ -90,7 +90,6 @@ DIR_DUP			=	mkdir -p $(@D)
 
 all: ascii $(NAME)
 	@echo "\n$(GREEN)Your minishell is ready to go !$(ENDCOLOR)"
-
 ascii:
 		@tput setaf 6; cat ascii_art/minishell_ascii; tput setaf 7
 		@echo "\n$(ENDCOLOR)"

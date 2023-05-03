@@ -101,7 +101,7 @@ int				exec_builtins(t_data *data, char **cmd);
 // ---> ft_cd.c
 int				ft_cd(t_data *data, char **args);
 // ---> ft_echo.c
-int				ft_echo(char **args);
+int				ft_echo(t_data *data, char **args);
 // ---> ft_env.c
 int				ft_env(char **env);
 // ---> ft_exit.c

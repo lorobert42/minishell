@@ -50,6 +50,6 @@ int	exec_builtins(t_data *data, char **cmd)
 	else if (ft_strncmp(cmd[0], "pwd\0", 4) == 0)
 		return (ft_pwd());
 	else if (ft_strncmp(cmd[0], "echo\0", 5) == 0)
-		return (ft_echo(cmd + 1));
+		return (ft_echo(data, cmd + 1));
 	return (1);
 }

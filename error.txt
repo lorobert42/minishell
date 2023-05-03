@@ -1,10 +1,6 @@
-commands echo ne remet pas a zero la variable $?
+ ̶c̶o̶m̶m̶a̶n̶d̶s̶ ̶e̶c̶h̶o̶ ̶n̶e̶ ̶r̶e̶m̶e̶t̶ ̶p̶a̶s̶ ̶a̶ ̶z̶e̶r̶o̶ ̶l̶a̶ ̶v̶a̶r̶i̶a̶b̶l̶e̶ ̶$̶?̶
 
-probleme de signaux ! (apres un ctrl-\, le ctrl-\ dans commande bloquante ne quit pas)
-
-echo (gerer ~ and -)
-
-
+ ̶e̶c̶h̶o̶ ̶(̶g̶e̶r̶e̶r̶ ̶~̶)̶
 
 ==============================================================================================================================================
 
