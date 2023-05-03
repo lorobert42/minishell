@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 10:18:54 by afavre            #+#    #+#             */
-/*   Updated: 2023/05/03 11:34:52 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/03 12:28:50 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	sig_handler();
 	termios_remove_ctrl();
-	rl_outstream = stderr;
+	//rl_outstream = stderr;
 	init(&data, env);
 	loop(&data);
 	termios_restore_ctrl();

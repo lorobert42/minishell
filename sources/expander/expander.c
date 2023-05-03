@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:48:13 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/19 14:57:06 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/03 12:18:52 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,13 @@ int	expander(t_token *tokens, char **env)
 		{
 			if (check_expansion(&tokens->value, env) == 1)
 				return (1);
+			if (tokens->value[0] == '\0')
+			{
+				free(tokens->value);
+				tokens->value = NULL;
+				tokens = tokens->next;
+				continue ;
+			}
 			tokens->value = delete_quotes(tokens->value);
 			if (tokens->value == NULL)
 				return (1);
