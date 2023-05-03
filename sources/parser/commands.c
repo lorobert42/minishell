@@ -6,11 +6,49 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:39:37 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/03 12:23:05 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/03 15:07:37 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+t_command_table	*init_table(t_token *tokens)
+{
+	t_command_table	*table;
+
+	table = malloc(sizeof(t_command_table));
+	if (!table)
+		fatal_error(NULL, "malloc", 1);
+	table->n_commands = count_commands(tokens);
+	if (table->n_commands == -1)
+	{
+		free(table);
+		g_glob.parsing = 1;
+		return (NULL);
+	}
+	table->commands = malloc(sizeof(t_command) * table->n_commands);
+	if (!table->commands)
+	{
+		free(table);
+		fatal_error(NULL, "malloc", 1);
+	}
+	init_commands(table);
+	return (table);
+}
+
+void	init_commands(t_command_table *table)
+{
+	int	i;
+
+	i = 0;
+	while (i < table->n_commands)
+	{
+		table->commands[i].infiles = NULL;
+		table->commands[i].outfiles = NULL;
+		table->commands[i].args = NULL;
+		i++;
+	}
+}
 
 int	count_commands(t_token *tokens)
 {
@@ -43,31 +81,4 @@ int	command_size(t_token *tokens)
 		i++;
 	}
 	return (i);
-}
-
-void	clean_command_table(t_command_table *table)
-{
-	int	i;
-	int	j;
-
-	if (!table)
-		return ;
-	i = 0;
-	while (i < table->n_commands)
-	{
-		if (table->commands[i].infiles)
-			free(table->commands[i].infiles);
-		if (table->commands[i].outfiles)
-			free(table->commands[i].outfiles);
-		j = 0;
-		while (table->commands[i].args && table->commands[i].args[j] != NULL)
-		{
-			free(table->commands[i].args[j]);
-			j++;
-		}
-		free(table->commands[i].args);
-		i++;
-	}
-	free(table->commands);
-	free(table);
 }
