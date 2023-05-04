@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 09:57:45 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/19 10:03:12 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/04 09:24:26 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	**remove_string(char **env, int i)
 	size = get_tab_size(env);
 	new = malloc(sizeof(char *) * size);
 	if (!new)
-		return (NULL);
+		fatal_error(NULL, "malloc", 1);
 	j = 0;
 	while (j < i)
 	{

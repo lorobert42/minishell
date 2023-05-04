@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/03 15:04:15 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:34:59 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int				exec_builtins(t_data *data, char **cmd);
 // ---> ft_cd.c
 int				ft_cd(t_data *data, char **args);
 // ---> ft_echo.c
-int				ft_echo(t_data *data, char **args);
+int				ft_echo(char **args);
 // ---> ft_env.c
 int				ft_env(char **env);
 // ---> ft_exit.c
@@ -138,13 +138,15 @@ int				redir_file_out(t_data *data, int i);
 
 // EXPANDER
 // ---> expander.c
-int				check_expansion(char **str, char **env);
+void			check_expansion(char **str, char **env);
 int				expander(t_token *tokens, char **env);
 // --->quotes.c
 int				is_quote(char c);
 int				count_quotes(char *s);
 int				check_unclosed_quotes(char *str);
 char			*delete_quotes(char *str);
+// ---> expand_var.c
+int				expand_token(char **str, int pos, int in_quotes, char **env);
 
 // LEXER
 // ---> char_type.c
@@ -162,6 +164,9 @@ void			clean_tokens(t_token *tokens);
 void			init(t_data *data, char **env);
 // ---> loop.c
 void			loop(t_data *data);
+int				setup_loop(t_data *data, char *buffer);
+// ---> inline_arg.c
+void			inline_arg(t_data *data, char **av);
 
 // PARSER
 // ---> commands.c

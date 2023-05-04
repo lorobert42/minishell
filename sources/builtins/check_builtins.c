@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 09:24:55 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/03 11:37:25 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:09:56 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,6 @@ int	exec_builtins(t_data *data, char **cmd)
 	else if (ft_strncmp(cmd[0], "pwd\0", 4) == 0)
 		return (ft_pwd());
 	else if (ft_strncmp(cmd[0], "echo\0", 5) == 0)
-		return (ft_echo(data, cmd + 1));
+		return (ft_echo(cmd + 1));
 	return (1);
 }

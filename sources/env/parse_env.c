@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 14:12:59 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/03 18:06:42 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/04 09:25:07 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ char	**parse_env(char **env_strs)
 	i = 0;
 	tab_size = get_tab_size(env_strs);
 	env = malloc(sizeof(char *) * (tab_size + 1));
+	if (!env)
+		fatal_error(NULL, "malloc", 1);
 	while (i < tab_size)
 	{
 		env[i] = ft_strdup(env_strs[i]);

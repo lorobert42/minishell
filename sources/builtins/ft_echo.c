@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 09:40:38 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/03 10:57:37 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:11:02 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,7 @@ static int	is_n(char *arg)
 	return (1);
 }
 
-/*
-Print content of args on file descriptor fd.
-If parameter `-n` is set, do not print '\n' at the end.
-Multiple `-n` are possible.
-*/
-
-void	print_home(t_data *data)
-{
-	char	**tmp;
-
-	tmp = ft_split(ft_getenv(data->env, "HOME"), '=');
-	ft_printf("%s", tmp[1]);
-	clear_split(tmp);
-}
-
-int	ft_echo(t_data *data, char **args)
+int	ft_echo(char **args)
 {
 	int		i;
 	int		n;
@@ -62,10 +47,7 @@ int	ft_echo(t_data *data, char **args)
 	}
 	while (args[i])
 	{
-		if (args[i][0] == '~')
-			print_home(data);
-		else
-			ft_printf("%s", args[i]);
+		ft_printf("%s", args[i]);
 		if (args[i + 1])
 			ft_printf(" ");
 		i++;

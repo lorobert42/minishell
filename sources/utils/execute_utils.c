@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 13:27:20 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/26 11:35:50 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/04 09:11:50 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,22 +91,24 @@ void	check_status(int status)
 
 char	*utils_path(t_data *data, char *env, int num)
 {
-	char	**path;
+	char	**paths;
+	char	*path;
 	int		i;
 
-	path = ft_split(env, ':');
+	paths = ft_split(env, ':');
 	i = 0;
-	while (path[i] != NULL)
+	while (paths[i] != NULL)
 	{
-		if (access(get_path(path[i], \
-			data->table->commands[num].args[0]), F_OK) == 0)
+		path = get_path(paths[i], data->table->commands[num].args[0]);
+		if (access(path, F_OK) == 0)
 		{
-			check_access(get_path(path[i], \
-				data->table->commands[num].args[0]));
-			return (get_path(path[i], data->table->commands[num].args[0]));
+			check_access(path);
+			clear_split(paths);
+			return (path);
 		}
+		free(path);
 		i++;
 	}
-	clear_split(path);
+	clear_split(paths);
 	return (NULL);
 }

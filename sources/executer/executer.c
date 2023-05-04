@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:04:43 by afavre            #+#    #+#             */
-/*   Updated: 2023/05/03 13:57:11 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/04 09:10:29 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	check_access(char *path)
 	if (dir)
 	{
 		closedir(dir);
-		fatal_error("is a directory", path, 126);
+		fatal_error("Is a directory", path, 126);
 	}
 	if (access(path, F_OK) != 0)
 		fatal_error(NULL, path, 127);
@@ -31,6 +31,7 @@ void	check_access(char *path)
 char	*find_path(t_data *data, int num)
 {
 	char	*env;
+	char	*path;
 
 	if (ft_strchr(data->table->commands[num].args[0], '/'))
 	{
@@ -40,7 +41,9 @@ char	*find_path(t_data *data, int num)
 	env = ft_getenv(data->env, "PATH");
 	if (env != NULL)
 	{
-		return (utils_path(data, env, num));
+		path = utils_path(data, env, num);
+		free(env);
+		return (path);
 	}
 	return (NULL);
 }

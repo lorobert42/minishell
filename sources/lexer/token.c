@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 09:26:21 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/03 15:29:32 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/04 08:43:55 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ t_token	*delete_token(t_token *start, t_token *to_del)
 	while (current->next != to_del)
 		current = current->next;
 	current->next = to_del->next;
+	free(to_del->value);
+	free(to_del);
 	return (start);
 }
 

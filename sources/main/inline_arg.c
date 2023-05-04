@@ -1,26 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   inline_arg.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/28 10:18:54 by afavre            #+#    #+#             */
-/*   Updated: 2023/05/04 13:17:51 by lorobert         ###   ########.fr       */
+/*   Created: 2023/05/04 13:13:08 by lorobert          #+#    #+#             */
+/*   Updated: 2023/05/04 13:21:20 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	main(int ac, char **av, char **env)
+void	inline_arg(t_data *data, char **av)
 {
-	t_data	data;
+	char	**arg_input;
+	int		i;
 
-	sig_handler();
-	termios_remove_ctrl();
-	init(&data, env);
-	if (ac == 3 && ft_strncmp(av[1], "-c", 3) == 0 && av[2])
-		inline_arg(&data, av);
-	loop(&data);
-	termios_restore_ctrl();
+	arg_input = ft_split(av[2], ';');
+	if (!arg_input)
+		exit(0);
+	i = 0;
+	while (arg_input[i])
+	{
+		data->token = lexer(arg_input[i]);
+		if (setup_loop(data, arg_input[i]))
+		{
+			i++;
+			continue ;
+		}
+		clean_tokens(data->token);
+		execute(data);
+		clean_command_table(data->table);
+		i++;
+	}
+	clear_split(arg_input);
+	exit(g_glob.error);
 }

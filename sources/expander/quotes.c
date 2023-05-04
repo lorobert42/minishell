@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 10:05:06 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/03 10:54:59 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/04 13:53:28 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,12 @@ int	check_unclosed_quotes(char *str)
 	return (0);
 }
 
-char	*delete_quotes(char *str)
+char	*unquote_str(char *str, char *new)
 {
-	int		i;
-	int		j;
-	int		in_quote;
-	char	*new;
+	int	i;
+	int	j;
+	int	in_quote;
 
-	if (check_unclosed_quotes(str) == 1)
-		return (NULL);
-	j = count_quotes(str);
-	if (j == 0)
-		return (str);
-	new = malloc(sizeof(char) * (ft_strlen(str) - j + 1));
-	if (!new)
-		return (NULL);
 	i = 0;
 	j = 0;
 	in_quote = 0;
@@ -102,4 +93,23 @@ char	*delete_quotes(char *str)
 	new[j] = '\0';
 	free(str);
 	return (new);
+}
+
+char	*delete_quotes(char *str)
+{
+	int		i;
+	char	*new;
+
+	if (check_unclosed_quotes(str) == 1)
+	{
+		free(str);
+		return (NULL);
+	}
+	i = count_quotes(str);
+	if (i == 0)
+		return (str);
+	new = malloc(sizeof(char) * (ft_strlen(str) - i + 1));
+	if (!new)
+		fatal_error(NULL, "malloc", 1);
+	return (unquote_str(str, new));
 }

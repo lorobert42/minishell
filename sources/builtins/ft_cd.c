@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 09:11:34 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/26 15:49:37 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/04 14:33:54 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ft_cd(t_data *data, char **args)
 	char	*path;
 
 	path = args[1];
-	if (!path || ft_strncmp(path, "~", 2) == 0)
+	if (!path)
 	{
 		ft_cd_home(data, path);
 	}

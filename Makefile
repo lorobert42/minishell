@@ -6,16 +6,16 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/05/03 15:32:54 by lorobert         ###   ########.fr        #
+#    Updated: 2023/05/04 14:34:43 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Color Name
-GREEN			=		\033[1;32m
-YELLOW			= 		\033[33m
-BG_GREEN		=		\033[42m
-BG_CYAN			=		\033[46m
-ENDCOLOR		=		\033[0m
+GREEN			=	\033[1;32m
+YELLOW			= 	\033[33m
+BG_GREEN		=	\033[42m
+BG_CYAN			=	\033[46m
+ENDCOLOR		=	\033[0m
 
 NAME			:=	minishell
 
@@ -44,6 +44,7 @@ SRCS			:=	builtins/ft_echo.c \
 					lexer/char_type.c \
 					expander/expander.c \
 					expander/quotes.c \
+					expander/expand_var.c \
 					parser/parser.c \
 					parser/commands.c \
 					parser/token_type.c \
@@ -56,6 +57,7 @@ SRCS			:=	builtins/ft_echo.c \
 					main/main.c \
 					main/init.c \
 					main/loop.c \
+					main/inline_arg.c \
 					executer/executer.c \
 					executer/heredoc.c \
 					executer/redirections.c \
@@ -73,7 +75,7 @@ OBJS			:=	$(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 DEPS			:=	$(OBJS:.o=.d)
 
 CC				:=	gcc
-CFLAGS			:=	-Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS			:=	-Wall -Wextra -Werror -g3 #-fsanitize=address
 CPPFLAGS		:=	$(addprefix -I,$(INCS)) -MMD -MP
 LDFLAGS			:=	$(addprefix -L,$(dir $(LIBS_TARGET))) #-fsanitize=address
 LDLIBS			:=	$(addprefix -l,$(LIBS))

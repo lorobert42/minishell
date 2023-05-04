@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 15:07:11 by afavre            #+#    #+#             */
-/*   Updated: 2023/03/28 11:28:52 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/04 10:52:57 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,40 @@ int	get_tab_size(char **tab)
 	return (i);
 }
 
-char	**tab_add_back(t_data *data, char *content)
+char	**tab_add_new(t_data *data, char *content)
 {
 	int		size;
 	int		i;
 	char	**new;
 
 	i = 0;
+	size = get_tab_size(data->env);
+	new = malloc(sizeof(char *) * (size + 2));
+	if (!new)
+		fatal_error(NULL, "malloc", 1);
+	while (i < size)
+	{
+		new[i] = ft_strdup(data->env[i]);
+		i++;
+	}
+	new[i] = ft_strdup(content);
+	new[i + 1] = NULL;
+	return (new);
+}
+
+char	**tab_add_back(t_data *data, char *content)
+{
+	char	**new;
+
 	if (data->env != NULL)
 	{
-		size = get_tab_size(data->env);
-		new = malloc(sizeof(char *) * (size + 2));
-		while (i < size)
-		{
-			new[i] = ft_strdup(data->env[i]);
-			i++;
-		}
-		new[i] = ft_strdup(content);
-		new[i + 1] = NULL;
+		new = tab_add_new(data, content);
 	}
 	else
 	{
 		new = malloc(sizeof(char *) * 2);
+		if (!new)
+			fatal_error(NULL, "malloc", 1);
 		new[0] = ft_strdup(content);
 		new[1] = NULL;
 	}
