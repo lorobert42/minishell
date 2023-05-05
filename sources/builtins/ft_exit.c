@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 09:22:18 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/26 09:38:56 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 10:03:31 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int	ft_exit(char **args, t_data *data)
 		restore_stdio(data);
 		exit(g_glob.error % 256);
 	}
-	args[1] = delete_quotes(args[1]);
 	if (!ft_isdigit(args[1][0]) && args[1][0] != '+' && args[1][0] != '-')
 		exit_error(data);
 	i = check_digit(args, data);

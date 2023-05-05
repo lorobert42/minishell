@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:04:43 by afavre            #+#    #+#             */
-/*   Updated: 2023/05/04 09:10:29 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 10:49:19 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ char	*find_path(t_data *data, int num)
 	char	*env;
 	char	*path;
 
+	if (data->table->commands[num].args[0][0] == '\0')
+		return (NULL);
 	if (ft_strchr(data->table->commands[num].args[0], '/'))
 	{
 		check_access(data->table->commands[num].args[0]);
@@ -68,28 +70,26 @@ void	children(t_data *data, int i)
 		termios_restore_ctrl();
 		execve(path, data->table->commands[i].args, data->env);
 	}
-	exit(0);
+	exit(g_glob.error);
 }
 
 void	execution_loop(t_data *data)
 {
-	pid_t	pid;
 	int		i;
 	int		status;
 
-	pid = 0;
 	i = 0;
 	while (i < data->table->n_commands)
 	{
-		init_and_exec_children(data, i, pid);
+		init_and_exec_children(data, i);
 		i++;
 	}
 	close_all_pipes(data, i - 1);
-	while (g_glob.nb_children > 0)
+	i = 0;
+	while (i < data->table->n_commands)
 	{
-		pid = waitpid(-1, &status, 0);
-		if (pid > 0)
-			g_glob.nb_children--;
+		waitpid(data->table->commands[i].pid, &status, 0);
+		i++;
 	}
 	i = -1;
 	while (++i < data->table->n_commands)

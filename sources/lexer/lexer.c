@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 09:34:19 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/03 15:03:04 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 09:52:14 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int	extract_literal(t_token **tokens, char *command)
 			t = QUOTE_STR;
 		else if (t == LITERAL && command[i] == '"')
 			t = DBL_QUOTE_STR;
+		else if (t != LITERAL && quote_type(command[i]) == t)
+			t = LITERAL;
 		i++;
 	}
 	add_token(tokens, create_token(ft_substr(command, 0, i), t));
