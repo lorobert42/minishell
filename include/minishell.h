@@ -204,6 +204,7 @@ int				inside_exec(t_data *data);
 void			init_and_exec_children(t_data *data, int i, int pid);
 void			check_status(int status);
 char			*utils_path(t_data *data, char *env, int num);
+// ---> export_utils.c
 // ---> ft_isspace.c
 int				ft_isspace(int c);
 // ---> list_utils.c
