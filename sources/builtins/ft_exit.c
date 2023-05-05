@@ -6,57 +6,11 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 09:22:18 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/05 15:01:37 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 15:36:46 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	check_overflow(long long int base, long long int new, int sign)
-{
-	if (sign == 1)
-	{
-		if (LLONG_MAX / 10 < base)
-			return (1);
-		base *= 10;
-		if (LLONG_MAX - base < new)
-			return (1);
-	}
-	else
-	{
-		if (LLONG_MIN / 10 > base)
-			return (1);
-		base *= 10;
-		if (LLONG_MIN - base > new * sign)
-			return (1);
-	}
-	return (0);
-}
-
-long long int	ft_atoui(const char *str, int *overflow)
-{
-	int				sign;
-	long long int	res;
-	int				i;
-
-	res = 0;
-	sign = 1;
-	i = 0;
-	while (str[i] && ft_isspace(str[i]))
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i++] == '-')
-			sign = -1;
-	}
-	while (str[i] && str[i] >= '0' && str[i] <= '9')
-	{
-		*overflow = check_overflow(res, (long long int)str[i] - '0', sign);
-		res *= 10;
-		res += (str[i++] - '0') * sign;
-	}
-	return (res);
-}
 
 void	exit_error(t_data *data)
 {
@@ -66,34 +20,87 @@ void	exit_error(t_data *data)
 	exit(255);
 }
 
-void	check_digit(char **args, t_data *data)
+int	check_overflow(char *nbr, char *max, char *min, t_data *data)
+{
+	int	i;
+	int	j;
+
+	if (nbr[0] == '+' || ft_isdigit(nbr[0]))
+	{
+		i = 0;
+		if (nbr[0] == '+')
+			i = 1;
+		while (nbr[i] == '0')
+			i++;
+		j = 0;
+		while (nbr[i])
+		{
+			if (nbr[i] > max[j])
+				exit_error(data);
+			i++;
+		}
+	}
+	else
+	{
+		i = 1;
+		while (nbr[i] == '0')
+			i++;
+		j = 1;
+		while (nbr[i])
+		{
+			if (nbr[i] > min[j])
+				exit_error(data);
+			i++;
+		}
+	}
+	return (0);
+}
+
+long long int	ft_atoui(const char *str)
+{
+	int				sign;
+	long long int	res;
+	int				i;
+
+	res = 0;
+	sign = 1;
+	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i++] == '-')
+			sign = -1;
+	}
+	while (str[i] && str[i] >= '0' && str[i] <= '9')
+	{
+		res *= 10;
+		res += (str[i++] - '0') * sign;
+	}
+	return (res);
+}
+
+void	check_digit(char *args, t_data *data)
 {
 	int	i;
 
-	if (!ft_isspace(args[1][0]) && args[1][0] != '+' && args[1][0] != '-' && \
-		!ft_isdigit(args[1][0]))
+	if (args[0] != '+' && args[0] != '-' && !ft_isdigit(args[0]))
 		exit_error(data);
-	if ((args[1][0] == '+' || args[1][0] == '-') && !args[1][1])
+	if ((args[0] == '+' || args[0] == '-') && !args[1])
 		exit_error(data);
 	i = 1;
-	while (ft_isspace(args[1][i]))
-		i++;
-	while (args[1][i])
+	while (args[i])
 	{
-		if (!ft_isdigit(args[1][i]))
+		if (!ft_isdigit(args[i]))
 			break ;
 		i++;
 	}
-	while (ft_isspace(args[1][i]))
-		i++;
-	if (args[1][i])
+	if (args[i])
 		exit_error(data);
 }
 
 int	ft_exit(char **args, t_data *data)
 {
 	long long int	i;
-	int				overflow;
+	char			*nb;
 
 	if (!args[1])
 	{
@@ -101,17 +108,17 @@ int	ft_exit(char **args, t_data *data)
 		termios_restore_ctrl();
 		exit(g_glob.error % 256);
 	}
-	check_digit(args, data);
+	nb = ft_strtrim(args[1], "\x09\x0a\x0b\x0c\x0d ");
+	check_digit(nb, data);
+	if (ft_strlen(nb) >= 19)
+		check_overflow(nb, "9223372036854775807", "-9223372036854775808", data);
 	if (args[1] && args[2])
 	{
 		g_glob.error = 1;
 		print_error("too many arguments", "exit");
 		return (0);
 	}
-	overflow = 0;
-	i = ft_atoui(args[1], &overflow);
-	if (overflow)
-		exit_error(data);
+	i = ft_atoui(nb);
 	restore_stdio(data);
 	termios_restore_ctrl();
 	exit(i % 256);
