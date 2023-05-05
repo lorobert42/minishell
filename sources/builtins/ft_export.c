@@ -98,7 +98,6 @@ int	ft_export(t_data *data, char *arg)
 	char	*key;
 	int		res;
 
-	ft_printf("test --> %s\n", arg);
 	equal = ft_strchr(arg, '=');
 	if (!equal)
 		key = ft_strdup(arg);

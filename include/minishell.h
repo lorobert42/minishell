@@ -197,6 +197,8 @@ void			termios_restore_ctrl(void);
 // UTILS
 // ---> clear_split.c
 void			clear_split(char **split);
+// --> debug.c
+void			print_str_tab(char **str);
 // ---> error.c
 void			print_error(char *msg, char *command);
 void			fatal_error(char *msg, char *command, int code);
@@ -207,6 +209,7 @@ void			init_and_exec_children(t_data *data, int i);
 void			check_status(int status);
 char			*utils_path(t_data *data, char *env, int num);
 // ---> export_utils.c
+char			**set_export_option(char *arg);
 // ---> ft_isspace.c
 int				ft_isspace(int c);
 // ---> list_utils.c

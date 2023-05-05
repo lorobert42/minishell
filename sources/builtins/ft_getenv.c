@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../include/minishell.h"
 
 char	*getenv_value(char **env, char *key)
 {
@@ -20,7 +20,8 @@ char	*getenv_value(char **env, char *key)
 	value = ft_getenv(env, key);
 	if (!value)
 		return (ft_strdup(""));
-	tmp = ft_split(value, '=');
+	tmp = set_export_option(value);
+	//print_str_tab(tmp);
 	free(value);
 	if (!tmp[1])
 	{
