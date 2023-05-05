@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/05 11:48:24 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 13:49:36 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ typedef enum e_token_type
 	PIPE,
 	QUOTE_STR,
 	DBL_QUOTE_STR,
-	LITERAL
+	LITERAL,
+	IGNORE
 }	t_token_type;
 
 typedef struct s_token
@@ -112,14 +113,15 @@ int				print_export(char **env);
 void			update_env(t_data *data, char *key, char *new_value);
 int				ft_export(t_data *data, char **arg);
 int				is_valid_key(char *args);
+char			*create_env_value(char *key, char *value);
 // ---> ft_getenv.c
 char			*getenv_value(char **env, char *key);
 int				get_env_index(char **env, char *key);
 char			*ft_getenv(char **env, char *key);
 // ---> ft_pwd.c
-int				ft_pwd(void);
+int				ft_pwd(char **env);
 // ---> ft_unset.c
-int				ft_unset(t_data *data, char *s);
+int				ft_unset(t_data *data, char **s);
 
 // ENV
 // ---> parse_env.c

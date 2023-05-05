@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 09:24:55 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/05 11:50:38 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 12:41:17 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ int	exec_builtins(t_data *data, char **cmd)
 	else if (ft_strncmp(cmd[0], "export\0", 7) == 0 && cmd[1] == NULL)
 		return (print_export(data->env));
 	else if (ft_strncmp(cmd[0], "unset\0", 6) == 0)
-		return (ft_unset(data, cmd[1]));
+		return (ft_unset(data, cmd));
 	else if (ft_strncmp(cmd[0], "env\0", 4) == 0)
 		return (ft_env(data->env));
 	else if (ft_strncmp(cmd[0], "pwd\0", 4) == 0)
-		return (ft_pwd());
+		return (ft_pwd(data->env));
 	else if (ft_strncmp(cmd[0], "echo\0", 5) == 0)
 		return (ft_echo(cmd + 1));
 	return (1);

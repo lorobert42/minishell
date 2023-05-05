@@ -6,22 +6,25 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 09:11:34 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/04 14:33:54 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 13:56:43 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	update_env_ifexist(t_data *data, char *key, char *newval)
+void	update_env_ifexist(t_data *data, char *key, char *path)
 {
 	char	*oldval;
+	char	*newval;
 
 	oldval = ft_getenv(data->env, key);
 	if (oldval)
 	{
+		newval = create_env_value(key, path);
 		update_env(data, key, newval);
 		g_glob.error = 0;
 		free(oldval);
+		free(newval);
 	}
 }
 
@@ -48,7 +51,10 @@ void	ft_cd_home(t_data *data, char *path)
 
 	home = getenv_value(data->env, "HOME");
 	if (!home[0] && !path)
+	{
+		g_glob.error = 1;
 		return (print_error("HOME not set", "cd"));
+	}
 	if (!home[0] && path)
 		home = ft_strjoin("/Users/", getenv_value(data->env, "USER"));
 	if (getcwd(pwd, PATH_MAX) == NULL)

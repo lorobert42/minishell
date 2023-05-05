@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:48:13 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/04 14:30:21 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 13:50:09 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_token	*expand(t_token *tokens, char **env)
 		check_expansion(&tokens->value, env);
 	if (tokens->value[0] == '\0')
 	{
+		tokens->type = IGNORE;
 		return (tokens);
 	}
 	tokens->value = delete_quotes(tokens->value);

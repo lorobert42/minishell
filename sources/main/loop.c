@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:43:34 by afavre            #+#    #+#             */
-/*   Updated: 2023/05/04 13:42:20 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:09:50 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ int	setup_loop(t_data *data, char *buffer)
 	{
 		clean_tokens(data->token);
 		free(buffer);
-		fatal_error("Parser error", NULL, 258);
+		print_error("parser error", "parser");
+		g_glob.error = 258;
+		return (1);
 	}
 	return (0);
 }

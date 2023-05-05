@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:24:04 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/03 14:26:03 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 13:51:53 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ t_token	*extract_strings(t_token *tokens, t_command *command)
 		{
 			tokens = extract_string(tokens, command);
 		}
+		else
+			tokens = tokens->next;
 		if (g_glob.parsing == 1)
 			return (NULL);
 	}

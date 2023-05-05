@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 09:57:45 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/05 10:15:27 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 12:07:07 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,28 +41,29 @@ char	**remove_string(char **env, int i)
 /*
 Remove environment variable, if key does not exists, do nothing.
 */
-int	ft_unset(t_data *data, char *s)
+int	ft_unset(t_data *data, char **arg)
 {
 	int		i;
+	int		j;
 
-	if (s != NULL)
+	j = 0;
+	while (arg[++j])
 	{
-		if (!is_valid_key(s))
+		if (!is_valid_key(arg[j]))
 		{
-			errno = EINVAL;
 			print_error("not a valid identifier", "unset");
 			g_glob.error = 1;
-			return (0);
+			continue ;
 		}
 		i = 0;
 		while (data->env[i])
 		{
-			if (ft_strncmp(data->env[i], s, ft_strchr(data->env[i], '=') \
+			if (ft_strncmp(data->env[i], arg[j], ft_strchr(data->env[i], '=') \
 			- data->env[i]) == 0)
 			{
 				g_glob.error = 0;
 				data->env = remove_string(data->env, i);
-				return (0);
+				continue ;
 			}
 			i++;
 		}

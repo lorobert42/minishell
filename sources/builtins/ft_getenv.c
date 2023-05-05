@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 11:17:47 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/05 11:07:19 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 12:42:56 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char	*getenv_value(char **env, char *key)
 	if (!value)
 		return (ft_strdup(""));
 	tmp = set_export_option(value);
-	//print_str_tab(tmp);
 	free(value);
 	if (!tmp[1])
 	{
