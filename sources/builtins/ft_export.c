@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 16:11:25 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/26 15:50:27 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 11:56:51 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,16 @@ void	update_env(t_data *data, char *key, char *new_value)
 {
 	char	*env;
 	int		index;
+	char	**split;
 
 	env = ft_getenv(data->env, key);
 	if (env != NULL)
 	{
 		index = get_env_index(data->env, key);
 		free(data->env[index]);
-		data->env[index] = create_env_value(key, new_value);
+		split = set_export_option(new_value);
+		data->env[index] = create_env_value(key, split[1]);
+		clear_split(split);
 		g_glob.error = 0;
 	}
 	else
@@ -92,27 +95,30 @@ void	update_env(t_data *data, char *key, char *new_value)
 	free(env);
 }
 
-int	ft_export(t_data *data, char *arg)
+int	ft_export(t_data *data, char **arg)
 {
 	char	*equal;
 	char	*key;
 	int		res;
+	int		i;
 
-	equal = ft_strchr(arg, '=');
-	if (!equal)
-		key = ft_strdup(arg);
-	else
-		key = ft_substr(arg, 0, equal - arg);
-	res = is_valid_key(key);
-	if (res == 1 && ft_strchr(arg, '=') != NULL)
+	i = 0;
+	while (arg[++i])
 	{
-		update_env(data, key, arg);
+		equal = ft_strchr(arg[i], '=');
+		if (!equal)
+			key = ft_strdup(arg[i]);
+		else
+			key = ft_substr(arg[i], 0, equal - arg[i]);
+		res = is_valid_key(key);
+		if (res == 1 && ft_strchr(arg[i], '=') != NULL)
+			update_env(data, key, arg[i]);
+		else if (res == 0)
+		{
+			g_glob.error = 1;
+			print_error("not a valid identifier", "export");
+		}
+		free(key);
 	}
-	else if (res == 0)
-	{
-		g_glob.error = 1;
-		print_error("not a valid identifier", "export");
-	}
-	free(key);
 	return (0);
 }

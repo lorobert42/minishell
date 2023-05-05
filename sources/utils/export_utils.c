@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afavre <afavre@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:15:27 by afavre            #+#    #+#             */
-/*   Updated: 2023/05/05 11:15:30 by afavre           ###   ########.fr       */
+/*   Updated: 2023/05/05 11:56:32 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char **set_value(char **res, char *arg)
+char	**set_value(char **res, char *arg)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -40,7 +40,7 @@ char **set_value(char **res, char *arg)
 char	**set_export_option(char *arg)
 {
 	int		i;
-	int 	j;
+	int		j;
 	char	**res;
 
 	i = 0;

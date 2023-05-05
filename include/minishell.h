@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/05 10:46:40 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 11:48:24 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int				ft_exit(char **args, t_data *data);
 // ---> ft_export.c
 int				print_export(char **env);
 void			update_env(t_data *data, char *key, char *new_value);
-int				ft_export(t_data *data, char *arg);
+int				ft_export(t_data *data, char **arg);
 int				is_valid_key(char *args);
 // ---> ft_getenv.c
 char			*getenv_value(char **env, char *key);
