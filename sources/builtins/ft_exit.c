@@ -62,11 +62,12 @@ long long int	ft_atoui(const char *str, int *overflow)
 void	exit_error(t_data *data)
 {
 	print_error("numeric argument required", "exit");
+	termios_restore_ctrl();
 	restore_stdio(data);
 	exit(255);
 }
 
-long long int	check_digit(char **args, t_data *data)
+void	check_digit(char **args, t_data *data)
 {
 	long long int	i;
 
@@ -76,7 +77,6 @@ long long int	check_digit(char **args, t_data *data)
 		if (!ft_isdigit(args[1][i]))
 			exit_error(data);
 	}
-	return (i);
 }
 
 int	ft_exit(char **args, t_data *data)
@@ -93,15 +93,17 @@ int	ft_exit(char **args, t_data *data)
 	if (!args[1])
 	{
 		restore_stdio(data);
+		termios_restore_ctrl();
 		exit(g_glob.error % 256);
 	}
 	if (!ft_isdigit(args[1][0]) && args[1][0] != '+' && args[1][0] != '-')
 		exit_error(data);
-	i = check_digit(args, data);
+	check_digit(args, data);
 	overflow = 0;
 	i = ft_atoui(args[1], &overflow);
 	if (overflow)
 		exit_error(data);
 	restore_stdio(data);
+	termios_restore_ctrl();
 	exit(i % 256);
 }

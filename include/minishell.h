@@ -93,6 +93,7 @@ typedef struct s_data
 	t_command_table		*table;
 	struct sigaction	sa;
 	struct termios		tp;
+	struct sigaction	old_sa;
 }	t_data;
 
 // BULTINS
@@ -189,7 +190,7 @@ int				is_string(t_token_type t);
 
 // SIG_HANDLER
 // ---> signals.c
-void			sig_handler(void);
+void			sig_handler(t_data *data);
 // ---> termios.c
 void			termios_remove_ctrl(void);
 void			termios_restore_ctrl(void);

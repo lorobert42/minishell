@@ -16,7 +16,7 @@ int	main(int ac, char **av, char **env)
 {
 	t_data	data;
 
-	sig_handler();
+	sig_handler(&data);
 	termios_remove_ctrl();
 	init(&data, env);
 	if (ac == 3 && ft_strncmp(av[1], "-c", 3) == 0 && av[2])

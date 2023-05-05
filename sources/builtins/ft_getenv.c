@@ -21,7 +21,6 @@ char	*getenv_value(char **env, char *key)
 	if (!value)
 		return (ft_strdup(""));
 	tmp = set_export_option(value);
-	//print_str_tab(tmp);
 	free(value);
 	if (!tmp[1])
 	{

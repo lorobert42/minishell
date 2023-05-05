@@ -39,13 +39,13 @@ static void	handler(int sig)
 	}
 }
 
-void	sig_handler(void)
+void	sig_handler(t_data *data)
 {
 	struct sigaction	sa_int;
 
 	sa_int.sa_handler = &handler;
-	if (sigaction(SIGINT, &sa_int, NULL) == -1)
+	if (sigaction(SIGINT, &sa_int, &data->old_sa) == -1)
 		ft_printf("error sigint");
-	if (sigaction(SIGQUIT, &sa_int, NULL) == -1)
+	if (sigaction(SIGQUIT, &sa_int, &data->old_sa) == -1)
 		ft_printf("error sigquit");
 }
