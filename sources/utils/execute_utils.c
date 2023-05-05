@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 13:27:20 by afavre            #+#    #+#             */
-/*   Updated: 2023/05/04 09:11:50 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 10:44:05 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,18 +46,18 @@ int	inside_exec(t_data *data)
 	return (0);
 }
 
-void	init_and_exec_children(t_data *data, int i, int pid)
+void	init_and_exec_children(t_data *data, int i)
 {
 	g_glob.status = 1;
 	pipe(data->table->commands[i].fd);
-	pid = fork();
-	if (pid == -1)
+	data->table->commands[i].pid = fork();
+	if (data->table->commands[i].pid == -1)
 	{
 		g_glob.error = 1;
 		return ;
 	}
 	g_glob.nb_children += 1;
-	if (pid == 0)
+	if (data->table->commands[i].pid == 0)
 	{
 		if (data->table->commands[i].infiles)
 		{
@@ -84,9 +84,9 @@ void	check_status(int status)
 	if (WIFSIGNALED(status))
 		g_glob.error = 128 + WTERMSIG(status);
 	if (g_glob.error == 138)
-		ft_printf("bus error: 10\n");
+		print_error("bus error: 10\n", "executer");
 	if (g_glob.error == 139)
-		ft_printf("segmentation fault: 11\n");
+		print_error("segmentation fault: 11\n", "executer");
 }
 
 char	*utils_path(t_data *data, char *env, int num)

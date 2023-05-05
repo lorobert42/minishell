@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/04 14:34:59 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 10:46:40 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int				ft_exit(char **args, t_data *data);
 int				print_export(char **env);
 void			update_env(t_data *data, char *key, char *new_value);
 int				ft_export(t_data *data, char *arg);
+int				is_valid_key(char *args);
 // ---> ft_getenv.c
 char			*getenv_value(char **env, char *key);
 int				get_env_index(char **env, char *key);
@@ -151,6 +152,7 @@ int				expand_token(char **str, int pos, int in_quotes, char **env);
 // LEXER
 // ---> char_type.c
 int				issep(int c);
+t_token_type	quote_type(char c);
 // ---> lexer.c
 t_token			*lexer(char *command);
 // ---> token.c
@@ -201,7 +203,7 @@ void			fatal_error(char *msg, char *command, int code);
 // ---> execute_utils.c
 char			*get_path(char *path, char *cmd);
 int				inside_exec(t_data *data);
-void			init_and_exec_children(t_data *data, int i, int pid);
+void			init_and_exec_children(t_data *data, int i);
 void			check_status(int status);
 char			*utils_path(t_data *data, char *env, int num);
 // ---> export_utils.c

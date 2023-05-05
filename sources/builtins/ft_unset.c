@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/16 09:57:45 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/04 09:24:26 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 10:15:27 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,11 @@ int	ft_unset(t_data *data, char *s)
 
 	if (s != NULL)
 	{
-		if (!ft_isalpha(s[0]) && s[0] != '_')
+		if (!is_valid_key(s))
 		{
 			errno = EINVAL;
-			print_error(NULL, "Unset");
+			print_error("not a valid identifier", "unset");
+			g_glob.error = 1;
 			return (0);
 		}
 		i = 0;

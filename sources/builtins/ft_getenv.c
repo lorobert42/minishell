@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 11:17:47 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/03 13:57:35 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 11:07:19 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,11 @@ char	*getenv_value(char **env, char *key)
 		return (ft_strdup(""));
 	tmp = ft_split(value, '=');
 	free(value);
+	if (!tmp[1])
+	{
+		clear_split(tmp);
+		return (ft_strdup(""));
+	}
 	value = ft_strdup(tmp[1]);
 	clear_split(tmp);
 	return (value);
