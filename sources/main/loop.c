@@ -48,7 +48,10 @@ void	loop(t_data *data)
 	{
 		buffer = readline("🦔 \e[34m Hérishell 🦔 => \e[39m");
 		if (!buffer)
+		{
+			termios_restore_ctrl();
 			exit(g_glob.error);
+		}
 		if (buffer[0] != '\0')
 			add_history(buffer);
 		data->token = lexer(buffer);

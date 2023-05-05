@@ -15,6 +15,7 @@
 void	fatal_error(char *msg, char *command, int code)
 {
 	print_error(msg, command);
+	termios_restore_ctrl();
 	exit(code);
 }
 

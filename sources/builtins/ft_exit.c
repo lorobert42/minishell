@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 09:22:18 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/05 14:55:07 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/05 15:01:37 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ long long int	ft_atoui(const char *str, int *overflow)
 void	exit_error(t_data *data)
 {
 	print_error("numeric argument required", "exit");
+	termios_restore_ctrl();
 	restore_stdio(data);
 	exit(255);
 }
@@ -97,6 +98,7 @@ int	ft_exit(char **args, t_data *data)
 	if (!args[1])
 	{
 		restore_stdio(data);
+		termios_restore_ctrl();
 		exit(g_glob.error % 256);
 	}
 	check_digit(args, data);
@@ -111,5 +113,6 @@ int	ft_exit(char **args, t_data *data)
 	if (overflow)
 		exit_error(data);
 	restore_stdio(data);
+	termios_restore_ctrl();
 	exit(i % 256);
 }
