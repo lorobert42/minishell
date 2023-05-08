@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 13:13:08 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/04 13:21:20 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/08 11:03:21 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@ void	inline_arg(t_data *data, char **av)
 		clean_tokens(data->token);
 		execute(data);
 		clean_command_table(data->table);
+		free(arg_input[i]);
 		i++;
 	}
-	clear_split(arg_input);
 	exit(g_glob.error);
 }

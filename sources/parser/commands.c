@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 09:39:37 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/03 15:07:37 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/08 10:53:14 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	count_commands(t_token *tokens)
 			return (-1);
 		if (tokens->type == PIPE && last != PIPE)
 			i++;
-		if (tokens->type != SPACE)
+		if (tokens->type != SPACE && tokens->type != IGNORE)
 			last = tokens->type;
 		tokens = tokens->next;
 	}
@@ -75,10 +75,11 @@ int	command_size(t_token *tokens)
 	int	i;
 
 	i = 0;
-	while (tokens && is_string(tokens->type))
+	while (tokens && tokens->type != PIPE)
 	{
+		if (is_string(tokens->type))
+			i++;
 		tokens = tokens->next;
-		i++;
 	}
 	return (i);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: afavre <afavre@student.42lausanne.ch>      +#+  +:+       +#+        */
+/*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:39:01 by afavre            #+#    #+#             */
-/*   Updated: 2023/05/05 11:39:03 by afavre           ###   ########.fr       */
+/*   Updated: 2023/05/08 11:39:32 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_str_tab(char **str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i] != NULL)

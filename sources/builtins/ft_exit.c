@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 09:22:18 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/05 15:36:46 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/08 11:15:41 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,15 @@ void	exit_error(t_data *data)
 int	check_overflow(char *nbr, char *max, char *min, t_data *data)
 {
 	int	i;
-	int	j;
 
 	if (nbr[0] == '+' || ft_isdigit(nbr[0]))
 	{
 		i = 0;
 		if (nbr[0] == '+')
 			i = 1;
-		while (nbr[i] == '0')
-			i++;
-		j = 0;
 		while (nbr[i])
 		{
-			if (nbr[i] > max[j])
+			if (nbr[i] > max[i])
 				exit_error(data);
 			i++;
 		}
@@ -43,12 +39,9 @@ int	check_overflow(char *nbr, char *max, char *min, t_data *data)
 	else
 	{
 		i = 1;
-		while (nbr[i] == '0')
-			i++;
-		j = 1;
 		while (nbr[i])
 		{
-			if (nbr[i] > min[j])
+			if (nbr[i] > min[i])
 				exit_error(data);
 			i++;
 		}
@@ -110,6 +103,7 @@ int	ft_exit(char **args, t_data *data)
 	}
 	nb = ft_strtrim(args[1], "\x09\x0a\x0b\x0c\x0d ");
 	check_digit(nb, data);
+	nb = remove_zero(nb);
 	if (ft_strlen(nb) >= 19)
 		check_overflow(nb, "9223372036854775807", "-9223372036854775808", data);
 	if (args[1] && args[2])

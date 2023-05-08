@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:24:04 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/05 13:51:53 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/08 10:54:10 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_token	*extract_string(t_token *tokens, t_command *command)
 	i = 0;
 	while (i < size && tokens)
 	{
-		if (!tokens->value)
+		if (!tokens->value || tokens->type == IGNORE)
 		{
 			tokens = tokens->next;
 			continue ;

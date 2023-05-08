@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/05 13:49:36 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/08 11:40:47 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,5 +228,7 @@ void			close_redirections(t_data *data, int i);
 void			restore_stdio(t_data *data);
 void			delete_heredoc(t_data *data, int i);
 int				redir_pipe(t_data *data, int i);
+// --->exit_utils.c
+char			*remove_zero(char *nb);
 
 #endif

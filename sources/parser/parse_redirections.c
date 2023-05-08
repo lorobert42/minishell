@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 14:13:38 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/05 13:48:05 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/08 10:54:19 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	extract_redirection(t_token *tokens, t_command *command)
 t_token	*extract_redirections(t_token *tokens, t_command *command)
 {
 	t_token	*start;
-	t_token	*next;
 
 	start = tokens;
 	while (tokens && tokens->type != PIPE)
@@ -62,10 +61,9 @@ t_token	*extract_redirections(t_token *tokens, t_command *command)
 		{
 			if (extract_redirection(tokens, command) == 1)
 				return (NULL);
-			next = tokens->next->next;
-			start = delete_token(start, tokens->next);
-			start = delete_token(start, tokens);
-			tokens = next;
+			tokens->type = IGNORE;
+			tokens->next->type = IGNORE;
+			tokens = tokens->next->next;
 		}
 		else
 			tokens = tokens->next;
