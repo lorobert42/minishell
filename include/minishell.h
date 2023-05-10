@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/10 12:29:18 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/10 12:54:18 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ char			**set_export_option(char *arg);
 int				ft_isspace(int c);
 // ---> heredoc_utils.c
 void			heredoc_child(char **delim, int fd, int expand, t_data *data);
-void			heredoc_parent(pid_t pid, t_data *data);
+int				heredoc_parent(pid_t pid, t_data *data);
 // ---> list_utils.c
 void			clear_lst(t_data *data);
 // --->tab_utils.c

@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 11:01:43 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/10 12:27:18 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/10 12:58:04 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,11 @@ int	execute_heredoc(t_data *data, t_file *current, t_command *c, int i)
 		g_glob.error = 1;
 		return (1);
 	}
-	heredoc(&current->name, c[i].fd[1], data);
+	if (heredoc(&current->name, c[i].fd[1], data))
+	{
+		close(c[i].fd[1]);
+		return (1);
+	}
 	close(c[i].fd[1]);
 	free(current->name);
 	current->name = tmp;
@@ -114,6 +118,9 @@ int	heredoc(char **delim, int fd, t_data *data)
 	if (pid == 0)
 		heredoc_child(delim, fd, expand, data);
 	else
-		heredoc_parent(pid, data);
+	{
+		if (heredoc_parent(pid, data))
+			return (1);
+	}
 	return (0);
 }
