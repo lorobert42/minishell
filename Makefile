@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/05/10 12:28:43 by lorobert         ###   ########.fr        #
+#    Updated: 2023/05/10 12:40:32 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,9 +79,9 @@ OBJS			:=	$(SRCS:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 DEPS			:=	$(OBJS:.o=.d)
 
 CC				:=	gcc
-CFLAGS			:=	-Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS			:=	-Wall -Wextra -Werror #-g3 -fsanitize=address
 CPPFLAGS		:=	$(addprefix -I,$(INCS)) -MMD -MP
-LDFLAGS			:=	$(addprefix -L,$(dir $(LIBS_TARGET))) -fsanitize=address
+LDFLAGS			:=	$(addprefix -L,$(dir $(LIBS_TARGET))) #-fsanitize=address
 LDLIBS			:=	$(addprefix -l,$(LIBS))
 
 # If READLINE env variable is set, use it as an extra include and
