@@ -6,7 +6,7 @@
 #    By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/10 10:10:10 by lorobert          #+#    #+#              #
-#    Updated: 2023/05/08 11:40:24 by lorobert         ###   ########.fr        #
+#    Updated: 2023/05/10 12:28:43 by lorobert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,7 @@ SRCS			:=	builtins/ft_echo.c \
 					parser/parse_strings.c \
 					parser/debug_print_command_table.c \
 					utils/ft_isspace.c \
+					utils/heredoc_utils.c \
 					utils/tab_utils.c \
 					utils/clear_split.c \
 					main/main.c \

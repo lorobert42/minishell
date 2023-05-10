@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/10 08:41:03 by lorobert          #+#    #+#             */
-/*   Updated: 2023/05/08 11:40:47 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/10 12:29:18 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ int				execute(t_data *data);
 // --->heredoc.c
 int				set_heredoc(t_data *data);
 int				heredoc(char **delim, int fd, t_data *data);
+void			heredoc_loop(t_data *data, char **delim, int expand, int fd);
 // ---> redirection.c
 int				redir_file_in(t_data *data, int i);
 int				redir_file_out(t_data *data, int i);
@@ -193,6 +194,9 @@ int				is_string(t_token_type t);
 // SIG_HANDLER
 // ---> signals.c
 void			sig_handler(t_data *data);
+void			sig_restore(t_data *data);
+void			heredoc_handler(void);
+void			sig_ignore(void);
 // ---> termios.c
 void			termios_remove_ctrl(void);
 void			termios_restore_ctrl(void);
@@ -215,6 +219,9 @@ char			*utils_path(t_data *data, char *env, int num);
 char			**set_export_option(char *arg);
 // ---> ft_isspace.c
 int				ft_isspace(int c);
+// ---> heredoc_utils.c
+void			heredoc_child(char **delim, int fd, int expand, t_data *data);
+void			heredoc_parent(pid_t pid, t_data *data);
 // ---> list_utils.c
 void			clear_lst(t_data *data);
 // --->tab_utils.c

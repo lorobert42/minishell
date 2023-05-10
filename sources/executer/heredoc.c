@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 11:01:43 by lorobert          #+#    #+#             */
-/*   Updated: 2023/04/26 11:02:47 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/10 12:27:18 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,9 @@ void	heredoc_loop(t_data *data, char **delim, int expand, int fd)
 
 int	heredoc(char **delim, int fd, t_data *data)
 {
-	int		expand;
-	int		i;
+	int			expand;
+	int			i;
+	pid_t		pid;
 
 	expand = 1;
 	i = 0;
@@ -109,6 +110,10 @@ int	heredoc(char **delim, int fd, t_data *data)
 	*delim = delete_quotes(*delim);
 	if (*delim == NULL)
 		return (-1);
-	heredoc_loop(data, delim, expand, fd);
+	pid = fork();
+	if (pid == 0)
+		heredoc_child(delim, fd, expand, data);
+	else
+		heredoc_parent(pid, data);
 	return (0);
 }
