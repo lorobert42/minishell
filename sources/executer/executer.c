@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 12:04:43 by afavre            #+#    #+#             */
-/*   Updated: 2023/05/05 10:49:19 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/10 13:35:46 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ char	*find_path(t_data *data, int num)
 		free(env);
 		return (path);
 	}
-	return (NULL);
+	check_access(data->table->commands[num].args[0]);
+	return (data->table->commands[num].args[0]);
 }
 
 void	children(t_data *data, int i)
