@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:43:34 by afavre            #+#    #+#             */
-/*   Updated: 2023/05/05 14:09:50 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/10 08:55:48 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	setup_loop(t_data *data, char *buffer)
 		clean_tokens(data->token);
 		free(buffer);
 		print_error("unclosed quotes", "expander");
-		g_glob.error = 1;
+		g_glob.error = 2;
 		return (1);
 	}
 	data->table = parser(data->token);
