@@ -16,12 +16,20 @@ int	extract_quote_string(t_token **tokens, char *command)
 {
 	int				i;
 	t_token_type	t;
+  int       in_quote;
 
+  in_quote = command[0];
 	i = 1;
-	while (command[i] && command[i] != command[0])
-		i++;
-	while (command[i] && !issep(command[i]))
-		i++;
+  while (command[i])
+  {
+    if (!in_quote && issep(command[i]))
+      break ;
+    if (is_quote(command[i]) && command[i] == in_quote)
+      in_quote = 0;
+    else if (is_quote(command[i]) && !in_quote)
+      in_quote = command[i];
+    i++;
+  }
 	if (command[0] == '"')
 		t = DBL_QUOTE_STR;
 	else

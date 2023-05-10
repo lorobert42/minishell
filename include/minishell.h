@@ -27,9 +27,7 @@
 # include <termios.h>
 # include <dirent.h>
 
-# include "../libs/libft_rework/libft/include/libft.h"
-# include "../libs/libft_rework/gnl/include/get_next_line.h"
-# include "../libs/libft_rework/printf/include/ft_printf.h"
+# include "../libs/libft/include/libft.h"
 
 typedef struct s_global
 {
@@ -39,7 +37,7 @@ typedef struct s_global
 	int	nb_children;
 }	t_global;
 
-t_global	g_glob;
+extern t_global	g_glob;
 
 typedef enum e_token_type
 {

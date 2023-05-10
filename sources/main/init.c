@@ -6,11 +6,13 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 13:35:00 by afavre            #+#    #+#             */
-/*   Updated: 2023/04/19 10:06:12 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/08 19:08:05 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
+
+t_global	g_glob;
 
 void	init(t_data *data, char **env)
 {
