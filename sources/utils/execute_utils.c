@@ -6,7 +6,7 @@
 /*   By: lorobert <marvin@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 13:27:20 by afavre            #+#    #+#             */
-/*   Updated: 2023/05/05 10:44:05 by lorobert         ###   ########.fr       */
+/*   Updated: 2023/05/10 15:12:09 by lorobert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,9 @@ void	check_status(int status)
 		g_glob.error = WEXITSTATUS(status);
 	}
 	if (WIFSIGNALED(status))
+	{
 		g_glob.error = 128 + WTERMSIG(status);
+	}
 	if (g_glob.error == 138)
 		print_error("bus error: 10\n", "executer");
 	if (g_glob.error == 139)
